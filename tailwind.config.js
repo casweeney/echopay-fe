@@ -6,7 +6,13 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ["ClashDisplay", "sans-serif"],
+        grotesk: ["ClashGrotesk", "sans-serif"],
+        minecraft: ["Minecraft", "monospace"],
+      },
+    },
   },
   plugins: [],
 };

@@ -7,22 +7,126 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  @font-face {
+    font-family: "ClashGrotesk";
+    src: url("/fonts/ClashGrotesk-Extralight.woff2") format("woff2"),
+      url("/fonts/ClashGrotesk-Extralight.woff") format("woff"),
+      url("/fonts/ClashGrotesk-Extralight.ttf") format("truetype");
+    font-weight: 200;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashGrotesk";
+    src: url("/fonts/ClashGrotesk-Light.woff2") format("woff2"),
+      url("/fonts/ClashGrotesk-Light.woff") format("woff"),
+      url("/fonts/ClashGrotesk-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashGrotesk";
+    src: url("/fonts/ClashGrotesk-Regular.woff2") format("woff2"),
+      url("/fonts/ClashGrotesk-Regular.woff") format("woff"),
+      url("/fonts/ClashGrotesk-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashGrotesk";
+    src: url("/fonts/ClashGrotesk-Medium.woff2") format("woff2"),
+      url("/fonts/ClashGrotesk-Medium.woff") format("woff"),
+      url("/fonts/ClashGrotesk-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashGrotesk";
+    src: url("/fonts/ClashGrotesk-Semibold.woff2") format("woff2"),
+      url("/fonts/ClashGrotesk-Semibold.woff") format("woff"),
+      url("/fonts/ClashGrotesk-Semibold.ttf") format("truetype");
+    font-weight: 600;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashGrotesk";
+    src: url("/fonts/ClashGrotesk-Bold.woff2") format("woff2"),
+      url("/fonts/ClashGrotesk-Bold.woff") format("woff"),
+      url("/fonts/ClashGrotesk-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashDisplay";
+    src: url("/fonts/ClashDisplay-Extralight.woff2") format("woff2"),
+      url("/fonts/ClashDisplay-Extralight.woff") format("woff"),
+      url("/fonts/ClashDisplay-Extralight.ttf") format("truetype");
+    font-weight: 200;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashDisplay";
+    src: url("/fonts/ClashDisplay-Light.woff2") format("woff2"),
+      url("/fonts/ClashDisplay-Light.woff") format("woff"),
+      url("/fonts/ClashDisplay-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashDisplay";
+    src: url("/fonts/ClashDisplay-Regular.woff2") format("woff2"),
+      url("/fonts/ClashDisplay-Regular.woff") format("woff"),
+      url("/fonts/ClashDisplay-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashDisplay";
+    src: url("/fonts/ClashDisplay-Medium.woff2") format("woff2"),
+      url("/fonts/ClashDisplay-Medium.woff") format("woff"),
+      url("/fonts/ClashDisplay-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashDisplay";
+    src: url("/fonts/ClashDisplay-Semibold.woff2") format("woff2"),
+      url("/fonts/ClashDisplay-Semibold.woff") format("woff"),
+      url("/fonts/ClashDisplay-Semibold.ttf") format("truetype");
+    font-weight: 600;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "ClashDisplay";
+    src: url("/fonts/ClashDisplay-Bold.woff2") format("woff2"),
+      url("/fonts/ClashDisplay-Bold.woff") format("woff"),
+      url("/fonts/ClashDisplay-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Minecraft";
+    src: url("/fonts/Minecraft.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ClashGrotesk, sans-serif;
 }
