@@ -11,7 +11,7 @@ const HomeUI = () => {
   }, []);
   return (
     <div className="py-[20px] px-[30px]">
-      <section className="flex items-center">
+      <section className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-[95px]">
         <div className="flex flex-col gap-[24px]">
           <h1 className="text-[48px] font-[500] leading-[100%]">
             Powering the Next Generation of Payments
@@ -26,10 +26,10 @@ const HomeUI = () => {
           </button>
         </div>
         <div className="relative">
-          <div className="aspect-square relative">
+          <div className="aspect-square relative bg-[#DFE2EF] rounded-[24px] overflow-hidden">
             <video
               ref={videoRef}
-              className="rounded-lg h-[600px] w-full object-cover"
+              className="rounded-lg h-[690px] overflow-hidden object-cover transform rotate-[40deg]"
               autoPlay
               loop
               muted
@@ -39,6 +39,44 @@ const HomeUI = () => {
               Your browser does not support the video tag.
             </video>
           </div>
+        </div>
+      </section>
+      <section className="flex flex-col gap-[70px]">
+        <div className="relative min-h-screen w-full overflow-hidden">
+          {/* Background Image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-[32px]"
+            style={{
+              backgroundImage: "url('/bg-1.png')",
+            }}
+          />
+
+          {/* Dark Overlay */}
+          <div className="absolute rounded-[32px] inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+        </div>
+        <div className="relative min-h-screen w-full overflow-hidden">
+          {/* Background Image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-[32px]"
+            style={{
+              backgroundImage: "url('/bg-2.png')",
+            }}
+          />
+
+          {/* Dark Overlay */}
+          <div className="absolute rounded-[32px] inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+        </div>
+        <div className="relative min-h-screen w-full overflow-hidden">
+          {/* Background Image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-[32px]"
+            style={{
+              backgroundImage: "url('/bg-3.png')",
+            }}
+          />
+
+          {/* Dark Overlay */}
+          <div className="absolute rounded-[32px] inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
         </div>
       </section>
     </div>
