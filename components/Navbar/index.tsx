@@ -28,7 +28,7 @@ const Navbar = () => {
         <button className="bg-[#F8F8FE] text-[#000001] text-[15px] leading-[130%] font-[500] px-[20px] py-[14px] rounded-[8px] tracking-[-1%]">
           Log In
         </button>
-        <button className="bg-[#000000] text-[#EFEFF5] text-[15px] leading-[130%] font-[500] px-[20px] py-[14px] rounded-[8px] tracking-[-1%]">
+        <button className="bg-[#F48210] text-[#18181B] text-[15px] leading-[130%] font-[500] px-[20px] py-[14px] rounded-[8px] tracking-[-1%]">
           Create a free Account
         </button>
       </div>
