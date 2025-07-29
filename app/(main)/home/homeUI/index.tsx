@@ -21,9 +21,11 @@ const HomeUI = () => {
             everything you need to collect and disburse payments across multiple
             entities.
           </p>
-          <button className="rounded-[8px] py-[14px] px-[20px] bg-[#F48210] text-[15px] font-[500] text-[#18181B] leading-[130%] tracking-[-1%]">
-            Create a free Account
-          </button>
+          <div>
+            <button className="rounded-[8px] py-[14px] px-[20px] bg-[#F48210] text-[15px] font-[500] text-[#18181B] leading-[130%] tracking-[-1%]">
+              Create a free Account
+            </button>
+          </div>
         </div>
         <div className="relative">
           <div className="aspect-square relative bg-[#DFE2EF] rounded-[24px] overflow-hidden">
@@ -52,7 +54,27 @@ const HomeUI = () => {
           />
 
           {/* Dark Overlay */}
-          <div className="absolute rounded-[32px] inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+          <div
+            className="absolute rounded-[32px] inset-0 bg-gradient-to-b from-transparent 
+          via-transparent to-black/60"
+          />
+
+          <div className="absolute bottom-[35px] left-[35px] flex flex-col gap-[10px] max-w-[800px]">
+            <div>
+              <p
+                className={`rounded-[72.35px] py-[6px] px-[10px] inline-flex bg-[#FED7AA] text-[#523009] font-[500] text-[14px] leading-[130%] tracking-[-2%] font-dmsans`}
+              >
+                Perfect for all business sizes
+              </p>
+            </div>
+            <h2 className="text-[#F4F4F5] font-display text-[30px] font-[500] leading-[128%]">
+              Sell Globally, Get paid instantly
+            </h2>
+            <p className="font-dmsans font-[500] text-[16px] leading-[145%] tracking-[-2%] text-[#CECDD7]">
+              Whether you're a shop owner, food vendor, or freelancer - start
+              accepting digital payments without any complicated setup.
+            </p>
+          </div>
         </div>
         <div className="relative min-h-screen w-full overflow-hidden">
           {/* Background Image */}
@@ -65,6 +87,22 @@ const HomeUI = () => {
 
           {/* Dark Overlay */}
           <div className="absolute rounded-[32px] inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+          <div className="absolute bottom-[35px] left-[35px] flex flex-col gap-[10px] max-w-[800px]">
+            <div>
+              <p
+                className={`rounded-[72.35px] py-[6px] px-[10px] inline-flex bg-[#AAF8FE] text-[#12427C] font-[500] text-[14px] leading-[130%] tracking-[-2%] font-dmsans`}
+              >
+                Multi-Currency Wallets
+              </p>
+            </div>
+            <h2 className="text-[#F4F4F5] font-display text-[30px] font-[500] leading-[128%]">
+              Create and manage wallets in multiple currencies
+            </h2>
+            <p className="font-dmsans font-[500] text-[16px] leading-[145%] tracking-[-2%] text-[#CECDD7] max-w-[600px]">
+              Hold, convert, and disburse funds with real-time exchange rates
+              and transparent pricing.
+            </p>
+          </div>
         </div>
         <div className="relative min-h-screen w-full overflow-hidden">
           {/* Background Image */}
@@ -77,6 +115,23 @@ const HomeUI = () => {
 
           {/* Dark Overlay */}
           <div className="absolute rounded-[32px] inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+
+          <div className="absolute bottom-[35px] left-[35px] flex flex-col gap-[10px] max-w-[800px]">
+            <div>
+              <p
+                className={`rounded-[72.35px] py-[6px] px-[10px] inline-flex bg-[#FF6666] text-[#571600] font-[500] text-[14px] leading-[130%] tracking-[-2%] font-dmsans`}
+              >
+                Secure API Keys
+              </p>
+            </div>
+            <h2 className="text-[#F4F4F5] font-display text-[30px] font-[500] leading-[128%]">
+              Generate and manage API keys
+            </h2>
+            <p className="font-dmsans font-[500] text-[16px] leading-[145%] tracking-[-2%] text-[#CECDD7] max-w-[600px]">
+              Enable enterprise-grade security with rate limiting and fraud
+              protection needed for disbursement.
+            </p>
+          </div>
         </div>
       </section>
     </div>
