@@ -10,8 +10,8 @@ const HomeUI = () => {
     }
   }, []);
   return (
-    <div className="py-[20px] px-[30px]">
-      <section className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-[95px]">
+    <div className="pt-[110px]">
+      <section className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-[95px] px-[30px]">
         <div className="flex flex-col gap-[24px]">
           <h1 className="text-[48px] font-[500] leading-[100%]">
             Powering the Next Generation of Payments
@@ -43,7 +43,7 @@ const HomeUI = () => {
           </div>
         </div>
       </section>
-      <section className="flex flex-col gap-[70px]">
+      <section className="flex flex-col gap-[70px] px-[30px] pb-[40px]">
         <div className="relative min-h-screen w-full overflow-hidden">
           {/* Background Image */}
           <div
@@ -131,6 +131,26 @@ const HomeUI = () => {
               Enable enterprise-grade security with rate limiting and fraud
               protection needed for disbursement.
             </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-[32px]"
+            style={{
+              backgroundImage: "url('/CTA_bg.png')",
+            }}
+          />
+          <div className="relative flex flex-col items-center justify-center gap-[20px] text-center max-w-[650px]">
+            <h3 className="font-display font-[500] text-[40px] leading-[100%] text-[#160F07]">
+              Ready to Transform Your Payment Operations?
+            </h3>
+            <div>
+              <button className="rounded-[8px] py-[14px] px-[20px] bg-[#000000] text-[15px] font-[500] text-[#EFEFF5] leading-[130%] tracking-[-1%]">
+                Create a free Account
+              </button>
+            </div>
           </div>
         </div>
       </section>
