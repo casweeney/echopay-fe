@@ -28,10 +28,10 @@ const HomeUI = () => {
           </div>
         </div>
         <div className="relative">
-          <div className="aspect-square relative bg-[#DFE2EF] object-cover rounded-[24px] overflow-hidden w-full">
+          <div className="aspect-square relative bg-[#e3e5f1] object-cover rounded-[24px] overflow-hidden w-full">
             <video
               ref={videoRef}
-              className="rounded-lg h-[800px] w-[50vw] overflow-hidden -translate-y-[10%] rotate-[35deg]"
+              className="rounded-lg h-[500px] overflow-hidden object-cover -translate-y-[10%] rotate-[35deg]"
               autoPlay
               loop
               muted
