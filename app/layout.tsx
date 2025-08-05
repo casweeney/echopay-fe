@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
 import "./globals.css";
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"], // Choose your weights
-  display: "swap",
-  variable: "--font-dm-sans",
-});
+import "@/assets/fonts/Clash_Grotesk/Clash Grotesk/Fonts/WEB/css/clash-grotesk.css";
+import "@/assets/fonts/Clash_Display/Clash Display/Fonts/WEB/css/clash-display.css";
 
 export const metadata: Metadata = {
   title: "ECHOPAY",
@@ -21,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={dmSans.variable}>
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

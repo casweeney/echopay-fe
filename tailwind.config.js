@@ -11,7 +11,6 @@ module.exports = {
         display: ["ClashDisplay", "sans-serif"],
         grotesk: ["ClashGrotesk", "sans-serif"],
         minecraft: ["Minecraft", "monospace"],
-        dmsans: ["var(--font-dm-sans)", "sans-serif"],
       },
     },
   },
