@@ -45,7 +45,7 @@ const Footer = () => {
             <div className="flex flex-col gap-[16px]">
               <Link
                 className="font-[500] text-[15px] leading-[101%] text-[#575B61]"
-                href="https://"
+                href="/home"
               >
                 Send us a mail
               </Link>

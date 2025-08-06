@@ -71,8 +71,8 @@ const HomeUI = () => {
               Sell Globally, Get paid instantly
             </h2>
             <p className="font-dmsans font-[500] text-[16px] leading-[145%] tracking-[-2%] text-[#CECDD7]">
-              Whether you're a shop owner, food vendor, or freelancer - start
-              accepting digital payments without any complicated setup.
+              Whether you&apos;re a shop owner, food vendor, or freelancer -
+              start accepting digital payments without any complicated setup.
             </p>
           </div>
         </div>
