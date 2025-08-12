@@ -13,7 +13,7 @@ const HomeUI = () => {
   return (
     <div className="pt-[110px]">
       {/* Hero Section */}
-      <section className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center mb-12 sm:mb-16 lg:mb-[95px] px-4 sm:px-6 lg:px-[30px]">
+      <section className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center mb-12 sm:mb-16 lg:mb-[50px] px-4 sm:px-6 lg:px-[30px]">
         <div className="flex flex-col gap-4 sm:gap-6 lg:gap-[24px] order-2 lg:order-1">
           <h1 className="text-3xl sm:text-4xl lg:text-[48px] font-[500] leading-[100%]">
             Powering the Next Generation of Payments
@@ -30,8 +30,8 @@ const HomeUI = () => {
           </div>
         </div>
         <div className="relative order-1 lg:order-2">
-          <div className="aspect-square relative bg-[#e3e5f1] object-cover rounded-[24px] overflow-hidden w-full">
-            <video
+          <div className="aspect-square relative object-cover rounded-[24px] overflow-hidden w-full">
+            {/* <video
               ref={videoRef}
               className="rounded-lg h-full w-full sm:h-[400px] lg:h-[500px] overflow-hidden object-cover -translate-y-[10%] rotate-[35deg]"
               autoPlay
@@ -41,7 +41,8 @@ const HomeUI = () => {
             >
               <source src={"/hero_vid.mp4"} type="video/mp4" />
               Your browser does not support the video tag
-            </video>
+            </video> */}
+            <img src="/hero_img.png" alt="" />
           </div>
         </div>
       </section>
