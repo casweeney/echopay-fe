@@ -30,10 +30,10 @@ const HomeUI = () => {
           </div>
         </div>
         <div className="relative order-1 lg:order-2">
-          <div className="aspect-square relative object-cover rounded-[24px] overflow-hidden w-full">
-            {/* <video
+          <div className="relative bg-[#DFE2EF] rounded-[24px] overflow-hidden">
+            <video
               ref={videoRef}
-              className="rounded-lg h-full w-full sm:h-[400px] lg:h-[500px] overflow-hidden object-cover -translate-y-[10%] rotate-[35deg]"
+              className="rounded-lg w-full sm:h-[400px] lg:h-[500px] object-cover overflow-hidden -translate-y-[10%] rotate-[35deg]"
               autoPlay
               loop
               muted
@@ -41,8 +41,8 @@ const HomeUI = () => {
             >
               <source src={"/hero_vid.mp4"} type="video/mp4" />
               Your browser does not support the video tag
-            </video> */}
-            <img src="/hero_img.png" alt="" />
+            </video>
+            {/* <img src="/hero_img.png" alt="" /> */}
           </div>
         </div>
       </section>
