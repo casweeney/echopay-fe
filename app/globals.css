@@ -132,3 +132,10 @@ body {
   color: var(--foreground);
   font-family: ClashGrotesk, sans-serif;
 }
+
+.scale-122 {
+  --tw-scale-x: 111.5%;
+  --tw-scale-y: 111.5%;
+  --tw-scale-z: 111.5%;
+  scale: var(--tw-scale-x) var(--tw-scale-y);
+}

@@ -13,7 +13,7 @@ const HomeUI = () => {
   return (
     <div className="pt-[110px]">
       {/* Hero Section */}
-      <section className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center mb-12 sm:mb-16 lg:mb-[50px] px-4 sm:px-6 lg:px-[30px]">
+      <section className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center mb-12 sm:mb-16 lg:mb-[50px] px-4 sm:px-6 lg:px-[30px] min-h-[calc(100vh-4rem)]">
         <div className="flex flex-col gap-4 sm:gap-6 lg:gap-[24px] order-2 lg:order-1">
           <h1 className="text-3xl sm:text-4xl lg:text-[48px] font-[500] leading-[100%]">
             Powering the Next Generation of Payments
@@ -30,19 +30,19 @@ const HomeUI = () => {
           </div>
         </div>
         <div className="relative order-1 lg:order-2">
-          <div className="relative bg-[#DFE2EF] rounded-[24px] overflow-hidden">
-            <video
-              ref={videoRef}
-              className="rounded-lg w-full sm:h-[400px] lg:h-[500px] object-cover overflow-hidden -translate-y-[10%] rotate-[35deg]"
-              autoPlay
-              loop
-              muted
-              playsInline
-            >
-              <source src={"/hero_vid.mp4"} type="video/mp4" />
-              Your browser does not support the video tag
-            </video>
-            {/* <img src="/hero_img.png" alt="" /> */}
+          <div className="overflow-hidden flex items-center justify-center">
+            <div className="relative w-full bg-[#e2e6f1]  h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
+              <video
+                className="w-full h-full object-cover rotate-[28deg] scale-122"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="hero_vid.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
         </div>
       </section>
