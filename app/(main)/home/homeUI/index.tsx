@@ -13,23 +13,29 @@ const HomeUI = () => {
   return (
     <div className="pt-[110px]">
       {/* Hero Section */}
-      <section className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center mb-12 sm:mb-16 lg:mb-[50px] px-4 sm:px-6 lg:px-[30px] min-h-[calc(100vh-4rem)]">
-        <div className="flex flex-col gap-4 sm:gap-6 lg:gap-[24px] order-2 lg:order-1">
-          <h1 className="text-3xl sm:text-4xl lg:text-[48px] font-[500] leading-[100%]">
-            Powering the Next Generation of Payments
-          </h1>
-          <p className="text-base sm:text-lg lg:text-[17px] leading-[130%] font-[400] text-[#636377]">
-            From API integrations, to banking integrations, we provide
-            everything you need to collect and disburse payments across multiple
-            entities.
-          </p>
-          <div>
-            <button className="rounded-[8px] py-3 sm:py-[14px] px-5 sm:px-[20px] bg-[#F48210] hover:bg-[#E5750E] transition-colors text-sm sm:text-[15px] font-[500] text-[#18181B] leading-[130%] tracking-[-1%]">
+      <div className="grid lg:grid-cols-2 gap-12 sm:gap-0 items-center mb-12 sm:mb-16 lg:mb-[50px] px-4 sm:px-6 lg:px-[30px] min-h-[calc(100vh-4rem)]">
+        <div className="space-y-8">
+          <div className="space-y-6">
+            <h1 className="text-4xl lg:text-4xl xl:text-5xl font-[500] text-[#0D0714] leading-tight">
+              <span className="block">Powering the Next</span>
+              <span className="block">Generation of Payments</span>
+            </h1>
+            <p className="text-lg text-[#636377] font-[500] leading-relaxed max-w-lg">
+              From API integrations, to banking integrations, we provide
+              everything you need to collect and disburse payments across
+              multiple entities.
+            </p>
+          </div>
+          <div className="pt-4">
+            <button
+              data-slot="button"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[&gt;svg]:px-4 bg-[#F48210] text-[#18181B] hover:bg-[#F48210] rounded-[8px] px-8 py-6 text-base font-[500] transition-colors"
+            >
               Create a free Account
             </button>
           </div>
         </div>
-        <div className="relative order-1 lg:order-2">
+        <div className="relative">
           <div className="overflow-hidden flex items-center justify-center">
             <div className="relative w-full bg-[#e2e6f1]  h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
               <video
@@ -45,7 +51,7 @@ const HomeUI = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Feature Sections */}
       <section className="flex flex-col gap-8 sm:gap-12 lg:gap-[70px] px-4 sm:px-6 lg:px-[30px] pb-8 sm:pb-10 lg:pb-[40px]">
