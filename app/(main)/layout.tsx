@@ -1,12 +1,12 @@
 "use client";
-import NavBar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Navbar } from "@/components/Navbar";
 import { ReactNode } from "react";
 
 export default function MainAppLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <NavBar />
+      <Navbar />
       {children}
       <Footer />
     </>
