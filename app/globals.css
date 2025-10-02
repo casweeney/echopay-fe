@@ -177,6 +177,15 @@
 
 body {
   font-family: ClashGrotesk, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .scale-122 {
@@ -185,8 +194,6 @@ body {
   --tw-scale-z: 111.5%;
   scale: var(--tw-scale-x) var(--tw-scale-y);
 }
-
-
 
 @layer base {
   * {

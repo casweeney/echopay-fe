@@ -21,7 +21,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   descriptionMaxWidth = "max-w-[90%] sm:max-w-[80%] lg:max-w-[800px]",
 }) => {
   return (
-    <div className="relative min-h-[50vh] sm:min-h-[60vh] lg:min-h-[80vh] w-full overflow-hidden">
+    <div className="relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] w-full overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover sm:bg-cover bg-center bg-no-repeat rounded-2xl lg:rounded-[32px]"

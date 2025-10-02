@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 const CTASection = () => {
   return (
     <section>
-      <div className="relative min-h-[60vh] sm:min-h-[70vh] lg:min-h-[70vh] w-full overflow-hidden flex items-center justify-center px-4 sm:px-6">
+      <div className="relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] w-full overflow-hidden flex items-center justify-center px-4 sm:px-6">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-2xl lg:rounded-[32px]"
           style={{

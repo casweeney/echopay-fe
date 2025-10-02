@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0F1217] py-[30px]">
+    <footer className="bg-[#0F1217] py-[20px] sm:py-[30px] lg:py-[40px]">
       <div className="max-w-[85rem] mx-auto px-[20px] sm:px-[35px]">
         {/* Top Section */}
         <div className="flex flex-col lg:flex-row justify-between gap-10">
