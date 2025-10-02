@@ -94,18 +94,15 @@ export function Navbar() {
                 onClick={() => setIsMenuOpen(false)}>
                 About Us
               </Link>
-              <Link
-                href="#"
-                className="text-sm text-[#0D0714] hover:text-gray-600 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}>
-                Log In
-              </Link>
               <Button
                 asChild
-                className="bg-[#0D0714] text-white hover:bg-gray-800 rounded-full w-full">
-                <Link href="#" onClick={() => setIsMenuOpen(false)}>
-                  Create a free Account
-                </Link>
+                className="bg-[#F4F4F5] text-[#18181B] border border-[#F2F3F6] hover:bg-[#F4F4F5] rounded-[8px] py-6 px-6">
+                <Link href="#">Log In</Link>
+              </Button>
+              <Button
+                asChild
+                className="bg-[#F48210] text-[#18181B] hover:bg-[#F48210] rounded-[8px] py-6 px-6">
+                <Link href="#">Create a free Account</Link>
               </Button>
             </div>
           </div>

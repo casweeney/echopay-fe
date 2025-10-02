@@ -16,7 +16,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative z-10 max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-4 pt-4">
+      <div className="relative z-10 max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-4 pt-24 sm:pt-4">
         <div className="grid lg:grid-cols-2 gap-12 sm:gap-0 items-center min-h-[calc(100vh-4rem)]">
           {/* Left Section - Text Content */}
           <div className="space-y-8">

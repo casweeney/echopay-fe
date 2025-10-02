@@ -35,7 +35,7 @@ const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <section className="flex flex-col gap-8 sm:gap-12 lg:gap-[70px] px-4 sm:px-6 lg:px-4 pb-8 sm:pb-10 lg:pb-[40px] max-w-[85rem] mx-auto">
+    <section className="flex flex-col gap-8 sm:gap-12 lg:gap-[70px] px-4 sm:px-6 lg:px-4 pb-8 sm:pb-10 lg:pb-[40px] pt-8 sm:pt-0 max-w-[85rem] mx-auto">
       {features.map((feature, index) => (
         <FeatureCard
           key={index}
