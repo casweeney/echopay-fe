@@ -1,7 +1,14 @@
-import { redirect } from "next/navigation";
+import React from "react";
+import HomeUI from "./(main)/home/homeUI";
+import { Navbar } from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-const Home = () => {
-  return redirect("/home");
-};
-
-export default Home;
+export default function Home() {
+  return (
+    <>
+      <Navbar />
+      <HomeUI />
+      <Footer />
+    </>
+  );
+}
