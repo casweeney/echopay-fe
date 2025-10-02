@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import Link from "next/link";
 import Image from "next/image";
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -69,44 +69,55 @@ export function Navbar() {
               <Link href="#">Create a free Account</Link>
             </Button>
           </div>
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-[#0D0714] hover:bg-gray-100 rounded-lg transition-colors"
-            aria-label="Toggle menu">
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <button
+                className="md:hidden p-2 text-[#0D0714] hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="Toggle menu">
+                <Menu size={24} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
+              <div className="flex items-center justify-between px-6 border-none">
+                <Image
+                  src="/logo.svg"
+                  width={120}
+                  height={120}
+                  alt="EchoPay Logo"
+                  className="w-24 h-24"
+                />
+              </div>
+              <div className="flex flex-col gap-6 p-6">
+                <div className="flex flex-col gap-4">
+                  <Link
+                    href="#"
+                    className="text-sm text-[#0D0714] hover:text-gray-600 transition-colors py-2 border-b border-gray-100">
+                    How we work
+                  </Link>
+                  <Link
+                    href="#"
+                    className="text-sm text-[#0D0714] hover:text-gray-600 transition-colors py-2 border-b border-gray-100">
+                    About Us
+                  </Link>
+                </div>
+                <div className="flex flex-col gap-3 pt-4">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full justify-start">
+                    <Link href="#">Log In</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    className="w-full justify-start bg-[#F48210] text-[#18181B] hover:bg-[#F48210]">
+                    <Link href="#">Create a free Account</Link>
+                  </Button>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200 bg-white">
-            <div className="flex flex-col gap-4">
-              <Link
-                href="#"
-                className="text-sm text-[#0D0714] hover:text-gray-600 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}>
-                How we work
-              </Link>
-              <Link
-                href="#"
-                className="text-sm text-[#0D0714] hover:text-gray-600 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}>
-                About Us
-              </Link>
-              <Button
-                asChild
-                className="bg-[#F4F4F5] text-[#18181B] border border-[#F2F3F6] hover:bg-[#F4F4F5] rounded-[8px] py-6 px-6">
-                <Link href="#">Log In</Link>
-              </Button>
-              <Button
-                asChild
-                className="bg-[#F48210] text-[#18181B] hover:bg-[#F48210] rounded-[8px] py-6 px-6">
-                <Link href="#">Create a free Account</Link>
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );
