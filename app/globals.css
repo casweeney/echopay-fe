@@ -1,4 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -202,4 +205,14 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.instrument {
+  font-family: "Instrument Sans", sans-serif;
+}
+.roboto {
+  font-family: "Roboto", sans-serif;
+}
+.londrina {
+  font-family: "Londrina Solid", cursive;
 }
