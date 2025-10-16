@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -36,8 +37,9 @@ export function Hero() {
             <div className="pt-4">
               <Button
                 className="bg-[#F48210] text-[#18181B] hover:bg-[#F48210] rounded-[8px] px-8 py-6 text-base font-[500] transition-colors"
-                size="lg">
-                Create a free Account
+                size="lg"
+              >
+                <Link href="/register">Create a free Account</Link>
               </Button>
             </div>
           </div>
@@ -51,7 +53,8 @@ export function Hero() {
                   autoPlay
                   muted
                   loop
-                  playsInline>
+                  playsInline
+                >
                   <source src="hero_vid.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>

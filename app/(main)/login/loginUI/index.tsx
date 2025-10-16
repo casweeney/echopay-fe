@@ -14,7 +14,7 @@ export default function LoginUI() {
 
   const isButtonDisabled = !email.trim() || !password.trim();
 
-  const onLogin = (e: any) => {
+  const onLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
     console.log("Login attempted with:", { email, password });
@@ -29,9 +29,11 @@ export default function LoginUI() {
       <div className="hidden z-50 relative lg:flex bg-[url('/bg-4.png')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
-          <div className="mb-[4.5rem]">
-            <img src="/logo_2.png" alt="logo" className="w-[170px]" />
-          </div>
+          <Link href="/home">
+            <div className="mb-[4.5rem]">
+              <img src="/logo_2.png" alt="logo" className="w-[170px]" />
+            </div>
+          </Link>
 
           {/* Main Content */}
           <div className="flex-1 flex flex-col justify-center">

@@ -116,13 +116,13 @@ export function Navbar() {
                     variant="outline"
                     className="w-full justify-start"
                   >
-                    <Link href="#">Log In</Link>
+                    <Link href="/login">Log In</Link>
                   </Button>
                   <Button
                     asChild
                     className="w-full justify-start bg-[#F48210] text-[#18181B] hover:bg-[#F48210]"
                   >
-                    <Link href="#">Create a free Account</Link>
+                    <Link href="/register">Create a free Account</Link>
                   </Button>
                 </div>
               </div>
