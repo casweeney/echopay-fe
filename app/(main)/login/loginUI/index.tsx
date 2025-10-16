@@ -18,6 +18,9 @@ export default function LoginUI() {
     e.preventDefault();
 
     console.log("Login attempted with:", { email, password });
+
+    setEmail("");
+    setPassword("");
   };
 
   return (
