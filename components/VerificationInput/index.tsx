@@ -64,7 +64,7 @@ export default function VerificationInput() {
               value={code}
               onChange={(e) => handleCodeChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-14 h-14 border border-[#8C8C8C] rounded-[8px] text-center text-base font-instrument font-normal focus:outline-none focus:border-[#0046A7] focus:border-2 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-14 lg:h-14 border border-[#8C8C8C] rounded-[8px] text-center text-base font-instrument font-normal focus:outline-none focus:border-[#0046A7] focus:border-2 transition-colors"
             />
           ))}
         </div>

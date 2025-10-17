@@ -221,8 +221,15 @@ export default function RegisterUI() {
       </div>
 
       {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 bg-[#f8f8f8] p-8 lg:p-12 flex items-center justify-center">
+      <div className="w-full lg:w-1/2 bg-[#f8f8f8] p-8 lg:p-12 flex items-center justify-center relative">
+        <div className="absolute top-0 left-0 right-0 h-4 bg-[#0046A7]"></div>
         <div className="w-full max-w-md">
+          {/* Mobile Logo - Only visible on small screens */}
+          <Link href="/home">
+            <div className="lg:hidden mb-8 flex justify-center">
+              <img src="/logo.png" alt="logo" className="w-[120px]" />
+            </div>
+          </Link>
           {/* Progress Steps */}
           <div className="mb-12">
             <div className="flex items-center justify-between mb-3">
