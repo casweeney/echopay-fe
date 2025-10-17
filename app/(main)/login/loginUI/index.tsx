@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import Image from "next/image";
 
 export default function LoginUI() {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +31,7 @@ export default function LoginUI() {
           {/* Logo */}
           <Link href="/home">
             <div className="mb-[4.5rem]">
-              <Image src="/logo_2.png" alt="logo" className="w-[170px]" />
+              <img src="/logo_2.png" alt="logo" className="w-[170px]" />
             </div>
           </Link>
 
@@ -47,7 +46,7 @@ export default function LoginUI() {
 
             {/* Hero Image */}
             <div className="mb-10 rounded-2xl overflow-hidden">
-              <Image
+              <img
                 src="/pill2.png"
                 alt="Crystal spheres with light rays"
                 className="w-full h-auto object-cover"

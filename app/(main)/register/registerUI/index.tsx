@@ -9,7 +9,6 @@ import { useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Eye, EyeOff } from "lucide-react";
 import VerificationInput from "@/components/VerificationInput";
-import Image from "next/image";
 
 export default function RegisterUI() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -109,7 +108,7 @@ export default function RegisterUI() {
           {/* Logo */}
           <Link href="/home">
             <div className="mb-[4.5rem]">
-              <Image src="/logo_2.png" alt="logo" className="w-[170px]" />
+              <img src="/logo_2.png" alt="logo" className="w-[170px]" />
             </div>
           </Link>
 
@@ -164,28 +163,28 @@ export default function RegisterUI() {
             {/* Hero Image */}
             <div className="mb-10 rounded-2xl overflow-hidden">
               {currentStep === 1 && (
-                <Image
+                <img
                   src="/pill2.png"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
                 />
               )}
               {currentStep === 2 && (
-                <Image
+                <img
                   src="/pill3.png"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
                 />
               )}
               {currentStep === 3 && (
-                <Image
+                <img
                   src="/pill2.png"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
                 />
               )}
               {currentStep === 4 && (
-                <Image
+                <img
                   src="/pill3.png"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
