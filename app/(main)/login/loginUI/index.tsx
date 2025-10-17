@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ECHOPAY_SVG } from "@/assets/svgs";
+import Image from "next/image";
 
 export default function LoginUI() {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +32,7 @@ export default function LoginUI() {
           {/* Logo */}
           <Link href="/home">
             <div className="mb-[4.5rem]">
-              <img src="/logo_2.png" alt="logo" className="w-[170px]" />
+              <Image src="/logo_2.png" alt="logo" className="w-[170px]" />
             </div>
           </Link>
 
@@ -46,7 +47,7 @@ export default function LoginUI() {
 
             {/* Hero Image */}
             <div className="mb-10 rounded-2xl overflow-hidden">
-              <img
+              <Image
                 src="/pill2.png"
                 alt="Crystal spheres with light rays"
                 className="w-full h-auto object-cover"
@@ -70,7 +71,7 @@ export default function LoginUI() {
                   {ECHOPAY_SVG().icon2()}
                 </div>
                 <p className="text-[15px] leading-relaxed font-roboto">
-                  You focus on your payments — we'll handle the safety net.
+                  You focus on your payments — we&#39;ll handle the safety net.
                 </p>
               </div>
             </div>

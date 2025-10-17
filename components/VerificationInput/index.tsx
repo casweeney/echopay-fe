@@ -3,7 +3,6 @@
 import type React from "react";
 
 import { useState } from "react";
-import { Lock } from "lucide-react";
 
 export default function VerificationInput() {
   const [codes, setCodes] = useState(["", "", "", "", "", ""]);
@@ -73,7 +72,7 @@ export default function VerificationInput() {
 
       {/* Resend Code */}
       <div className="text-sm text-[#8C8C8C] font-instrument font-medium">
-        Didn't receive the code?{" "}
+        Didn&#39;t receive the code?{" "}
         <button
           onClick={handleResendCode}
           disabled={resendTimer > 0}
