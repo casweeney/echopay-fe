@@ -149,7 +149,7 @@ export default function LoginUI() {
             <p className="text-center text-[#828783] text-[16px] font-instrument">
               Do not have an account?{" "}
               <Link
-                href="/signup"
+                href="/register"
                 className="text-[#010721] font-medium underline hover:text-[#0046a7] transition-colors"
               >
                 Create Your Account.
