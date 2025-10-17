@@ -85,7 +85,7 @@ export default function LoginUI() {
           {/* Mobile Logo - Only visible on small screens */}
           <Link href="/home">
             <div className="lg:hidden mb-8 flex justify-center">
-              <img src="/logo.png" alt="logo" className="w-[120px]" />
+              <img src="/logo.svg" alt="logo" className="w-[120px]" />
             </div>
           </Link>
           <div className="mb-8">
