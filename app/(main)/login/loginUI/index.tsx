@@ -70,7 +70,7 @@ export default function LoginUI() {
                   {ECHOPAY_SVG().icon2()}
                 </div>
                 <p className="text-[15px] leading-relaxed font-roboto">
-                  You focus on your payments — we'll handle the safety net.
+                  You focus on your payments — we&#39;ll handle the safety net.
                 </p>
               </div>
             </div>

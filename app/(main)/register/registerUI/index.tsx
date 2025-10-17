@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import { Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import VerificationInput from "@/components/VerificationInput";
 
 export default function RegisterUI() {
