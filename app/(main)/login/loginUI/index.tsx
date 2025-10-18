@@ -79,17 +79,17 @@ export default function LoginUI() {
       </div>
 
       {/* Right Side - Light Gray */}
-      <div className="w-full bg-[#f8f8f8] flex items-center justify-center p-[5rem] lg:p-8 relative">
+      <div className="w-full bg-[#f8f8f8] flex items-center justify-center py-[5.5rem] px-12 lg:p-12 relative">
         <div className="block lg:hidden absolute top-0 left-0 right-0 h-4 bg-[#0046A7]"></div>
         <div className="w-full max-w-md">
           {/* Mobile Logo - Only visible on small screens */}
           <Link href="/home">
-            <div className="lg:hidden mb-[4.5rem] flex justify-center">
+            <div className="lg:hidden mb-[5rem] flex justify-center">
               <img src="/logo.svg" alt="logo" className="w-[120px]" />
             </div>
           </Link>
           <div className="mb-8">
-            <h2 className="text-3xl font-roboto font-medium text-[#010721] mb-2 tracking-[0.02em]">
+            <h2 className="text-[28px] md:text-[34px] lg:text-[34px] font-roboto font-medium text-[#010721] mb-2 tracking-[0.02em]">
               Login to Your Account
             </h2>
             <p className="text-[#010721] text-[14px] font-instrument">

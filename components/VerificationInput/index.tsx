@@ -71,7 +71,7 @@ export default function VerificationInput() {
       </div>
 
       {/* Resend Code */}
-      <div className="text-sm text-[#8C8C8C] font-instrument font-medium">
+      <div className="text-[12px] md:text-[14px] lg:text-[14px] text-[#8C8C8C] font-instrument font-medium">
         Didn&#39;t receive the code?{" "}
         <button
           onClick={handleResendCode}
