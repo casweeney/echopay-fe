@@ -79,12 +79,12 @@ export default function LoginUI() {
       </div>
 
       {/* Right Side - Light Gray */}
-      <div className="w-full bg-[#f8f8f8] flex items-center  justify-center p-8 relative">
-        <div className="absolute top-0 left-0 right-0 h-4 bg-[#0046A7]"></div>
+      <div className="w-full bg-[#f8f8f8] flex items-center justify-center p-[5rem] lg:p-8 relative">
+        <div className="block lg:hidden absolute top-0 left-0 right-0 h-4 bg-[#0046A7]"></div>
         <div className="w-full max-w-md">
           {/* Mobile Logo - Only visible on small screens */}
           <Link href="/home">
-            <div className="lg:hidden mb-8 flex justify-center">
+            <div className="lg:hidden mb-[4.5rem] flex justify-center">
               <img src="/logo.svg" alt="logo" className="w-[120px]" />
             </div>
           </Link>
