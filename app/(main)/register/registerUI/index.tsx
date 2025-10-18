@@ -221,12 +221,12 @@ export default function RegisterUI() {
       </div>
 
       {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 bg-[#f8f8f8] p-[5rem] lg:p-12 flex items-center justify-center relative">
+      <div className="w-full lg:w-1/2 bg-[#f8f8f8] py-[5.5rem] px-12 lg:p-12 flex items-center justify-center relative">
         <div className="block lg:hidden absolute top-0 left-0 right-0 h-4 bg-[#0046A7]"></div>
         <div className="w-full max-w-md">
           {/* Mobile Logo - Only visible on small screens */}
           <Link href="/home">
-            <div className="lg:hidden mb-[4.5rem] flex justify-center">
+            <div className="lg:hidden mb-[5rem] flex justify-center">
               <img src="/logo.svg" alt="logo" className="w-[120px]" />
             </div>
           </Link>
@@ -236,7 +236,7 @@ export default function RegisterUI() {
               {steps.map((step) => (
                 <span
                   key={step.number}
-                  className={`font-normal font-instrument text-[12px] leading-[100%] text-center ${
+                  className={`font-normal font-instrument text-[10px] md:text-[12px] lg:text-[12px] leading-[100%] text-center ${
                     currentStep === step.number ||
                     completedSteps.includes(step.number)
                       ? "text-[#010721]"
@@ -265,7 +265,7 @@ export default function RegisterUI() {
 
           {/* Form Header */}
           <div className="mb-8">
-            <h2 className="text-[34px] font-medium text-[#010721] mb-2 font-roboto">
+            <h2 className="text-[28px] md:text-[34px] lg:text-[34px] font-medium text-[#010721] mb-2 font-roboto">
               {currentStep === 4 ? "Verify Your Email" : "Create Your Account"}
             </h2>
             <p className="text-[#010721] text-[14px] font-instrument font-normal">
