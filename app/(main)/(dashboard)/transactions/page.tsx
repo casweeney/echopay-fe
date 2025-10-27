@@ -66,6 +66,51 @@ const Transactions = () => {
       status: "Success",
       reference: "INV-2025-005",
     },
+    {
+      id: "DSB-2025-005",
+      customer: "Byakuya Kuchiki",
+      amount: "234,567.00",
+      method: "Card",
+      date: "01/01/2025 20:40",
+      status: "Success",
+      reference: "INV-2025-005",
+    },
+    {
+      id: "DSB-2025-005",
+      customer: "Byakuya Kuchiki",
+      amount: "234,567.00",
+      method: "Card",
+      date: "01/01/2025 20:40",
+      status: "Success",
+      reference: "INV-2025-005",
+    },
+    {
+      id: "DSB-2025-005",
+      customer: "Byakuya Kuchiki",
+      amount: "234,567.00",
+      method: "Card",
+      date: "01/01/2025 20:40",
+      status: "Success",
+      reference: "INV-2025-005",
+    },
+    {
+      id: "DSB-2025-005",
+      customer: "Byakuya Kuchiki",
+      amount: "234,567.00",
+      method: "Card",
+      date: "01/01/2025 20:40",
+      status: "Success",
+      reference: "INV-2025-005",
+    },
+    {
+      id: "DSB-2025-005",
+      customer: "Byakuya Kuchiki",
+      amount: "234,567.00",
+      method: "Card",
+      date: "01/01/2025 20:40",
+      status: "Success",
+      reference: "INV-2025-005",
+    },
   ];
 
   const getStatusColor = (status: string) => {
@@ -110,7 +155,7 @@ const Transactions = () => {
         </div>
       </div>
 
-      <div className="p-6 rounded-lg border border-[#e0e0e0] overflow-hidden mb-6">
+      <div className="p-6 rounded-lg border border-[#e0e0e0] overflow-hidden">
         <div className="flex items-center justify-between mb-4">
           <p className="font-normal text-[16px] leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
             Showing 10 out of 25 results
@@ -231,8 +276,8 @@ const Transactions = () => {
           </table>
         </div>
 
-        <div className="mt-6 mb-2 text-right">
-          <Pagination className="justify-end">
+        {/* <div className="mt-6 mb-2">
+          <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious href="#" />
@@ -269,7 +314,7 @@ const Transactions = () => {
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-        </div>
+        </div> */}
       </div>
     </div>
   );

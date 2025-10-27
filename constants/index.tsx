@@ -24,6 +24,11 @@ export const MENUTABS: SideTabsProps[] = [
     link: "/payment-links",
   },
   {
+    icon: ECHOPAY_SVG().walletIcon(),
+    name: "Wallet",
+    link: "/wallet",
+  },
+  {
     icon: ECHOPAY_SVG().tnxIcon(),
     name: "Transactions",
     link: "/transactions",
@@ -37,11 +42,6 @@ export const MENUTABS: SideTabsProps[] = [
     icon: ECHOPAY_SVG().groupIcon(),
     name: "Customers",
     link: "/customers",
-  },
-  {
-    icon: ECHOPAY_SVG().walletIcon(),
-    name: "Payouts",
-    link: "/payouts",
   },
 ];
 

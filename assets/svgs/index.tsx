@@ -507,5 +507,74 @@ export const ECHOPAY_SVG = () => {
         </svg>
       );
     },
+    sendIcon: (props?: SvgProps) => {
+      return (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <path
+            d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    },
+    checkOutline: (props?: SvgProps) => {
+      return (
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M3 16C3 8.82272 8.82272 3 16 3C23.1773 3 29 8.82272 29 16C29 23.1773 23.1773 29 16 29C8.82272 29 3 23.1773 3 16ZM16 5C9.92728 5 5 9.92728 5 16C5 22.0727 9.92728 27 16 27C22.0727 27 27 22.0727 27 16C27 9.92728 22.0727 5 16 5Z"
+            fill="#010721"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M22.6432 10.2343C23.0661 10.5895 23.1209 11.2203 22.7657 11.6432L14.3657 21.6432C14.1795 21.8648 13.9065 21.9949 13.6171 21.9999C13.3277 22.0048 13.0503 21.8841 12.8567 21.669L9.25671 17.669C8.88725 17.2585 8.92053 16.6262 9.33104 16.2567C9.74155 15.8872 10.3738 15.9205 10.7433 16.331L13.574 19.4762L21.2343 10.3568C21.5895 9.93392 22.2203 9.87907 22.6432 10.2343Z"
+            fill="#010721"
+          />
+        </svg>
+      );
+    },
+    nigeriaIcon: (props?: SvgProps) => {
+      return (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <g clipPath="url(#clip0_468_2116)">
+            <path
+              d="M12 0.75C5.787 0.75 0.75 5.787 0.75 12C0.75 18.213 5.787 23.25 12 23.25C18.213 23.25 23.25 18.213 23.25 12C23.25 5.787 18.213 0.75 12 0.75ZM8.31262 21.8299V2.17013C9.46087 1.73813 10.7029 1.5 12 1.5C13.2971 1.5 14.5391 1.73813 15.6874 2.17013V21.8299C14.5391 22.2619 13.2971 22.5 12 22.5C10.7029 22.5 9.46087 22.2619 8.31262 21.8299Z"
+              fill="#009A49"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_468_2116">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      );
+    },
   };
 };
