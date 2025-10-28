@@ -147,86 +147,14 @@ const Payouts = () => {
           </button>
         </div>
       </div>
-      <div className="mb-6 border border-[#E5E5E5] p-[16px] rounded-[8px]">
-        <div className="flex items-center gap-3 pb-6 border-b border-[#E5E5E5]">
-          <h1 className="text-[22px] font-medium leading-[28px] tracking-[0px] text-[#010721]">
-            Your action items
-          </h1>
-          <div className="flex items-center justify-center w-7 h-7 bg-[#0046A7] text-white rounded-full text-[16px] font-semibold">
-            1
-          </div>
-        </div>
-
-        {/* Expandable section */}
-        <div className="overflow-hidden">
-          {/* Section header */}
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full flex items-center justify-between py-6 bg-white hover:bg-gray-50 transition-colors"
-          >
-            <span className="text-base tracking-[0.5px] font-normal text-[#404040]">
-              Finish setting up your account
-            </span>
-            <ChevronDown
-              size={24}
-              className={`text-gray-600 transition-transform duration-300 ease-in-out ${
-                isExpanded ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-
-          <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="border-t border-gray-200 pt-6 bg-white">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  {ECHOPAY_SVG().checkOutline()}
-                  <span className="text-base leading-[0.5px] text-[#010721]">
-                    Verify your BVN
-                  </span>
-                </div>
-                <button
-                  className="bg-[#0046A7] h-[56px] text-white rounded-[12px] px-6 font-medium text-[14px] leading-[20px] tracking-[0.1px] align-middle"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  Verify BVN
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="border border-[#E0E0E0] rounded-[12px] p-[16px] mb-6">
-        <div className="mb-4">
-          <p className="font-normal text-[16px] leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
-            NGN BALANCE
-          </p>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="w-full py-[16px] px-[16px] border border-[#E5E5E5] rounded-[8px]">
-            {/* Label */}
-            <p className="text-[12px] font-normal leading-[16px] tracking-[0.4px] align-middle text-[#010721] mb-4">
-              Collection Balance
-            </p>
-
-            {/* Main value with percentage badge */}
-            <div className="flex items-center gap-2 mb-2">
-              <h2 className="text-[32px] leading-[40px] tracking-[0px] align-middle font-bold text-[#010721]">
-                NGN 20,800,956
-              </h2>
-              <span className="text-[11px] leading-[16px] tracking-[0.5px] align-middle font-medium text-[#0C614E] bg-[#CDF4E4] p-[4px] rounded-[100px]">
-                +27%
-              </span>
-            </div>
-
-            {/* Subtext */}
-            <p className="text-[12px] leading-[16px] tracking-[0.4px] align-middle text-[#010721]">
-              <span className="font-bold">+2.3 M</span> vs last month
+      <div className="flex gap-4 mb-6">
+        <div className="w-full border border-[#E0E0E0] rounded-[12px] p-[16px]">
+          <div className="mb-4">
+            <p className="font-normal text-[16px] leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
+              NGN BALANCE
             </p>
           </div>
+
           <div className="w-full py-[16px] px-[16px] border border-[#E5E5E5] rounded-[8px]">
             {/* Label */}
             <p className="text-[12px] font-normal leading-[16px] tracking-[0.4px] align-middle text-[#010721] mb-4">
@@ -249,7 +177,60 @@ const Payouts = () => {
             </p>
           </div>
         </div>
+        <div className="w-full border border-[#E5E5E5] p-[16px] rounded-[8px]">
+          <div className="flex items-center gap-3 pb-4 border-b border-[#E5E5E5]">
+            <h1 className="text-[22px] font-medium leading-[28px] tracking-[0px] text-[#010721]">
+              Your action items
+            </h1>
+            <div className="flex items-center justify-center w-7 h-7 bg-[#0046A7] text-white rounded-full text-[16px] font-semibold">
+              1
+            </div>
+          </div>
+
+          {/* Expandable section */}
+          <div className="overflow-hidden">
+            {/* Section header */}
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="w-full flex items-center justify-between py-4 bg-white hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-base tracking-[0.5px] font-normal text-[#404040]">
+                Finish setting up your account
+              </span>
+              <ChevronDown
+                size={24}
+                className={`text-gray-600 transition-transform duration-300 ease-in-out ${
+                  isExpanded ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="border-t border-gray-200 pt-4 bg-white">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    {ECHOPAY_SVG().checkOutline()}
+                    <span className="text-base leading-[0.5px] text-[#010721]">
+                      Verify your Business
+                    </span>
+                  </div>
+                  <Link
+                    href="/verify-business"
+                    className="bg-[#0046A7] flex items-center h-[56px] text-white rounded-[12px] px-6 font-medium text-[14px] leading-[20px] tracking-[0.1px] align-middle"
+                  >
+                    Verify Business
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div className="p-6 rounded-lg border border-[#e0e0e0] overflow-hidden mb-6">
         <div className="flex items-center justify-between mb-4">
           <p className="font-normal text-[16px] leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
@@ -328,7 +309,7 @@ const Payouts = () => {
                   className="border-b border-[#E0E0E0] hover:bg-[#f8f8f8]"
                 >
                   <td className="px-[16px] py-[16px] flex items-center gap-2">
-                    <p className="text-[14px] leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                    <p className="text-[14px] leading-[20px] tracking-[0.25px] align-middle font-normal text-[#FF5F57]">
                       {tx.amount}
                     </p>
                   </td>

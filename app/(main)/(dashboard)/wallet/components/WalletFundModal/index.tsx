@@ -62,18 +62,18 @@ export function WalletFundModal({
       showButton={true}
     >
       {/* Maximum Transfer Amount Section */}
-      <div className="bg-blue-50 rounded-lg p-6 mb-6">
-        <p className="text-sm font-medium text-gray-600 mb-2">
+      <div className="bg-[#E9F6FF] rounded-lg p-6 mb-6">
+        <p className="text-base tracking-[0.5px] font-normal text-[#404040] mb-2">
           Maximum Transfer Amount
         </p>
-        <p className="text-2xl font-bold text-foreground mb-4">
+        <p className="text-[22px] leading-[28px] tracking-[0px] font-medium text-[#010721] mb-2 ">
           NGN 99,000,000.00
         </p>
-        <p className="text-sm text-gray-600">
+        <p className="text-base tracking-[0.5px] font-normal text-[#404040]">
           Note: For larger transfers, make multiple payments or send an email to{" "}
           <a
             href="mailto:info@echopay.com"
-            className="text-blue-600 hover:underline"
+            className="text-[#0046A7] hover:underline"
           >
             info@echopay.com
           </a>
@@ -85,7 +85,7 @@ export function WalletFundModal({
         {accounts.map((account) => (
           <div
             key={account.id}
-            className="border-l-4 border-blue-600 bg-gray-50 rounded-lg overflow-hidden"
+            className="border-l-4 border-[#0046A7] bg-[#F2FAFF] rounded-[8px] overflow-hidden p-[16px]"
           >
             {/* Account Header */}
             <button
@@ -94,70 +94,76 @@ export function WalletFundModal({
                   expandedAccount === account.id ? "" : account.id
                 )
               }
-              className="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-100 transition-colors"
+              className="w-full flex items-center justify-between pb-3 transition-colors"
             >
-              <h3 className="text-lg font-semibold text-foreground">
+              <h3 className="text-[22px] leading-[28px] tracking-[0px] font-medium text-[#010721]">
                 {account.name}
               </h3>
               {expandedAccount === account.id ? (
-                <ChevronUp size={24} className="text-gray-600" />
+                <ChevronUp size={24} className="text-[#010721]" />
               ) : (
-                <ChevronDown size={24} className="text-gray-600" />
+                <ChevronDown size={24} className="text-[#010721]" />
               )}
             </button>
 
             {/* Account Details */}
             {expandedAccount === account.id && (
-              <div className="border-t border-gray-200 px-6 py-4 bg-white space-y-4">
+              <div className="bg-[#F2FAFF]">
                 {/* Account Number */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600 mb-1">Account Number</p>
-                    <p className="text-base font-medium text-foreground">
+                <div className="flex items-center justify-between py-3 border-t border-[#E5E5EA]">
+                  <p className="text-base tracking-[0.5px] text-[#404040] font-normal">
+                    Account Number
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-base tracking-[0.5px] text-[#010721] font-normal">
                       {account.accountNumber}
                     </p>
+                    <button
+                      onClick={() => handleCopy(account.accountNumber)}
+                      className="text-[#010721] transition-colors"
+                      aria-label="Copy account number"
+                    >
+                      <Copy size={20} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy(account.accountNumber)}
-                    className="text-gray-500 hover:text-gray-700 transition-colors"
-                    aria-label="Copy account number"
-                  >
-                    <Copy size={20} />
-                  </button>
                 </div>
 
                 {/* Account Name */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600 mb-1">Account Name</p>
-                    <p className="text-base font-medium text-foreground">
+                <div className="flex items-center justify-between py-3 border-t border-[#E5E5EA]">
+                  <p className="text-base tracking-[0.5px] text-[#404040] font-normal">
+                    Account Name
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-base tracking-[0.5px] text-[#010721] font-normal">
                       {account.accountName}
                     </p>
+                    <button
+                      onClick={() => handleCopy(account.accountName)}
+                      className="text-[#010721] transition-colors"
+                      aria-label="Copy account number"
+                    >
+                      <Copy size={20} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy(account.accountName)}
-                    className="text-gray-500 hover:text-gray-700 transition-colors"
-                    aria-label="Copy account name"
-                  >
-                    <Copy size={20} />
-                  </button>
                 </div>
 
                 {/* Bank Name */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600 mb-1">Bank Name</p>
-                    <p className="text-base font-medium text-foreground">
+                <div className="flex items-center justify-between pt-3 border-t border-[#E5E5EA]">
+                  <p className="text-base tracking-[0.5px] text-[#404040] font-normal">
+                    Bank Name
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-base tracking-[0.5px] text-[#010721] font-normal">
                       {account.bankName}
                     </p>
+                    <button
+                      onClick={() => handleCopy(account.bankName)}
+                      className="text-[#010721] transition-colors"
+                      aria-label="Copy bank name"
+                    >
+                      <Copy size={20} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy(account.bankName)}
-                    className="text-gray-500 hover:text-gray-700 transition-colors"
-                    aria-label="Copy bank name"
-                  >
-                    <Copy size={20} />
-                  </button>
                 </div>
               </div>
             )}

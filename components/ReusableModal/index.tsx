@@ -37,18 +37,20 @@ export function ReusableModal({
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/50 z-40 animate-fade-in-overlay"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-fade-in-overlay"
         onClick={handleBackdropClick}
       />
 
-      <div className="fixed inset-0 flex items-center justify-center p-4 z-50 pointer-events-none">
-        <div className="bg-white rounded-2xl max-w-2xl w-full p-8 shadow-lg pointer-events-auto animate-modal-pop my-8">
+      <div className="fixed inset-0 flex items-center justify-center p-4 z-50 pointer-events-none overflow-y-auto">
+        <div className="bg-white mt-[20rem] rounded-2xl max-w-2xl w-full p-8 shadow-lg pointer-events-auto animate-modal-pop my-8 flex flex-col">
           {/* Header with close button */}
-          <div className="flex items-start justify-between mb-6">
-            <h2 className="text-3xl font-bold text-foreground">{title}</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-[22px] leading-[28px] align-middle tracking-[0px] font-medium text-[#010721]">
+              {title}
+            </h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 transition-colors"
+              className="text-[#131313] transition-colors"
               aria-label="Close modal"
             >
               <X size={28} />
@@ -57,19 +59,18 @@ export function ReusableModal({
 
           {/* Description */}
           {description && (
-            <p className="text-gray-600 text-base leading-relaxed mb-8">
+            <p className="text-[#404040] text-base tracking-[0.5px] mb-6">
               {description}
             </p>
           )}
 
-          {/* Custom content */}
-          {children}
+          <div className="flex-1 overflow-y-auto">{children}</div>
 
           {/* Submit button */}
           {showButton && (
             <button
               onClick={onSubmit}
-              className="w-full py-4 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 transition-all bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+              className="w-full h-[56px] rounded-[12px] font-medium text-[14px] leading-[20px] tracking-[0.25px] align-middle flex items-center justify-center gap-2 transition-all bg-[#0046A7] text-white cursor-pointer mt-4"
             >
               {buttonText}
               <ArrowRight size={20} />
