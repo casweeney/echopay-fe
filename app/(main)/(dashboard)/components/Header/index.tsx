@@ -2,15 +2,18 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import Image from "next/image";
-import React from "react";
 import { Separator } from "@/components/ui/separator";
+import { useSidebar } from "@/context/SidebarContext";
+import { MenuIcon, X } from "lucide-react";
+import Link from "next/link";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const { toggleSidebar } = useSidebar();
 
-  // Close dropdown when clicked outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -24,46 +27,113 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Focus search input when opened
+  useEffect(() => {
+    if (searchOpen && searchRef.current) {
+      searchRef.current.focus();
+    }
+  }, [searchOpen]);
+
   return (
-    <div className="border-b border-[#E0E0E0] px-[24px] py-[16px] flex justify-between items-center">
-      <div>Hello, Ella</div>
-      <div className="flex items-center gap-8">
-        <div className="border border-[#E0E0E0] rounded-[40px] p-[8px] flex items-center">
-          <div>{ECHOPAY_SVG().searchIcon()}</div>
+    <div className="border-b border-[#E0E0E0] px-4 lg:px-[24px] py-3 lg:py-[16px] flex justify-between items-center gap-2 lg:gap-0">
+      {/* Left section */}
+      <div className="flex items-end gap-2 lg:gap-0">
+        <Link href="/" className="lg:hidden">
+          <img src="/smallLogo.svg" alt="menu" className="w-[22px] h-[22px]" />
+        </Link>
+        <div className="text-[13px] lg:text-base">Hello, Ella</div>
+      </div>
+
+      {/* Right section */}
+      <div className="flex items-center gap-2 lg:gap-8">
+        {/* Search bar - hidden on mobile, shown on desktop */}
+        <div className="hidden lg:flex border border-[#E0E0E0] rounded-[40px] p-[8px] items-center">
+          <div>
+            {ECHOPAY_SVG().searchIcon({
+              className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+            })}
+          </div>
           <input
             type="text"
             id="searchBar"
             name="searchBar"
             placeholder="Search"
-            // value={formData.businessName}
-            // onChange={handleInputChange}
-            className="font-instrument w-[178PX] text-[#1D1B20] border-0 px-2 py-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-none focus:ring-0 focus:outline-0 text-[14px] bg-transparent placeholder:text-[#010721] placeholder:font-instrument"
+            className="font-instrument w-[178px] text-[#1D1B20] border-0 px-2 py-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-none focus:ring-0 focus:outline-0 text-[14px] bg-transparent placeholder:text-[#010721] placeholder:font-instrument"
           />
         </div>
-        <div className="w-[40px] h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center">
-          {ECHOPAY_SVG().bellIcon()}
+
+        {/* Mobile search toggle */}
+        {searchOpen ? (
+          <div className="lg:hidden flex border border-[#E0E0E0] rounded-[40px] p-[8px] items-center gap-2">
+            <div>
+              {ECHOPAY_SVG().searchIcon({
+                className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+              })}
+            </div>
+            <input
+              ref={searchRef}
+              type="text"
+              placeholder="Search"
+              className="font-instrument w-[120px] text-[#1D1B20] border-0 px-1 py-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-none focus:ring-0 focus:outline-0 text-[14px] bg-transparent placeholder:text-[#010721] placeholder:font-instrument"
+            />
+            <button
+              onClick={() => setSearchOpen(false)}
+              className="text-[#010721] hover:bg-[#f0f0f0] p-1 rounded"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="lg:hidden text-[#010721] w-8 h-8 lg:w-[40px] lg:h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center flex-shrink-0"
+          >
+            {ECHOPAY_SVG().searchIcon({
+              className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+            })}
+          </button>
+        )}
+
+        {/* Notification icon - smaller on mobile */}
+        <div className="w-8 h-8 lg:w-[40px] lg:h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center flex-shrink-0">
+          {ECHOPAY_SVG().bellIcon({
+            className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+          })}
         </div>
+
+        {/* Separator - hidden on mobile */}
         <Separator
           orientation="vertical"
-          className="border-l border-[#E0E0E0] h-[32px]"
+          className="hidden lg:block border-l border-[#E0E0E0] h-[32px]"
         />
-        <div className="relative inline-block text-left" ref={dropdownRef}>
-          {/* Dropdown Trigger */}
+
+        {/* Profile dropdown */}
+        <button
+          onClick={toggleSidebar}
+          className="lg:hidden text-[#010721] w-8 h-8 lg:w-[40px] lg:h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center flex-shrink-0"
+        >
+          <MenuIcon size={18} />
+        </button>
+        <div
+          className="relative hidden lg:inline-block text-left"
+          ref={dropdownRef}
+        >
           <button
             onClick={() => setOpen(!open)}
             className="flex items-center gap-2"
           >
-            <Image
+            <img
               src="/user_img.png"
               alt="Profile"
-              width={40}
-              height={40}
-              className="object-cover"
+              className="object-cover lg:w-[40px] lg:h-[40px] w-8 h-8 rounded-full"
             />
-            {ECHOPAY_SVG().chevronDown()}
+            <div className="hidden lg:block">
+              {ECHOPAY_SVG().chevronDown({
+                className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+              })}
+            </div>
           </button>
 
-          {/* Dropdown Menu */}
           {open && (
             <div className="absolute right-0 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg z-50">
               <ul className="py-2 text-sm text-gray-700">

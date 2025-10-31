@@ -105,9 +105,9 @@ const VerifyBusiness = () => {
     <div>
       <div className="flex items-center gap-2 mb-14">
         <Link href="/wallet">
-          <ArrowLeft />
+          <ArrowLeft className="w-4 h-4 lg:w-5 lg:h-5" />
         </Link>
-        <p className="text-[#010721] font-medium text-[32px] leading-[40px] tracking-[0px] align-middle">
+        <p className="text-[#010721] font-medium text-[24px] lg:text-[30px] leading-[40px] tracking-[0px] align-middle">
           Verify Your Business
         </p>
       </div>
@@ -150,7 +150,7 @@ const VerifyBusiness = () => {
           {/* Step 1: Business Identity */}
           {currentStep === 1 && (
             <>
-              <p className="text-[#404040] font-normal text-base leading-[24px] tracking-[0.5px] mb-6">
+              <p className="text-[#404040] font-normal text-sm lg:text-base leading-[24px] tracking-[0.5px] mb-6">
                 Let’s get to know your business
               </p>
               <div>
@@ -165,23 +165,23 @@ const VerifyBusiness = () => {
                       handleInputChange(value, "businessCategory")
                     }
                   >
-                    <SelectTrigger className="text-[#828783] text-[14px] w-full border-none outline-0 focus:ring-0 focus:ring-offset-0">
+                    <SelectTrigger className="text-[#828783] text-[12px] lg:text-[14px] w-full border-none outline-0 focus:ring-0 focus:ring-offset-0">
                       <SelectValue placeholder="Select business category" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem value="farming">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Farming
                           </span>
                         </SelectItem>
                         <SelectItem value="marketing">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Marketing
                           </span>
                         </SelectItem>
                         <SelectItem value="driving">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Driving
                           </span>
                         </SelectItem>
@@ -203,7 +203,7 @@ const VerifyBusiness = () => {
                     placeholder="Enter your business website"
                     value={formData.businessWebsite}
                     onChange={handleInputChange}
-                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
+                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
                   />
                 </fieldset>
               </div>
@@ -213,7 +213,7 @@ const VerifyBusiness = () => {
           {/* Step 2: Contact Details */}
           {currentStep === 2 && (
             <>
-              <p className="text-[#404040] font-normal text-base leading-[24px] tracking-[0.5px] mb-6">
+              <p className="text-[#404040] font-normal text-sm lg:text-base leading-[24px] tracking-[0.5px] mb-6">
                 Provide your contact details here.
               </p>
               <div>
@@ -228,7 +228,7 @@ const VerifyBusiness = () => {
                     placeholder="Enter your phone number"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
+                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
                   />
                 </fieldset>
               </div>
@@ -245,23 +245,23 @@ const VerifyBusiness = () => {
                       handleInputChange(value, "country")
                     }
                   >
-                    <SelectTrigger className="text-[#828783] text-[14px] w-full border-none outline-0 focus:ring-0 focus:ring-offset-0">
+                    <SelectTrigger className="text-[#828783] text-[12px] lg:text-[14px] w-full border-none outline-0 focus:ring-0 focus:ring-offset-0">
                       <SelectValue placeholder="Select country" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem value="nigeria">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Nigeria
                           </span>
                         </SelectItem>
                         <SelectItem value="ghana">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Ghana
                           </span>
                         </SelectItem>
                         <SelectItem value="kenya">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Kenya
                           </span>
                         </SelectItem>
@@ -281,23 +281,23 @@ const VerifyBusiness = () => {
                     value={formData.state}
                     onValueChange={(value) => handleInputChange(value, "state")}
                   >
-                    <SelectTrigger className="text-[#828783] text-[14px] w-full border-none outline-0 focus:ring-0 focus:ring-offset-0">
+                    <SelectTrigger className="text-[#828783] text-[12px] lg:text-[14px] w-full border-none outline-0 focus:ring-0 focus:ring-offset-0">
                       <SelectValue placeholder="Select state" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem value="fct">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             FCT
                           </span>
                         </SelectItem>
                         <SelectItem value="lagos">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Lagos
                           </span>
                         </SelectItem>
                         <SelectItem value="anambra">
-                          <span className="font-instrument text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                          <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
                             Anambra
                           </span>
                         </SelectItem>
@@ -319,7 +319,7 @@ const VerifyBusiness = () => {
                     placeholder="Enter your city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
+                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
                   />
                 </fieldset>
               </div>
@@ -335,7 +335,7 @@ const VerifyBusiness = () => {
                     placeholder="Enter your current address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
+                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
                   />
                 </fieldset>
               </div>
@@ -351,7 +351,7 @@ const VerifyBusiness = () => {
                     placeholder="Enter area postal code"
                     value={formData.postalCode}
                     onChange={handleInputChange}
-                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
+                    className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
                   />
                 </fieldset>
               </div>
@@ -361,7 +361,7 @@ const VerifyBusiness = () => {
           {/* Step 3: BVN */}
           {currentStep === 3 && (
             <>
-              <p className="text-[#404040] font-normal text-base leading-[24px] tracking-[0.5px] mb-6">
+              <p className="text-[#404040] font-normal text-[12px] lg:text-base leading-[24px] tracking-[0.5px] mb-6">
                 We need your bank verification to create a virtual bank account
                 for your business. You will be able to fund your wallet and
                 start disbursing funds after your BVN is connected.
@@ -379,7 +379,8 @@ const VerifyBusiness = () => {
                       placeholder="Enter your BVN"
                       value={formData.bvn}
                       onChange={handleInputChange}
-                      className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom"
+                      className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom placeholder:text-[12px] lg:placeholder:text-[15px]"
+                      length={11}
                     />
                   </div>
                 </fieldset>
@@ -387,19 +388,29 @@ const VerifyBusiness = () => {
 
               {/* BVN Requirements */}
               <div className="p-[12px] rounded-[8px] border border-[#E2E2E2] space-y-3">
-                <p className="text-[14px] font-medium leading-[20px] tracking-[0.1px] text-[#010721] mb-4">
+                <p className="text-[12px] lg:text-[14px] font-medium leading-[20px] tracking-[0.1px] text-[#010721] mb-4">
                   Your BVN should be:
                 </p>
                 <div className="space-y-2 font-instrument">
                   {bvnRequirements.map((req, idx) => (
                     <div key={idx} className="flex items-center gap-3">
                       {req.met ? (
-                        <div>{ECHOPAY_SVG().fillCheck()}</div>
+                        <div>
+                          {ECHOPAY_SVG().fillCheck({
+                            className:
+                              "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
+                          })}
+                        </div>
                       ) : (
-                        <div>{ECHOPAY_SVG().circleOutline()}</div>
+                        <div>
+                          {ECHOPAY_SVG().circleOutline({
+                            className:
+                              "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
+                          })}
+                        </div>
                       )}
                       <span
-                        className={`text-[14px] font-normal leading-[20px] tracking-[0.25px] ${
+                        className={`text-[12px] lg:text-[14px] font-normal leading-[20px] tracking-[0.25px] ${
                           req.met ? "text-[#010721]" : "text-[#828783]"
                         }`}
                       >
@@ -421,7 +432,7 @@ const VerifyBusiness = () => {
             }
             className={`${
               currentStep === 4 ? "hidden" : "block"
-            } w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed`}
+            } w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-[12px] lg:text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             Continue
           </Button>
