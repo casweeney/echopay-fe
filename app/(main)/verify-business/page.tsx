@@ -107,7 +107,7 @@ const VerifyBusiness = () => {
         <Link href="/wallet">
           <ArrowLeft className="w-4 h-4 lg:w-5 lg:h-5" />
         </Link>
-        <p className="text-[#010721] font-medium text-[24px] lg:text-[30px] leading-[40px] tracking-[0px] align-middle">
+        <p className="text-[#010721] font-medium text-[22px] md:text-[26px] lg:text-[30px] leading-[40px] tracking-[0px] align-middle">
           Verify Your Business
         </p>
       </div>
@@ -380,7 +380,6 @@ const VerifyBusiness = () => {
                       value={formData.bvn}
                       onChange={handleInputChange}
                       className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom placeholder:text-[12px] lg:placeholder:text-[15px]"
-                      length={11}
                     />
                   </div>
                 </fieldset>

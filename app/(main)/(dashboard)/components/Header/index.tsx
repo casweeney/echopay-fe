@@ -27,10 +27,10 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Focus search input when opened
+  // Focus search input when modal opens
   useEffect(() => {
     if (searchOpen && searchRef.current) {
-      searchRef.current.focus();
+      setTimeout(() => searchRef.current?.focus(), 150);
     }
   }, [searchOpen]);
 
@@ -62,58 +62,38 @@ const Header = () => {
           />
         </div>
 
-        {/* Mobile search toggle */}
-        {searchOpen ? (
-          <div className="lg:hidden flex border border-[#E0E0E0] rounded-[40px] p-[8px] items-center gap-2">
-            <div>
-              {ECHOPAY_SVG().searchIcon({
-                className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-              })}
-            </div>
-            <input
-              ref={searchRef}
-              type="text"
-              placeholder="Search"
-              className="font-instrument w-[120px] text-[#1D1B20] border-0 px-1 py-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-none focus:ring-0 focus:outline-0 text-[14px] bg-transparent placeholder:text-[#010721] placeholder:font-instrument"
-            />
-            <button
-              onClick={() => setSearchOpen(false)}
-              className="text-[#010721] hover:bg-[#f0f0f0] p-1 rounded"
-            >
-              <X size={16} />
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={() => setSearchOpen(true)}
-            className="lg:hidden text-[#010721] w-8 h-8 lg:w-[40px] lg:h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center flex-shrink-0"
-          >
-            {ECHOPAY_SVG().searchIcon({
-              className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-            })}
-          </button>
-        )}
+        {/* Mobile search button */}
+        <button
+          onClick={() => setSearchOpen(true)}
+          className="lg:hidden text-[#010721] w-8 h-8 lg:w-[40px] lg:h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center flex-shrink-0"
+        >
+          {ECHOPAY_SVG().searchIcon({
+            className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+          })}
+        </button>
 
-        {/* Notification icon - smaller on mobile */}
+        {/* Notification icon */}
         <div className="w-8 h-8 lg:w-[40px] lg:h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center flex-shrink-0">
           {ECHOPAY_SVG().bellIcon({
             className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
           })}
         </div>
 
-        {/* Separator - hidden on mobile */}
+        {/* Separator */}
         <Separator
           orientation="vertical"
           className="hidden lg:block border-l border-[#E0E0E0] h-[32px]"
         />
 
-        {/* Profile dropdown */}
+        {/* Mobile menu icon */}
         <button
           onClick={toggleSidebar}
           className="lg:hidden text-[#010721] w-8 h-8 lg:w-[40px] lg:h-[40px] border border-[#E0E0E0] rounded-[40px] flex items-center justify-center flex-shrink-0"
         >
           <MenuIcon size={18} />
         </button>
+
+        {/* Profile dropdown */}
         <div
           className="relative hidden lg:inline-block text-left"
           ref={dropdownRef}
@@ -160,6 +140,37 @@ const Header = () => {
           )}
         </div>
       </div>
+
+      {/* 🔍 Mobile Search Modal */}
+      {searchOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex flex-col items-center transition-opacity duration-300 animate-fadeIn"
+          onClick={() => setSearchOpen(false)}
+        >
+          <div
+            className="bg-white w-[90%] mt-8 p-3 rounded-[40px] flex items-center gap-2 shadow-md transition-all duration-300 animate-slideDown"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div>
+              {ECHOPAY_SVG().searchIcon({
+                className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+              })}
+            </div>
+            <input
+              ref={searchRef}
+              type="text"
+              placeholder="Search"
+              className="font-instrument flex-1 text-[#1D1B20] border-0 px-2 py-1 focus-visible:ring-0 focus:outline-none text-[14px] bg-transparent placeholder:text-[#010721] placeholder:font-instrument"
+            />
+            <button
+              onClick={() => setSearchOpen(false)}
+              className="text-[#010721] hover:bg-[#f0f0f0] p-1 rounded"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

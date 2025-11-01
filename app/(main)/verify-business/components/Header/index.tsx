@@ -60,24 +60,32 @@ const Header = () => {
 
         {/* Mobile search toggle */}
         {searchOpen ? (
-          <div className="lg:hidden flex border border-[#E0E0E0] rounded-[40px] p-[8px] items-center gap-2">
-            <div>
-              {ECHOPAY_SVG().searchIcon({
-                className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-              })}
-            </div>
-            <input
-              ref={searchRef}
-              type="text"
-              placeholder="Search"
-              className="font-instrument w-[120px] text-[#1D1B20] border-0 px-1 py-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-none focus:ring-0 focus:outline-0 text-[14px] bg-transparent placeholder:text-[#010721] placeholder:font-instrument"
-            />
-            <button
-              onClick={() => setSearchOpen(false)}
-              className="text-[#010721] hover:bg-[#f0f0f0] p-1 rounded"
+          <div
+            className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex flex-col items-center transition-opacity duration-300 animate-fadeIn"
+            onClick={() => setSearchOpen(false)}
+          >
+            <div
+              className="bg-white w-[90%] mt-8 p-3 rounded-[40px] flex items-center gap-2 shadow-md transition-all duration-300 animate-slideDown"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={16} />
-            </button>
+              <div>
+                {ECHOPAY_SVG().searchIcon({
+                  className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                })}
+              </div>
+              <input
+                ref={searchRef}
+                type="text"
+                placeholder="Search"
+                className="font-instrument flex-1 text-[#1D1B20] border-0 px-2 py-1 focus-visible:ring-0 focus:outline-none text-[14px] bg-transparent placeholder:text-[#010721] placeholder:font-instrument"
+              />
+              <button
+                onClick={() => setSearchOpen(false)}
+                className="text-[#010721] hover:bg-[#f0f0f0] p-1 rounded"
+              >
+                <X size={16} />
+              </button>
+            </div>
           </div>
         ) : (
           <button
