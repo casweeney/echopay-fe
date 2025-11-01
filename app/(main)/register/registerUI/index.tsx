@@ -5,12 +5,22 @@ import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Eye, EyeOff } from "lucide-react";
 import VerificationInput from "@/components/VerificationInput";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
+import { register, resetAuthState } from "@/redux/features/auth/authSlice";
 
 export default function RegisterUI() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { user, loading, error, message } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  console.log(user, loading, error, message);
+
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [formData, setFormData] = useState({
@@ -23,6 +33,13 @@ export default function RegisterUI() {
     confirmPassword: "",
     verificationCode: "",
   });
+
+  useEffect(() => {
+    const savedStep = localStorage.getItem("registrationStep");
+    if (savedStep) {
+      setCurrentStep(Number(savedStep));
+    }
+  }, []);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -73,27 +90,46 @@ export default function RegisterUI() {
     });
   };
 
-  const handleContinue = (e: React.FormEvent) => {
+  const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (currentStep === 1) {
       if (isStep1Valid()) {
         setCompletedSteps([...completedSteps, 1]);
         setCurrentStep(2);
+        localStorage.setItem("registrationStep", "2");
       }
     } else if (currentStep === 2) {
       if (isStep2Valid()) {
         setCompletedSteps([...completedSteps, 2]);
         setCurrentStep(3);
+        localStorage.setItem("registrationStep", "3");
       }
     } else if (currentStep === 3) {
       if (isStep3Valid()) {
         setCompletedSteps([...completedSteps, 3]);
-        setCurrentStep(4);
+        // setCurrentStep(4);
+
+        const payload = {
+          business_name: formData.businessName,
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+        };
+
+        const resultAction = await dispatch(register(payload)).unwrap();
+        console.log("✅ Registration Response:", resultAction);
+
+        if (resultAction && resultAction.status === "success") {
+          setCurrentStep(4);
+          localStorage.setItem("registrationStep", "4");
+        }
       }
     } else if (currentStep === 4) {
       if (isStep4Valid()) {
         console.log("Form submitted:", formData);
+        localStorage.removeItem("registrationStep");
       }
     }
   };

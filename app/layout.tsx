@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Roboto, Instrument_Sans } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -39,7 +40,9 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${roboto.variable} ${instrumentSans.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
