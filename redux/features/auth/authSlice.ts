@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser, loginUser } from "./authAPI";
-import { RegisterPayload, User, LoginPayload } from "@/types/auth";
+import { registerUser, loginUser, verifyUserEmail } from "./authAPI";
+import {
+  RegisterPayload,
+  User,
+  LoginPayload,
+  VerifyEmailPayload,
+} from "@/types/auth";
 import { setAuthToken, clearAuthToken, getAuthToken } from "@/utils/token";
 
 interface AuthState {
@@ -49,6 +54,21 @@ export const login = createAsyncThunk(
   }
 );
 
+// Email Verification Thunk
+export const verifyEmail = createAsyncThunk(
+  "auth/verify-email",
+  async (payload: VerifyEmailPayload, { rejectWithValue }) => {
+    try {
+      const response = await verifyUserEmail(payload);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Email verification failed"
+      );
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -67,6 +87,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Register
       .addCase(register.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -92,6 +113,19 @@ const authSlice = createSlice({
         state.message = "Login successful";
       })
       .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Verify Email
+      .addCase(verifyEmail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload.message;
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

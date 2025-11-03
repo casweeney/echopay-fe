@@ -4,6 +4,8 @@ import {
   RegisterResponse,
   LoginPayload,
   LoginResponse,
+  VerifyEmailPayload,
+  VerifyEmailResponse,
 } from "@/types/auth";
 
 export const registerUser = async (
@@ -21,6 +23,16 @@ export const loginUser = async (
 ): Promise<LoginResponse> => {
   const { data } = await axiosClient.post<LoginResponse>(
     "/auth/login",
+    payload
+  );
+  return data;
+};
+
+export const verifyUserEmail = async (
+  payload: VerifyEmailPayload
+): Promise<VerifyEmailResponse> => {
+  const { data } = await axiosClient.post<VerifyEmailResponse>(
+    "/auth/verify-email",
     payload
   );
   return data;

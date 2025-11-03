@@ -32,3 +32,13 @@ export interface LoginResponse {
   status: string;
   token: string;
 }
+
+export interface VerifyEmailPayload {
+  email: string;
+  code: string;
+}
+
+export interface VerifyEmailResponse {
+  message: string;
+  status: string;
+}
