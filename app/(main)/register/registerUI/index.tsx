@@ -12,6 +12,7 @@ import VerificationInput from "@/components/VerificationInput";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { register, resetAuthState } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 export default function RegisterUI() {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +27,7 @@ export default function RegisterUI() {
     message,
   });
 
+  const route = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [formData, setFormData] = useState({
@@ -36,7 +38,6 @@ export default function RegisterUI() {
     phone: "",
     password: "",
     confirmPassword: "",
-    verificationCode: "",
   });
 
   useEffect(() => {
@@ -82,8 +83,6 @@ export default function RegisterUI() {
     formData.password === formData.confirmPassword &&
     areAllPasswordRequirementsMet();
 
-  const isStep4Valid = () => formData.verificationCode;
-
   const passwordsMatch =
     formData.confirmPassword === "" ||
     formData.password === formData.confirmPassword;
@@ -113,7 +112,6 @@ export default function RegisterUI() {
     } else if (currentStep === 3) {
       if (isStep3Valid()) {
         setCompletedSteps([...completedSteps, 3]);
-        // setCurrentStep(4);
 
         const payload = {
           business_name: formData.businessName,
@@ -127,19 +125,17 @@ export default function RegisterUI() {
         console.log("✅ Registration Response:", resultAction);
 
         if (resultAction && resultAction.status === "success") {
-          setCurrentStep(4);
-          localStorage.setItem("registrationStep", "4");
+          localStorage.setItem(
+            "verificationEmail",
+            resultAction.data.user.email
+          );
+          route.push("/verify-email");
         }
-      }
-    } else if (currentStep === 4) {
-      if (isStep4Valid()) {
-        console.log("Form submitted:", formData);
-        localStorage.removeItem("registrationStep");
       }
     }
   };
 
-  const progressWidth = `${(currentStep / 4) * 100}%`;
+  const progressWidth = `${(currentStep / 3) * 100}%`;
 
   return (
     <div className="flex min-h-screen">
@@ -307,12 +303,10 @@ export default function RegisterUI() {
           {/* Form Header */}
           <div className="mb-8">
             <h2 className="text-[28px] md:text-[34px] lg:text-[34px] font-medium text-[#010721] mb-2 font-roboto">
-              {currentStep === 4 ? "Verify Your Email" : "Create Your Account"}
+              Create Your Account
             </h2>
             <p className="text-[#010721] text-[14px] font-instrument font-normal">
-              {currentStep === 4
-                ? "A 6-digit code has been sent to your email address"
-                : "Let's get to know you"}
+              {"Let's get to know you"}
             </p>
           </div>
 
@@ -527,24 +521,14 @@ export default function RegisterUI() {
               </>
             )}
 
-            {/* Step 4: Verification */}
-            {currentStep === 4 && (
-              <>
-                <VerificationInput />
-              </>
-            )}
-
             <Button
               type="submit"
               disabled={
                 (currentStep === 1 && !isStep1Valid()) ||
                 (currentStep === 2 && !isStep2Valid()) ||
-                (currentStep === 3 && !isStep3Valid()) ||
-                (currentStep === 4 && !isStep4Valid())
+                (currentStep === 3 && !isStep3Valid())
               }
-              className={`${
-                currentStep === 4 ? "hidden" : "block"
-              } w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed`}
+              className="w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continue
             </Button>
