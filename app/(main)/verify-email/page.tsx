@@ -4,17 +4,29 @@ import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
+import { verifyEmail } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 const VerifyEmail = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error, message } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  const route = useRouter();
+
   const [codes, setCodes] = useState(["", "", "", "", "", ""]);
   const [resendTimer, setResendTimer] = useState(0);
+  const [email, setEmail] = useState("");
 
-  const handleVerify = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    console.log(codes);
-  };
+  // 👇 Retrieve email from localStorage (after registration)
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("verificationEmail");
+    if (storedEmail) setEmail(storedEmail);
+  }, []);
 
   const handleCodeChange = (index: number, value: string) => {
     if (value.length > 1) return;
@@ -52,6 +64,18 @@ const VerifyEmail = () => {
         return prev - 1;
       });
     }, 1000);
+  };
+
+  const handleVerify = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const code = codes.join("");
+
+    const response = await dispatch(verifyEmail({ email, code })).unwrap();
+    if (response && response.status === "success") {
+      localStorage.removeItem("verificationEmail");
+      route.push("/login");
+    }
   };
   return (
     <div className="min-h-screen flex mx-auto">
@@ -107,6 +131,7 @@ const VerifyEmail = () => {
           </div>
         </div>
       </div>
+
       {/* Right Side - Form */}
       <div className="w-full lg:w-1/2 bg-[#f8f8f8] py-[5.5rem] px-12 lg:p-12 flex items-center justify-center relative">
         <div className="block lg:hidden absolute top-0 left-0 right-0 h-4 bg-[#0046A7]"></div>

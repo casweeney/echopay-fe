@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuthToken } from "@/utils/token";
 
 const axiosClient = axios.create({
-  baseURL: "https://echopay.onrender.com",
+  baseURL: "    ",
   headers: {
     "Content-Type": "application/json",
   },
