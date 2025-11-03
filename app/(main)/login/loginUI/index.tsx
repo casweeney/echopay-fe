@@ -6,21 +6,48 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ECHOPAY_SVG } from "@/assets/svgs";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
+import { login, resetAuthState } from "@/redux/features/auth/authSlice";
+// import { useRouter } from "next/navigation";
 
 export default function LoginUI() {
+  const dispatch = useDispatch<AppDispatch>();
+  // const router = useRouter();
+  const { loading, error, message, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  console.log("Auth State:", {
+    loading,
+    error,
+    message,
+    isAuthenticated,
+  });
+
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const isButtonDisabled = !email.trim() || !password.trim();
+  const isButtonDisabled = !formData.email.trim() || !formData.password.trim();
 
-  const onLogin = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Login attempted with:", { email, password });
+    const result = await dispatch(login(formData)).unwrap();
 
-    setEmail("");
-    setPassword("");
+    console.log("Login attempted with:", result);
+
+    setFormData({
+      email: "",
+      password: "",
+    });
   };
 
   return (
@@ -105,10 +132,11 @@ export default function LoginUI() {
                   Work Email Address
                 </legend>
                 <Input
+                  name="email"
                   type="email"
                   placeholder="example@gmail.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                   className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
                 />
               </fieldset>
@@ -122,10 +150,11 @@ export default function LoginUI() {
                 </legend>
                 <div className="flex items-center gap-2">
                   <Input
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="****************"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={formData.password}
+                    onChange={handleChange}
                     className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom"
                   />
                   <button

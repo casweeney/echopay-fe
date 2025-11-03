@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAuthToken } from "@/utils/token";
 
 const axiosClient = axios.create({
   baseURL: "https://echopay.onrender.com",
@@ -8,8 +9,10 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  const token = getAuthToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 

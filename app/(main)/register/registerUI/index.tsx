@@ -19,7 +19,12 @@ export default function RegisterUI() {
     (state: RootState) => state.auth
   );
 
-  console.log(user, loading, error, message);
+  console.log("Auth State:", {
+    user,
+    loading,
+    error,
+    message,
+  });
 
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);

@@ -22,3 +22,13 @@ export interface RegisterResponse {
   message: string;
   status: string;
 }
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  status: string;
+  token: string;
+}
