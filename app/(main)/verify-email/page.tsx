@@ -7,7 +7,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { verifyEmail } from "@/redux/features/auth/authSlice";
+import {
+  verifyEmail,
+  resendEmailVerification,
+} from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 
 const VerifyEmail = () => {
@@ -15,6 +18,7 @@ const VerifyEmail = () => {
   const { loading, error, message } = useSelector(
     (state: RootState) => state.auth
   );
+  console.log(loading, error, message);
 
   const route = useRouter();
 
@@ -53,8 +57,9 @@ const VerifyEmail = () => {
     }
   };
 
-  const handleResendCode = () => {
+  const handleResendCode = async () => {
     setResendTimer(30);
+    await dispatch(resendEmailVerification({ email }));
     const interval = setInterval(() => {
       setResendTimer((prev) => {
         if (prev <= 1) {

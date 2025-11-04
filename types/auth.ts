@@ -13,6 +13,7 @@ export interface User {
   phone: string;
   created_at: string;
   updated_at: string;
+  email_verified_at: string | null;
 }
 
 export interface RegisterResponse {
@@ -39,6 +40,15 @@ export interface VerifyEmailPayload {
 }
 
 export interface VerifyEmailResponse {
+  message: string;
+  status: string;
+}
+
+export interface ResendVerificationPayload {
+  email: string;
+}
+
+export interface ResendVerificationResponse {
   message: string;
   status: string;
 }

@@ -6,6 +6,8 @@ import {
   LoginResponse,
   VerifyEmailPayload,
   VerifyEmailResponse,
+  ResendVerificationPayload,
+  ResendVerificationResponse,
 } from "@/types/auth";
 
 export const registerUser = async (
@@ -35,5 +37,16 @@ export const verifyUserEmail = async (
     "/auth/verify-email",
     payload
   );
+  return data;
+};
+
+export const resendUserEmailVerification = async (
+  payload: ResendVerificationPayload
+): Promise<ResendVerificationResponse> => {
+  const { data } = await axiosClient.post<ResendVerificationResponse>(
+    "/auth/resend-verification",
+    payload
+  );
+
   return data;
 };
