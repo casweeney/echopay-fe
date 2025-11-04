@@ -5,13 +5,12 @@ import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Eye, EyeOff } from "lucide-react";
-import VerificationInput from "@/components/VerificationInput";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { register, resetAuthState } from "@/redux/features/auth/authSlice";
+import { register } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 
 export default function RegisterUI() {
@@ -40,13 +39,6 @@ export default function RegisterUI() {
     confirmPassword: "",
   });
 
-  useEffect(() => {
-    const savedStep = localStorage.getItem("registrationStep");
-    if (savedStep) {
-      setCurrentStep(Number(savedStep));
-    }
-  }, []);
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -65,7 +57,6 @@ export default function RegisterUI() {
     { number: 1, name: "Business (Identity)" },
     { number: 2, name: "Contact Details" },
     { number: 3, name: "Password" },
-    { number: 4, name: "Verification" },
   ];
 
   const isStep1Valid = () =>
@@ -101,13 +92,11 @@ export default function RegisterUI() {
       if (isStep1Valid()) {
         setCompletedSteps([...completedSteps, 1]);
         setCurrentStep(2);
-        localStorage.setItem("registrationStep", "2");
       }
     } else if (currentStep === 2) {
       if (isStep2Valid()) {
         setCompletedSteps([...completedSteps, 2]);
         setCurrentStep(3);
-        localStorage.setItem("registrationStep", "3");
       }
     } else if (currentStep === 3) {
       if (isStep3Valid()) {

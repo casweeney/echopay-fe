@@ -45,19 +45,7 @@ export default function ProtectedRoute({
     // ======= RULE 2: Verified users cannot access verify-email again =======
     if (isVerified && pathname === "/verify-email") {
       if (token) {
-        router.replace(
-          "/analytics" ||
-            "audit-logs" ||
-            "/analytics" ||
-            "/audit-logs" ||
-            "/customers" ||
-            "/invoices" ||
-            "/payment-links" ||
-            "/settings" ||
-            "/transactions" ||
-            "/wallet" ||
-            "/verify-business"
-        ); // logged in + verified → dashboard
+        router.replace("/analytics"); // logged in + verified → dashboard
       } else {
         router.replace("/login"); // verified but not logged in → login
       }
@@ -66,19 +54,7 @@ export default function ProtectedRoute({
 
     // ======= RULE 3: Logged-in users cannot access register/login/verify-email =======
     if (token && ["/login", "/register", "/verify-email"].includes(pathname)) {
-      router.replace(
-        "/analytics" ||
-          "audit-logs" ||
-          "/analytics" ||
-          "/audit-logs" ||
-          "/customers" ||
-          "/invoices" ||
-          "/payment-links" ||
-          "/settings" ||
-          "/transactions" ||
-          "/wallet" ||
-          "/verify-business"
-      );
+      router.replace("/analytics");
       return;
     }
 
