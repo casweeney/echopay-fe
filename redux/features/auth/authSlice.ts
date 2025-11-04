@@ -21,8 +21,6 @@ interface AuthState {
   error: string | null;
   message: string | null;
   isAuthenticated: boolean;
-  isRegistered: boolean;
-  isVerified: boolean;
 }
 
 const initialState: AuthState = {
@@ -32,8 +30,6 @@ const initialState: AuthState = {
   error: null,
   message: null,
   isAuthenticated: !!getAuthToken(),
-  isRegistered: false,
-  isVerified: false,
 };
 
 // Register Thunk
@@ -121,7 +117,6 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.data.user;
-        state.isRegistered = !!action.payload.data?.user?.created_at;
         state.message = action.payload.message;
       })
       .addCase(register.rejected, (state, action) => {
@@ -151,7 +146,6 @@ const authSlice = createSlice({
       .addCase(verifyEmail.fulfilled, (state, action) => {
         state.loading = false;
         state.message = action.payload.message;
-        state.isVerified = true;
       })
       .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;

@@ -19,13 +19,6 @@ export default function LoginUI() {
     (state: RootState) => state.auth
   );
 
-  console.log("Auth State:", {
-    loading,
-    error,
-    message,
-    isAuthenticated,
-  });
-
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -44,8 +37,8 @@ export default function LoginUI() {
     const result = await dispatch(login(formData)).unwrap();
 
     if (result.status === "success") {
-      const response = dispatch(fetchUser());
-      console.log(response);
+      const response = await dispatch(fetchUser()).unwrap();
+      console.log(response.data?.user.email_verified_at);
     }
 
     console.log("Login attempted with:", result);
