@@ -1,11 +1,12 @@
 import React from "react";
-import RegisterUI from "./registerUI";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
-export default async function RegisterPage() {
+const AuditLogs = () => {
   return (
     <ProtectedRoute>
-      <RegisterUI />
+      <div>AuditLogs</div>
     </ProtectedRoute>
   );
-}
+};
+
+export default AuditLogs;

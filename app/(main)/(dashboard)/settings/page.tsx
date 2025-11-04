@@ -1,11 +1,12 @@
 import React from "react";
-import RegisterUI from "./registerUI";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
-export default async function RegisterPage() {
+const Settings = () => {
   return (
     <ProtectedRoute>
-      <RegisterUI />
+      <div>Settings</div>
     </ProtectedRoute>
   );
-}
+};
+
+export default Settings;
