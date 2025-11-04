@@ -8,14 +8,14 @@ import Link from "next/link";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { login, resetAuthState } from "@/redux/features/auth/authSlice";
+import { login } from "@/redux/features/auth/authSlice";
 import { fetchUser } from "@/redux/features/user/userSlice";
 // import { useRouter } from "next/navigation";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
   // const router = useRouter();
-  const { loading, error, message, isAuthenticated } = useSelector(
+  const { loading } = useSelector(
     (state: RootState) => state.auth
   );
 
@@ -177,7 +177,7 @@ export default function LoginUI() {
               disabled={isButtonDisabled}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0046a7]"
             >
-              Continue
+              {loading ? "Continue.." : "Continue"}
             </Button>
 
             {/* Sign Up Link */}

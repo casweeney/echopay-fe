@@ -12,7 +12,7 @@ export interface TabsProps {
 }
 
 export interface SideTabsProps {
-  icon: any;
+  icon: unknown;
   name: string;
   className?: string;
   link: string;

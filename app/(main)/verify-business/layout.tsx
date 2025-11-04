@@ -1,4 +1,3 @@
-import Sidebar from "../(dashboard)/components/Sidebar";
 import React from "react";
 import Header from "./components/Header";
 

@@ -16,10 +16,9 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 const VerifyEmail = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, message } = useSelector(
-    (state: RootState) => state.auth
-  );
-  console.log(loading, error, message);
+  // const { loading, error, message } = useSelector(
+  //   (state: RootState) => state.auth
+  // );
 
   const route = useRouter();
 

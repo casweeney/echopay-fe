@@ -18,12 +18,12 @@ import { X } from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname() || "/";
-  const { isOpen, closeSidebar, toggleSidebar } = useSidebar();
+  const { isOpen, closeSidebar } = useSidebar();
 
   // Close sidebar automatically when navigating to a new route
   useEffect(() => {
     closeSidebar();
-  }, [pathname]);
+  }, [pathname, closeSidebar]);
 
   const isActive = (link: string) => {
     if (link === "/") return pathname === "/";
@@ -77,7 +77,7 @@ const Sidebar = () => {
                       active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
                     }`}
                   >
-                    <div>{tab.icon}</div>
+                    <div>{tab.icon as React.ReactNode}</div>
                     <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
                       {tab.name}
                     </span>
@@ -102,7 +102,7 @@ const Sidebar = () => {
                       active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
                     }`}
                   >
-                    <div>{tab.icon}</div>
+                    <div>{tab.icon as React.ReactNode}</div>
                     <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
                       {tab.name}
                     </span>
@@ -180,7 +180,7 @@ const Sidebar = () => {
                       active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
                     }`}
                   >
-                    <div>{tab.icon}</div>
+                    <div>{tab.icon as React.ReactNode}</div>
                     <span className="text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
                       {tab.name}
                     </span>
@@ -205,7 +205,7 @@ const Sidebar = () => {
                       active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
                     }`}
                   >
-                    <div>{tab.icon}</div>
+                    <div>{tab.icon as React.ReactNode}</div>
                     <span className="text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
                       {tab.name}
                     </span>

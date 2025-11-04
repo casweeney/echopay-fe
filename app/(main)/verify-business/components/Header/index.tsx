@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Separator } from "@/components/ui/separator";
-import { MenuIcon, X } from "lucide-react";
+import { X } from "lucide-react";
 import Link from "next/link";
 
 const Header = () => {

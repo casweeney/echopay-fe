@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useState } from "react";
-import { X, ArrowRight, CheckCircle2, Circle } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 

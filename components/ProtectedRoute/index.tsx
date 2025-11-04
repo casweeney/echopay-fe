@@ -110,7 +110,7 @@ export default function ProtectedRoute({
     };
 
     handleProtectedRoute();
-  }, [token, pathname, router]);
+  }, [token, pathname, router, dispatch, isAuthenticated]);
 
   return <>{children}</>;
 }
