@@ -1,7 +1,12 @@
 import React from "react";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const AuditLogs = () => {
-  return <div>AuditLogs</div>;
+  return (
+    <ProtectedRoute>
+      <div>AuditLogs</div>
+    </ProtectedRoute>
+  );
 };
 
 export default AuditLogs;

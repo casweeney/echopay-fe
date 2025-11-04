@@ -1,7 +1,12 @@
 import React from "react";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const Settings = () => {
-  return <div>Settings</div>;
+  return (
+    <ProtectedRoute>
+      <div>Settings</div>
+    </ProtectedRoute>
+  );
 };
 
 export default Settings;
