@@ -9,6 +9,7 @@ import { ECHOPAY_SVG } from "@/assets/svgs";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { login, resetAuthState } from "@/redux/features/auth/authSlice";
+import { fetchUser } from "@/redux/features/user/userSlice";
 // import { useRouter } from "next/navigation";
 
 export default function LoginUI() {
@@ -41,6 +42,11 @@ export default function LoginUI() {
     e.preventDefault();
 
     const result = await dispatch(login(formData)).unwrap();
+
+    if (result.status === "success") {
+      const response = dispatch(fetchUser());
+      console.log(response);
+    }
 
     console.log("Login attempted with:", result);
 

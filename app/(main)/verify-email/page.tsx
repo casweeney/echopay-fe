@@ -30,7 +30,12 @@ const VerifyEmail = () => {
   // 👇 Retrieve email from localStorage (after registration)
   useEffect(() => {
     const storedEmail = localStorage.getItem("verificationEmail");
-    if (storedEmail) setEmail(storedEmail);
+    const pendingEmail = localStorage.getItem("pendingEmail");
+    
+    // Prefer storedEmail, fallback to pendingEmail, otherwise use empty string
+    if (storedEmail || pendingEmail) {
+      setEmail(storedEmail ?? pendingEmail ?? "");
+    }
   }, []);
 
   const handleCodeChange = (index: number, value: string) => {
