@@ -4,6 +4,7 @@
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import type { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 export default function ProtectedRoute({
   children,
