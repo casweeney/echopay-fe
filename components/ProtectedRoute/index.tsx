@@ -18,17 +18,18 @@ export default function ProtectedRoute({
   const { isAuthenticated, token } = useSelector(
     (state: RootState) => state.auth
   );
+  const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     const handleProtectedRoute = async () => {
       const jwt = getAuthToken();
-      const response = await dispatch(fetchUser()).unwrap();
-      console.log(response);
+      await dispatch(fetchUser()).unwrap();
+      console.log(user);
 
       if (jwt) {
         // If email not verified
-        if (token && !response?.data?.user.email_verified_at) {
+        if (token && !user?.email_verified_at) {
           const decoded = decodeJWT(jwt);
 
           if (decoded?.email) {
@@ -36,12 +37,9 @@ export default function ProtectedRoute({
           }
 
           router.push("/verify-email");
-        } else if (
-          (!token || !isAuthenticated) &&
-          !response.data?.user.email_verified_at
-        ) {
+        } else if ((!token || !isAuthenticated) && !user?.email_verified_at) {
           router.push("/login");
-        } else if (pathname === "/verify-email" && response?.data?.user) {
+        } else if (pathname === "/verify-email" && user) {
           router.push("/analytics");
         }
       } else {
@@ -51,7 +49,7 @@ export default function ProtectedRoute({
 
       // ======= RULE 1: Unregistered users cannot access verify-email or dashboard =======
       if (
-        !response.data?.user.created_at &&
+        !user?.created_at &&
         (pathname === "/verify-email" ||
           pathname.startsWith("/analytics") ||
           pathname.startsWith("/audit-logs") ||
@@ -68,10 +66,7 @@ export default function ProtectedRoute({
       }
 
       // ======= RULE 2: Verified users cannot access verify-email again =======
-      if (
-        response.data?.user.email_verified_at &&
-        pathname === "/verify-email"
-      ) {
+      if (user?.email_verified_at && pathname === "/verify-email") {
         if (isAuthenticated || token) {
           router.replace("/analytics"); // logged in + verified → dashboard
         } else if (!isAuthenticated || !token) {
@@ -83,7 +78,7 @@ export default function ProtectedRoute({
       // ======= RULE 3: Logged-in users cannot access register/login/verify-email =======
       if (
         (isAuthenticated || token) &&
-        response.data?.user.email_verified_at &&
+        user?.email_verified_at &&
         ["/login", "/register", "/verify-email"].includes(pathname)
       ) {
         router.replace("/analytics");
@@ -102,7 +97,7 @@ export default function ProtectedRoute({
           pathname.startsWith("/transactions") ||
           pathname.startsWith("/wallet") ||
           pathname.startsWith("/verify-business")) &&
-        response.data?.user.email_verified_at
+        user?.email_verified_at
       ) {
         router.replace("/login");
         return;
