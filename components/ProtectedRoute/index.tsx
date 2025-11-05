@@ -1,4 +1,3 @@
-// src/components/ProtectedRoute.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -20,6 +19,10 @@ export default function ProtectedRoute({
   );
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
+  const recentlyVerified =
+    typeof window !== "undefined"
+      ? localStorage.getItem("emailVerifiedRecently")
+      : null;
 
   useEffect(() => {
     const handleProtectedRoute = async () => {
@@ -44,7 +47,9 @@ export default function ProtectedRoute({
         }
       } else {
         // Not logged in
-        if (pathname.startsWith("/analytics")) router.push("/login");
+        if (pathname.startsWith("/analytics")) {
+          router.push("/login");
+        }
       }
 
       // ======= RULE 1: Unregistered users cannot access verify-email or dashboard =======
@@ -102,10 +107,19 @@ export default function ProtectedRoute({
         router.replace("/login");
         return;
       }
+
+      // ======= RULE 5: Email verification success page =======
+      if (pathname === "/verification-success") {
+        // If user has not just verified email or not logged in
+        if (!recentlyVerified) {
+          router.push("/login");
+          return;
+        }
+      }
     };
 
     handleProtectedRoute();
-  }, [token, pathname, router, dispatch, isAuthenticated]);
+  }, [token, pathname, router, dispatch, isAuthenticated, recentlyVerified]);
 
   return <>{children}</>;
 }

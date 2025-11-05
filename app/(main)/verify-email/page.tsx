@@ -30,7 +30,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const storedEmail = localStorage.getItem("verificationEmail");
     const pendingEmail = localStorage.getItem("pendingEmail");
-    
+
     // Prefer storedEmail, fallback to pendingEmail, otherwise use empty string
     if (storedEmail || pendingEmail) {
       setEmail(storedEmail ?? pendingEmail ?? "");
@@ -84,7 +84,11 @@ const VerifyEmail = () => {
     const response = await dispatch(verifyEmail({ email, code })).unwrap();
     if (response && response.status === "success") {
       localStorage.removeItem("verificationEmail");
-      route.push("/login");
+      localStorage.removeItem("pendingEmail");
+      if (typeof window !== "undefined") {
+        localStorage.setItem("emailVerifiedRecently", "true");
+      }
+      route.push("/verification-success");
     }
   };
   return (
