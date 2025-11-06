@@ -6,7 +6,6 @@ import type { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthToken } from "@/utils/token";
 import { decodeJWT } from "@/utils/jwt";
-import { fetchUser } from "@/redux/features/user/userSlice";
 export default function ProtectedRoute({
   children,
 }: {
@@ -27,7 +26,6 @@ export default function ProtectedRoute({
   useEffect(() => {
     const handleProtectedRoute = async () => {
       const jwt = getAuthToken();
-      await dispatch(fetchUser()).unwrap();
       console.log(user);
 
       if (jwt) {
