@@ -6,8 +6,13 @@ import { Separator } from "@/components/ui/separator";
 import { useSidebar } from "@/context/SidebarContext";
 import { MenuIcon, X } from "lucide-react";
 import Link from "next/link";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
 
 const Header = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -33,6 +38,10 @@ const Header = () => {
       setTimeout(() => searchRef.current?.focus(), 150);
     }
   }, [searchOpen]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <div className="border-b border-[#E0E0E0] px-4 lg:px-[24px] py-3 lg:py-[16px] flex justify-between items-center gap-2 lg:gap-0">
@@ -131,6 +140,7 @@ const Header = () => {
                   <a
                     href="#"
                     className="block px-4 py-2 hover:bg-gray-100 text-red-500"
+                    onClick={handleLogout}
                   >
                     Logout
                   </a>

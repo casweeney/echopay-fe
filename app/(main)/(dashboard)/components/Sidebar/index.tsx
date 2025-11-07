@@ -72,7 +72,7 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue={business?.id}>
+          <Select defaultValue={business?.id || ""}>
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
             </SelectTrigger>
@@ -183,7 +183,7 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue={business?.id}>
+          <Select defaultValue={business?.id || ""}>
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
             </SelectTrigger>
