@@ -2,46 +2,45 @@ import { useState } from "react";
 import { Eye, EyeOff, Copy, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { createURL } from "@/redux/features/webhookURL/webhookSlice";
 
 export const WebhookSettings = () => {
-  const [webhookUrl, setWebhookUrl] = useState(
-    "https://yourdomain.com/webhooks/payments"
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, data, error } = useSelector(
+    (state: RootState) => state.webhook
   );
+  const { business } = useSelector((state: RootState) => state.business);
+  const [url, setUrl] = useState("");
   const [isSecretVisible, setIsSecretVisible] = useState(false);
   const { toast } = useToast();
 
-  const secretKey = "whsec_1234567890abcdefghijklmnopqrstuvwxyz";
-
   const handleCopySecret = () => {
-    navigator.clipboard.writeText(secretKey);
-    toast({
-      title: "Copied to clipboard",
-      description: "Secret key has been copied successfully.",
-    });
+    const secret = data?.data?.secret ?? "";
+    navigator.clipboard.writeText(secret);
   };
 
-  const handleSaveWebhook = () => {
-    toast({
-      title: "Webhook URL saved",
-      description: "Your webhook settings have been updated.",
-    });
+  const handleSaveWebhook = async () => {
+    const business_id = business?.id;
+    if (business_id) {
+      await dispatch(
+        createURL({
+          business_id,
+          url,
+        })
+      );
+    }
+    // toast({
+    //   title: "Webhook URL saved",
+    //   description: "Your webhook settings have been updated.",
+    // });
   };
 
-  const handleTestWebhook = () => {
-    toast({
-      title: "Testing webhook",
-      description: "A test event has been sent to your webhook URL.",
-    });
-  };
+  const handleTestWebhook = () => {};
 
-  const handleRegenerateSecret = () => {
-    toast({
-      title: "Secret key regenerated",
-      description: "A new secret key has been generated.",
-    });
-  };
+  const handleRegenerateSecret = () => {};
 
   return (
     <div className="border border-[#E0E0E0] rounded-[12px] p-[16px]">
@@ -67,8 +66,8 @@ export const WebhookSettings = () => {
               name="webhook-url"
               id="webhook-url"
               type="url"
-              value={webhookUrl}
-              onChange={(e) => setWebhookUrl(e.target.value)}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
               placeholder="https://yourdomain.com/webhooks/payments"
               className="w-full font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
             />
@@ -81,7 +80,7 @@ export const WebhookSettings = () => {
           </div>
           <div className="flex items-center gap-2">
             <div className="font-mono h-[40px] flex items-center text-sm tracking-[0.25px] align-middle text-[#010721] bg-[#F2F2F2] px-[8px] py-[6px] rounded-[8px]">
-              {isSecretVisible ? secretKey : "• ".repeat(19)}
+              {isSecretVisible ? data?.data.secret : "•".repeat(19)}
             </div>
             <Button
               variant="ghost"
