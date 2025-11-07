@@ -10,7 +10,6 @@ import { ProfileSettings } from "./components/Profile";
 import { NotificationSettings } from "./components/Notification";
 import { SecuritySettings } from "./components/Security";
 import { CreateApiKeyDialog } from "./components/CreateApiKeyModal";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useDispatch, useSelector } from "react-redux";
@@ -100,6 +99,7 @@ const Settings = () => {
                 <div className="space-y-4">
                   {keys.map((key) => (
                     <ApiKeyCard
+                      key={key.id}
                       title={key.name}
                       apiKey={key.secret_key}
                       createdDate={key.created_at}

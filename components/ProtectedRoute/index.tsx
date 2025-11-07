@@ -116,7 +116,15 @@ export default function ProtectedRoute({
     };
 
     handleProtectedRoute();
-  }, [token, pathname, router, dispatch, isAuthenticated, recentlyVerified]);
+  }, [
+    token,
+    pathname,
+    router,
+    dispatch,
+    isAuthenticated,
+    recentlyVerified,
+    user,
+  ]);
 
   return <>{children}</>;
 }

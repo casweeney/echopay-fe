@@ -8,8 +8,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Eye, EyeOff } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/redux/store";
 import { register } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 

@@ -9,13 +9,11 @@ import { createURL } from "@/redux/features/webhookURL/webhookSlice";
 
 export const WebhookSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, data, error } = useSelector(
-    (state: RootState) => state.webhook
-  );
+  const { data } = useSelector((state: RootState) => state.webhook);
   const { business } = useSelector((state: RootState) => state.business);
   const [url, setUrl] = useState("");
   const [isSecretVisible, setIsSecretVisible] = useState(false);
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
   const handleCopySecret = () => {
     const secret = data?.data?.secret ?? "";
