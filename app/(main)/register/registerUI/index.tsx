@@ -8,23 +8,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Eye, EyeOff } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/redux/store";
 import { register } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 
 export default function RegisterUI() {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, loading, error, message } = useSelector(
-    (state: RootState) => state.auth
-  );
-
-  console.log("Auth State:", {
-    user,
-    loading,
-    error,
-    message,
-  });
+  // const { user, loading, error, message } = useSelector(
+  //   (state: RootState) => state.auth
+  // );
 
   const route = useRouter();
   const [currentStep, setCurrentStep] = useState(1);

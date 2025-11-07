@@ -15,10 +15,40 @@ import {
 } from "@/components/ui/select";
 import { useSidebar } from "@/context/SidebarContext";
 import { X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
+import {
+  fetchBusinesses,
+  fetchCurrentBusiness,
+} from "@/redux/features/business/businessSlice";
 
 const Sidebar = () => {
   const pathname = usePathname() || "/";
   const { isOpen, closeSidebar } = useSidebar();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  // 👇 get user from store
+  const { user } = useSelector((state: RootState) => state.user);
+
+  // 👇 get businesses from store
+  const { business, businesses, loading, error } = useSelector(
+    (state: RootState) => state.business
+  );
+
+  console.log(businesses[0]);
+  console.log(business);
+
+  useEffect(() => {
+    const handleBusiness = async () => {
+      if (user) {
+        await dispatch(fetchBusinesses());
+        await dispatch(fetchCurrentBusiness());
+      }
+    };
+
+    handleBusiness();
+  }, [dispatch, user]);
 
   // Close sidebar automatically when navigating to a new route
   useEffect(() => {
@@ -42,20 +72,32 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue="myBusiness">
+          <Select defaultValue={business?.id}>
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="myBusiness">
-                  <div className="flex items-center space-x-2">
-                    <div>{ECHOPAY_SVG().shopIcon()}</div>
-                    <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
-                      My Business
-                    </span>
-                  </div>
-                </SelectItem>
+                {loading && (
+                  <SelectItem value="loading" disabled>
+                    Loading businesses...
+                  </SelectItem>
+                )}
+                {error && (
+                  <SelectItem value="error" disabled>
+                    Failed to load
+                  </SelectItem>
+                )}
+                {businesses.map((biz) => (
+                  <SelectItem key={biz?.id} value={biz?.id}>
+                    <div className="flex items-center space-x-2">
+                      <div>{ECHOPAY_SVG().shopIcon()}</div>
+                      <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                        {biz?.name}
+                      </span>
+                    </div>
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>

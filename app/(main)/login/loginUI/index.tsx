@@ -10,14 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/features/auth/authSlice";
 import { fetchUser } from "@/redux/features/user/userSlice";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
-  // const router = useRouter();
-  const { loading } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const router = useRouter();
+  const { loading } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.user);
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,19 +33,15 @@ export default function LoginUI() {
   const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = await dispatch(login(formData)).unwrap();
+    const response = await dispatch(login(formData)).unwrap();
 
-    if (result.status === "success") {
-      const response = await dispatch(fetchUser()).unwrap();
-      console.log(response.data?.user.email_verified_at);
+    if (response.status === "success") {
+      router.push("/analytics");
+      await dispatch(fetchUser()).unwrap();
+      console.log(user?.email_verified_at);
     }
 
-    console.log("Login attempted with:", result);
-
-    setFormData({
-      email: "",
-      password: "",
-    });
+    console.log("Login attempted with:", response);
   };
 
   return (
@@ -174,7 +169,7 @@ export default function LoginUI() {
             {/* Continue Button */}
             <Button
               type="submit"
-              disabled={isButtonDisabled}
+              disabled={isButtonDisabled || loading}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0046a7]"
             >
               {loading ? "Continue.." : "Continue"}

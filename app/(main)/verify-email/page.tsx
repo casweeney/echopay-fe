@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/redux/store";
 import {
   verifyEmail,
   resendEmailVerification,
@@ -30,7 +30,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const storedEmail = localStorage.getItem("verificationEmail");
     const pendingEmail = localStorage.getItem("pendingEmail");
-    
+
     // Prefer storedEmail, fallback to pendingEmail, otherwise use empty string
     if (storedEmail || pendingEmail) {
       setEmail(storedEmail ?? pendingEmail ?? "");
@@ -84,7 +84,11 @@ const VerifyEmail = () => {
     const response = await dispatch(verifyEmail({ email, code })).unwrap();
     if (response && response.status === "success") {
       localStorage.removeItem("verificationEmail");
-      route.push("/login");
+      localStorage.removeItem("pendingEmail");
+      if (typeof window !== "undefined") {
+        localStorage.setItem("emailVerifiedRecently", "true");
+      }
+      route.push("/verification-success");
     }
   };
   return (
