@@ -10,11 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/features/auth/authSlice";
 import { fetchUser } from "@/redux/features/user/userSlice";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
-  // const router = useRouter();
+  const router = useRouter();
   const { loading } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -36,6 +36,7 @@ export default function LoginUI() {
     const response = await dispatch(login(formData)).unwrap();
 
     if (response.status === "success") {
+      router.push("/analytics");
       await dispatch(fetchUser()).unwrap();
       console.log(user?.email_verified_at);
     }
@@ -168,7 +169,7 @@ export default function LoginUI() {
             {/* Continue Button */}
             <Button
               type="submit"
-              disabled={isButtonDisabled}
+              disabled={isButtonDisabled || loading}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0046a7]"
             >
               {loading ? "Continue.." : "Continue"}

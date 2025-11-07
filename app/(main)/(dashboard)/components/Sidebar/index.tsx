@@ -17,7 +17,10 @@ import { useSidebar } from "@/context/SidebarContext";
 import { X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { fetchBusinesses } from "@/redux/features/business/businessSlice";
+import {
+  fetchBusinesses,
+  fetchCurrentBusiness,
+} from "@/redux/features/business/businessSlice";
 
 const Sidebar = () => {
   const pathname = usePathname() || "/";
@@ -29,16 +32,22 @@ const Sidebar = () => {
   const { user } = useSelector((state: RootState) => state.user);
 
   // 👇 get businesses from store
-  const { businesses, loading, error } = useSelector(
+  const { business, businesses, loading, error } = useSelector(
     (state: RootState) => state.business
   );
 
   console.log(businesses[0]);
+  console.log(business);
 
   useEffect(() => {
-    if (user) {
-      dispatch(fetchBusinesses());
-    }
+    const handleBusiness = async () => {
+      if (user) {
+        await dispatch(fetchBusinesses());
+        await dispatch(fetchCurrentBusiness());
+      }
+    };
+
+    handleBusiness();
   }, [dispatch, user]);
 
   // Close sidebar automatically when navigating to a new route
@@ -63,7 +72,7 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue={businesses[0]?.id}>
+          <Select defaultValue={business?.id}>
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
             </SelectTrigger>

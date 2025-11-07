@@ -9,11 +9,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 
 interface CreateApiKeyDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreateKey: (name: string, business_id: string) => void;
+  onCreateKey: (business_id: string, name: string) => void;
 }
 
 export const CreateApiKeyDialog = ({
@@ -21,13 +23,14 @@ export const CreateApiKeyDialog = ({
   onOpenChange,
   onCreateKey,
 }: CreateApiKeyDialogProps) => {
+  const { business } = useSelector((state: RootState) => state.business);
+
   const [keyName, setKeyName] = useState("");
-  const business_id = "123";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (keyName) {
-      onCreateKey(keyName, business_id);
+    if (keyName && business?.id) {
+      onCreateKey(business.id, keyName);
       setKeyName("");
       onOpenChange(false);
     }
@@ -66,7 +69,7 @@ export const CreateApiKeyDialog = ({
           <Button
             type="submit"
             className="w-full h-14 text-base bg-[#0046A7] hover:bg-[#0046A7] text-white"
-            disabled={!keyName}
+            disabled={!keyName || !business?.id}
           >
             Create Key
           </Button>

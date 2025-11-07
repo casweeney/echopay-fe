@@ -3,13 +3,15 @@ export interface CreateKeyPayload {
   name: string;
 }
 
+export interface CreateKeyData {
+  api_key: string;
+  business_id: string;
+  id: string;
+  name: string;
+}
+
 export interface CreateKeyResponse {
-  data: {
-    api_key: string;
-    business_id: string;
-    id: string;
-    name: string;
-  };
+  data: CreateKeyData;
   message: string;
   status: string;
 }
@@ -18,7 +20,7 @@ export interface ApiKey {
   business_id: string;
   created_at: string;
   id: string;
-  last_used_at: string | null;
+  last_used_at: string;
   name: string;
   secret_key: string;
   updated_at: string;

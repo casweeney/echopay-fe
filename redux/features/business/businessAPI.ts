@@ -1,5 +1,8 @@
 import axiosClient from "@/lib/axiosClient";
-import { GetBusinessesResponse } from "@/types/business";
+import {
+  GetBusinessesResponse,
+  CurrentBusinessResponse,
+} from "@/types/business";
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
   const { data } = await axiosClient.get<GetBusinessesResponse>(
@@ -7,3 +10,12 @@ export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
   );
   return data;
 };
+
+export const getCurrentBusiness =
+  async (): Promise<CurrentBusinessResponse> => {
+    const { data } = await axiosClient.get<CurrentBusinessResponse>(
+      "/api/v1/businesses/current"
+    );
+
+    return data;
+  };

@@ -15,9 +15,9 @@ import { useRouter } from "next/navigation";
 
 export default function RegisterUI() {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, loading, error, message } = useSelector(
-    (state: RootState) => state.auth
-  );
+  // const { user, loading, error, message } = useSelector(
+  //   (state: RootState) => state.auth
+  // );
 
   const route = useRouter();
   const [currentStep, setCurrentStep] = useState(1);

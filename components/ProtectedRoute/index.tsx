@@ -26,7 +26,6 @@ export default function ProtectedRoute({
   useEffect(() => {
     const handleProtectedRoute = async () => {
       const jwt = getAuthToken();
-      console.log(user);
 
       if (jwt) {
         // If email not verified
@@ -37,7 +36,7 @@ export default function ProtectedRoute({
             localStorage.setItem("pendingEmail", decoded.email);
           }
 
-          router.push("/verify-email");
+          // router.push("/verify-email");
         } else if ((!token || !isAuthenticated) && !user?.email_verified_at) {
           router.push("/login");
         } else if (pathname === "/verify-email" && user) {
@@ -51,22 +50,22 @@ export default function ProtectedRoute({
       }
 
       // ======= RULE 1: Unregistered users cannot access verify-email or dashboard =======
-      if (
-        !user?.created_at &&
-        (pathname === "/verify-email" ||
-          pathname.startsWith("/analytics") ||
-          pathname.startsWith("/audit-logs") ||
-          pathname.startsWith("/customers") ||
-          pathname.startsWith("/invoices") ||
-          pathname.startsWith("/payment-links") ||
-          pathname.startsWith("/settings") ||
-          pathname.startsWith("/transactions") ||
-          pathname.startsWith("/wallet") ||
-          pathname.startsWith("/verify-business"))
-      ) {
-        router.replace("/register");
-        return;
-      }
+      // if (
+      //   !user?.created_at &&
+      //   (pathname === "/verify-email" ||
+      //     pathname.startsWith("/analytics") ||
+      //     pathname.startsWith("/audit-logs") ||
+      //     pathname.startsWith("/customers") ||
+      //     pathname.startsWith("/invoices") ||
+      //     pathname.startsWith("/payment-links") ||
+      //     pathname.startsWith("/settings") ||
+      //     pathname.startsWith("/transactions") ||
+      //     pathname.startsWith("/wallet") ||
+      //     pathname.startsWith("/verify-business"))
+      // ) {
+      //   router.replace("/register");
+      //   return;
+      // }
 
       // ======= RULE 2: Verified users cannot access verify-email again =======
       if (user?.email_verified_at && pathname === "/verify-email") {
@@ -80,7 +79,7 @@ export default function ProtectedRoute({
 
       // ======= RULE 3: Logged-in users cannot access register/login/verify-email =======
       if (
-        (isAuthenticated || token) &&
+        token &&
         user?.email_verified_at &&
         ["/login", "/register", "/verify-email"].includes(pathname)
       ) {
@@ -90,7 +89,7 @@ export default function ProtectedRoute({
 
       // ======= RULE 4: Unauthenticated verified users cannot access dashboard =======
       if (
-        (!isAuthenticated || !token) &&
+        !token &&
         (pathname.startsWith("/analytics") ||
           pathname.startsWith("/audit-logs") ||
           pathname.startsWith("/customers") ||

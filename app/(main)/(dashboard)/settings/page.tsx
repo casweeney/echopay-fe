@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { SettingsTabs } from "./components/SettingsTabs";
 import { ApiKeyCard } from "./components/ApiKeyCard";
@@ -12,23 +13,49 @@ import { CreateApiKeyDialog } from "./components/CreateApiKeyModal";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import {
+  createKey,
+  deleteKey,
+  fetchApiKeys,
+} from "@/redux/features/apiKey/apiKeySlice";
 
 const Settings = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { keys } = useSelector((state: RootState) => state.apiKey);
+  const { business } = useSelector((state: RootState) => state.business);
+
+  console.log(keys);
+
   const [activeTab, setActiveTab] = useState("business");
   const [isCreateKeyDialogOpen, setIsCreateKeyDialogOpen] = useState(false);
   const { toast } = useToast();
 
-  const handleCreateKey = (keyName: string, environment: string) => {
+  useEffect(() => {
+    if (business?.id) {
+      dispatch(fetchApiKeys(business.id));
+    }
+  }, [dispatch, business?.id]);
+
+  const handleCreateKey = async (business_id: string, name: string) => {
+    const response = await dispatch(createKey({ business_id, name })).unwrap();
+    console.log(response);
+
+    if (response.id && business?.id) {
+      await dispatch(fetchApiKeys(business?.id));
+    }
     toast({
       title: "API key created",
-      description: `Created ${environment} key: ${keyName}`,
+      description: `Created key: ${name}`,
     });
   };
 
-  const handleDeleteKey = (keyType: string) => {
+  const handleDeleteKey = async (id: string, name: string) => {
+    await dispatch(deleteKey(id));
     toast({
       title: "Delete API key",
-      description: `${keyType} API key would be deleted.`,
+      description: `${name} API key would be deleted.`,
       variant: "destructive",
     });
   };
@@ -71,23 +98,15 @@ const Settings = () => {
                 />
 
                 <div className="space-y-4">
-                  <ApiKeyCard
-                    title="Production API Key"
-                    type="Live"
-                    apiKey="457L-76R5-89UT-23Q1-34D7-67Y2"
-                    createdDate="2024-10-01"
-                    lastUsedDate="2025-10-15"
-                    onDelete={() => handleDeleteKey("Production")}
-                  />
-
-                  <ApiKeyCard
-                    title="Test API Key"
-                    type="Test"
-                    apiKey="457L-76R5-89UT-23Q1-34D7-67Y2"
-                    createdDate="2024-10-01"
-                    lastUsedDate="2025-10-15"
-                    onDelete={() => handleDeleteKey("Test")}
-                  />
+                  {keys.map((key) => (
+                    <ApiKeyCard
+                      title={key.name}
+                      apiKey={key.secret_key}
+                      createdDate={key.created_at}
+                      lastUsedDate={key.last_used_at}
+                      onDelete={() => handleDeleteKey(key.id, key.name)}
+                    />
+                  ))}
                 </div>
               </div>
 
