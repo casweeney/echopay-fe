@@ -20,6 +20,7 @@ import type { AppDispatch, RootState } from "@/redux/store";
 import {
   fetchBusinesses,
   fetchCurrentBusiness,
+  switchBusiness,
 } from "@/redux/features/business/businessSlice";
 
 const Sidebar = () => {
@@ -55,6 +56,21 @@ const Sidebar = () => {
     closeSidebar();
   }, [pathname, closeSidebar]);
 
+  const handleSwitchBusiness = async (selectedId: string) => {
+    if (!selectedId) return;
+    if (selectedId === business?.id) {
+      console.log("Already active");
+      return;
+    }
+
+    const response = await dispatch(switchBusiness(selectedId)).unwrap();
+
+    if ((response.status = "success")) {
+      await dispatch(fetchCurrentBusiness());
+      await dispatch(fetchCurrentBusiness());
+    }
+  };
+
   const isActive = (link: string) => {
     if (link === "/") return pathname === "/";
     return pathname.startsWith(link);
@@ -72,24 +88,29 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue={business?.id || ""}>
-            <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {loading && (
-                  <SelectItem value="loading" disabled>
-                    Loading businesses...
-                  </SelectItem>
-                )}
-                {error && (
-                  <SelectItem value="error" disabled>
-                    Failed to load
-                  </SelectItem>
-                )}
-                {businesses.map((biz) => (
-                  <SelectItem key={biz?.id} value={biz?.id}>
+          {businesses.map((biz) => (
+            <Select
+              key={biz?.id}
+              defaultValue={business?.id || ""}
+              onValueChange={() => handleSwitchBusiness(biz.id)}
+            >
+              <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {loading && (
+                    <SelectItem value="loading" disabled>
+                      Loading businesses...
+                    </SelectItem>
+                  )}
+                  {error && (
+                    <SelectItem value="error" disabled>
+                      Failed to load
+                    </SelectItem>
+                  )}
+
+                  <SelectItem value={biz?.id}>
                     <div className="flex items-center space-x-2">
                       <div>{ECHOPAY_SVG().shopIcon()}</div>
                       <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
@@ -97,10 +118,10 @@ const Sidebar = () => {
                       </span>
                     </div>
                   </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          ))}
         </div>
 
         <div>
@@ -183,24 +204,29 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue={business?.id || ""}>
-            <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {loading && (
-                  <SelectItem value="loading" disabled>
-                    Loading businesses...
-                  </SelectItem>
-                )}
-                {error && (
-                  <SelectItem value="error" disabled>
-                    Failed to load
-                  </SelectItem>
-                )}
-                {businesses.map((biz) => (
-                  <SelectItem key={biz?.id} value={biz?.id}>
+          {businesses.map((biz) => (
+            <Select
+              key={biz?.id}
+              defaultValue={business?.id || ""}
+              onValueChange={() => handleSwitchBusiness(biz.id)}
+            >
+              <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {loading && (
+                    <SelectItem value="loading" disabled>
+                      Loading businesses...
+                    </SelectItem>
+                  )}
+                  {error && (
+                    <SelectItem value="error" disabled>
+                      Failed to load
+                    </SelectItem>
+                  )}
+
+                  <SelectItem value={biz?.id}>
                     <div className="flex items-center space-x-2">
                       <div>{ECHOPAY_SVG().shopIcon()}</div>
                       <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
@@ -208,10 +234,10 @@ const Sidebar = () => {
                       </span>
                     </div>
                   </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          ))}
         </div>
 
         <div>

@@ -133,3 +133,8 @@ export interface VerificationStatusResponse {
     fully_verified: boolean;
   };
 }
+
+export interface SwitchCurrentBusinessResponse {
+  message: string;
+  status: string;
+}

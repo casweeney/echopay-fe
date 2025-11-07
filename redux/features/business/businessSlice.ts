@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getBusinesses, getCurrentBusiness } from "./businessAPI"; // you'll create this API call next
+import {
+  getBusinesses,
+  getCurrentBusiness,
+  switchCurrentBusiness,
+} from "./businessAPI"; // you'll create this API call next
 import { Business, CurrentBusinessData } from "@/types/business";
 
 interface BusinessState {
@@ -48,6 +52,21 @@ export const fetchCurrentBusiness = createAsyncThunk(
   }
 );
 
+export const switchBusiness = createAsyncThunk(
+  "business/switchCurrentBusiness",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await switchCurrentBusiness(id);
+      console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to switch current business"
+      );
+    }
+  }
+);
+
 const businessSlice = createSlice({
   name: "business",
   initialState,
@@ -87,6 +106,16 @@ const businessSlice = createSlice({
       .addCase(fetchCurrentBusiness.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error as string;
+      })
+      .addCase(switchBusiness.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(switchBusiness.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(switchBusiness.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });

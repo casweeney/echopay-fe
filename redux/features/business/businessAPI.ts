@@ -2,6 +2,7 @@ import axiosClient from "@/lib/axiosClient";
 import {
   GetBusinessesResponse,
   CurrentBusinessResponse,
+  SwitchCurrentBusinessResponse,
 } from "@/types/business";
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
@@ -19,3 +20,13 @@ export const getCurrentBusiness =
 
     return data;
   };
+
+export const switchCurrentBusiness = async (
+  id: string
+): Promise<SwitchCurrentBusinessResponse> => {
+  const { data } = await axiosClient.put<SwitchCurrentBusinessResponse>(
+    `/api/v1/businesses/current/${id}`
+  );
+
+  return data;
+};
