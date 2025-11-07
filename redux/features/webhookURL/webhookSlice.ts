@@ -22,6 +22,7 @@ export const createURL = createAsyncThunk(
   async (payload: CreateWebhookUrlPayload, { rejectWithValue }) => {
     try {
       const response = await createWebhookURL(payload);
+      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(

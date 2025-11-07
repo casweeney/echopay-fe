@@ -13,6 +13,7 @@ import {
   ResendVerificationPayload,
 } from "@/types/auth";
 import { setAuthToken, clearAuthToken, getAuthToken } from "@/utils/token";
+import { persistor } from "@/redux/store";
 
 interface AuthState {
   user: User | null;
@@ -100,6 +101,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      persistor.purge();
     },
     resetAuthState: (state) => {
       state.loading = false;
