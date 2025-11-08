@@ -13,12 +13,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchCountries } from "@/redux/features/region/regionSlice";
 
 const VerifyBusiness = () => {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const { countries, loading } = useSelector(
+    (state: RootState) => state.region
+  );
+
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [formData, setFormData] = useState({
@@ -32,6 +40,14 @@ const VerifyBusiness = () => {
     postalCode: "",
     bvn: "",
   });
+
+  useEffect(() => {
+    const handleRegions = async () => {
+      await dispatch(fetchCountries());
+    };
+
+    handleRegions();
+  }, [dispatch]);
 
   const bvnRequirements = [
     { label: "11 characters", met: formData.bvn.length === 11 },
@@ -252,21 +268,13 @@ const VerifyBusiness = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="nigeria">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Nigeria
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="ghana">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Ghana
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="kenya">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Kenya
-                            </span>
-                          </SelectItem>
+                          {countries.map((country) => (
+                            <SelectItem key={country.id} value={country.id}>
+                              <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                                {country.name}
+                              </span>
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
