@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getCountries } from "./regionAPI"; // you'll create this API call next
-import { Country } from "@/types/region";
+import { getCountries, getStates } from "./regionAPI"; // you'll create this API call next
+import { Country, State } from "@/types/region";
 
 interface RegionState {
   countries: Country[];
+  states: State[];
   loading: boolean;
   error: string | null;
   count: number;
@@ -11,6 +12,7 @@ interface RegionState {
 
 const initialState: RegionState = {
   countries: [],
+  states: [],
   loading: false,
   error: null,
   count: 0,
@@ -24,8 +26,20 @@ export const fetchCountries = createAsyncThunk(
       return response;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data || "Failed to fetch businesses"
+        error.response?.data || "Failed to fetch countries"
       );
+    }
+  }
+);
+
+export const fetchStates = createAsyncThunk(
+  "state/fetchStates",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await getStates(id);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Failed to fetch states");
     }
   }
 );
@@ -55,6 +69,22 @@ const regionSlice = createSlice({
         }
       })
       .addCase(fetchCountries.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchStates.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchStates.fulfilled, (state, action) => {
+        state.loading = false;
+        if (action.payload.status === "ok") {
+          state.states = action.payload.states || [];
+          state.count = action.payload.count || 0;
+        } else {
+          state.error = "Unexpected response format";
+        }
+      })
+      .addCase(fetchStates.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

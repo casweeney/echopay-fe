@@ -18,14 +18,15 @@ import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { fetchCountries } from "@/redux/features/region/regionSlice";
+import {
+  fetchCountries,
+  fetchStates,
+} from "@/redux/features/region/regionSlice";
 
 const VerifyBusiness = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { countries, loading } = useSelector(
-    (state: RootState) => state.region
-  );
+  const { countries, states } = useSelector((state: RootState) => state.region);
 
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -44,10 +45,13 @@ const VerifyBusiness = () => {
   useEffect(() => {
     const handleRegions = async () => {
       await dispatch(fetchCountries());
+      if (formData.country) {
+        await dispatch(fetchStates(formData.country));
+      }
     };
 
     handleRegions();
-  }, [dispatch]);
+  }, [dispatch, formData]);
 
   const bvnRequirements = [
     { label: "11 characters", met: formData.bvn.length === 11 },
@@ -284,7 +288,7 @@ const VerifyBusiness = () => {
                 <div>
                   <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
                     <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#010721] px-1 text-[12px] leading-[100%] font-instrument">
-                      Country
+                      State
                     </legend>
                     <Select
                       name="state"
@@ -298,21 +302,13 @@ const VerifyBusiness = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="fct">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              FCT
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="lagos">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Lagos
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="anambra">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Anambra
-                            </span>
-                          </SelectItem>
+                          {states.map((state) => (
+                            <SelectItem key={state.id} value={state.id}>
+                              <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                                {state.name}
+                              </span>
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>

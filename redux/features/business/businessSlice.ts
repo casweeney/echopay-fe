@@ -28,6 +28,7 @@ export const fetchBusinesses = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBusinesses();
+      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
