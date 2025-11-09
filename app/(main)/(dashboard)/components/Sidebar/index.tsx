@@ -30,15 +30,11 @@ const Sidebar = () => {
     bizId: "",
   });
 
-  console.log(bizness.bizId);
-
   const dispatch = useDispatch<AppDispatch>();
 
-  // 👇 get user from store
   const { user } = useSelector((state: RootState) => state.user);
 
-  // 👇 get businesses from store
-  const { business, businesses, loading, error } = useSelector(
+  const { business, businesses } = useSelector(
     (state: RootState) => state.business
   );
 

@@ -138,3 +138,16 @@ export interface SwitchCurrentBusinessResponse {
   message: string;
   status: string;
 }
+
+export interface BusinessCategory {
+  created_at: string;
+  id: string;
+  name: string;
+  updated_at: string;
+}
+
+export interface BusinessCategoriesResponse {
+  business_categories: BusinessCategory[];
+  count: number;
+  status: string;
+}

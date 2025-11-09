@@ -22,11 +22,17 @@ import {
   fetchCountries,
   fetchStates,
 } from "@/redux/features/region/regionSlice";
+import { fetchBusinessCategories } from "@/redux/features/business/businessSlice";
 
 const VerifyBusiness = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { countries, states } = useSelector((state: RootState) => state.region);
+  const { businessCategories } = useSelector(
+    (state: RootState) => state.business
+  );
+
+  console.log(businessCategories);
 
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -43,6 +49,9 @@ const VerifyBusiness = () => {
   });
 
   useEffect(() => {
+    const response = dispatch(fetchBusinessCategories());
+    console.log(response);
+
     const handleRegions = async () => {
       await dispatch(fetchCountries());
       if (formData.country) {
@@ -192,21 +201,13 @@ const VerifyBusiness = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="farming">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Farming
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="marketing">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Marketing
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="driving">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Driving
-                            </span>
-                          </SelectItem>
+                          {businessCategories.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                                {category.name}
+                              </span>
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>

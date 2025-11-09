@@ -3,6 +3,7 @@ import {
   GetBusinessesResponse,
   CurrentBusinessResponse,
   SwitchCurrentBusinessResponse,
+  BusinessCategoriesResponse,
 } from "@/types/business";
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
@@ -30,3 +31,11 @@ export const switchCurrentBusiness = async (
 
   return data;
 };
+
+export const getBusinessCategories =
+  async (): Promise<BusinessCategoriesResponse> => {
+    const { data } = await axiosClient.get<BusinessCategoriesResponse>(
+      "/api/v1/business-categories"
+    );
+    return data;
+  };
