@@ -4,17 +4,21 @@ import {
   getBusinesses,
   getCurrentBusiness,
   switchCurrentBusiness,
+  verifyUserBusiness,
 } from "./businessAPI";
 import {
   Business,
   BusinessCategory,
   CurrentBusinessData,
+  VerifyBusinessPayload,
+  VerifyBusinessResponse,
 } from "@/types/business";
 
 interface BusinessState {
   business: CurrentBusinessData | null;
   businesses: Business[];
   businessCategories: BusinessCategory[];
+  verifyData: VerifyBusinessResponse | null;
   loading: boolean;
   error: string | null;
   count: number;
@@ -25,6 +29,7 @@ const initialState: BusinessState = {
   business: null,
   businesses: [],
   businessCategories: [],
+  verifyData: null,
   loading: false,
   error: null,
   count: 0,
@@ -92,6 +97,24 @@ export const fetchBusinessCategories = createAsyncThunk(
   }
 );
 
+export const verifyBusiness = createAsyncThunk(
+  "business/verifyBusiness",
+  async (
+    { id, payload }: { id: string; payload: VerifyBusinessPayload },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await verifyUserBusiness(id, payload);
+      console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to verify business"
+      );
+    }
+  }
+);
+
 const businessSlice = createSlice({
   name: "business",
   initialState,
@@ -151,6 +174,17 @@ const businessSlice = createSlice({
         state.businessCategories = action.payload.business_categories || [];
       })
       .addCase(fetchBusinessCategories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(verifyBusiness.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyBusiness.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verifyData = action.payload;
+      })
+      .addCase(verifyBusiness.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

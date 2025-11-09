@@ -4,6 +4,8 @@ import {
   CurrentBusinessResponse,
   SwitchCurrentBusinessResponse,
   BusinessCategoriesResponse,
+  VerifyBusinessResponse,
+  VerifyBusinessPayload,
 } from "@/types/business";
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
@@ -39,3 +41,15 @@ export const getBusinessCategories =
     );
     return data;
   };
+
+export const verifyUserBusiness = async (
+  id: string,
+  payload: VerifyBusinessPayload
+): Promise<VerifyBusinessResponse> => {
+  const { data } = await axiosClient.put<VerifyBusinessResponse>(
+    `/api/v1/businesses/${id}`,
+    payload
+  );
+
+  return data;
+};
