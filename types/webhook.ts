@@ -19,3 +19,19 @@ export interface CreateWebhookUrlResponse {
   message: string;
   status: string;
 }
+
+export interface Webhook {
+  webhook: {
+    business_id: string;
+    created_at: string;
+    id: string;
+    secret: string;
+    updated_at: string;
+    url: string;
+  };
+}
+
+export interface GetWebhookUrlResposne {
+  data: Webhook;
+  status: string;
+}

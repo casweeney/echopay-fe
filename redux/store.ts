@@ -8,6 +8,7 @@ import userReducer from "./features/user/userSlice";
 import businessReducer from "./features/business/businessSlice";
 import apiKeyReducer from "./features/apiKey/apiKeySlice";
 import webhookReducer from "./features/webhookURL/webhookSlice";
+import regionReducer from "./features/region/regionSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -16,13 +17,13 @@ const rootReducer = combineReducers({
   business: businessReducer,
   apiKey: apiKeyReducer,
   webhook: webhookReducer,
+  region: regionReducer,
 });
 
-// Persist config — choose what to persist
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "user", "business"], // only persist these slices
+  whitelist: ["user", "business", "region"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

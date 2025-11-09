@@ -1,17 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createWebhookURL } from "./webhookAPI";
+import { createWebhookURL, getWebhookURL } from "./webhookAPI";
 import {
   CreateWebhookUrlPayload,
   CreateWebhookUrlResponse,
+  Webhook,
 } from "@/types/webhook";
 
 interface WebhookState {
+  fetchedData: Webhook | null;
   data: CreateWebhookUrlResponse | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: WebhookState = {
+  fetchedData: null,
   data: null,
   loading: false,
   error: null,
@@ -28,6 +31,18 @@ export const createURL = createAsyncThunk(
       return rejectWithValue(
         error.response?.data?.message || "Key Creation failed"
       );
+    }
+  }
+);
+
+export const fetchURL = createAsyncThunk(
+  "webhookURL/fetch",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await getWebhookURL(id);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Failed to fetch URL");
     }
   }
 );
@@ -56,6 +71,18 @@ const webhookSlice = createSlice({
       .addCase(createURL.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error as string;
+      })
+      .addCase(fetchURL.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchURL.fulfilled, (state, action) => {
+        state.loading = false;
+        state.fetchedData = action.payload.data;
+      })
+      .addCase(fetchURL.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });

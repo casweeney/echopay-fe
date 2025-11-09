@@ -13,12 +13,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import {
+  fetchCountries,
+  fetchStates,
+} from "@/redux/features/region/regionSlice";
+import {
+  fetchBusinessCategories,
+  verifyBusiness,
+} from "@/redux/features/business/businessSlice";
 
 const VerifyBusiness = () => {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const { countries, states } = useSelector((state: RootState) => state.region);
+  const { business, businessCategories, verifyData } = useSelector(
+    (state: RootState) => state.business
+  );
+
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [formData, setFormData] = useState({
@@ -30,18 +46,32 @@ const VerifyBusiness = () => {
     city: "",
     address: "",
     postalCode: "",
-    bvn: "",
+    // bvn: "",
   });
 
-  const bvnRequirements = [
-    { label: "11 characters", met: formData.bvn.length === 11 },
-    { label: "Numbers (123...)", met: /^\d*$/.test(formData.bvn) },
-  ];
+  useEffect(() => {
+    const response = dispatch(fetchBusinessCategories());
+    console.log(response);
+
+    const handleRegions = async () => {
+      await dispatch(fetchCountries());
+      if (formData.country) {
+        await dispatch(fetchStates(formData.country));
+      }
+    };
+
+    handleRegions();
+  }, [dispatch, formData]);
+
+  // const bvnRequirements = [
+  //   { label: "11 characters", met: formData.bvn.length === 11 },
+  //   { label: "Numbers (123...)", met: /^\d*$/.test(formData.bvn) },
+  // ];
 
   const steps = [
     { number: 1, name: "Business Details" },
     { number: 2, name: "Contact Details" },
-    { number: 3, name: "BVN" },
+    // { number: 3, name: "BVN" },
   ];
 
   const isStep1Valid = () =>
@@ -55,11 +85,11 @@ const VerifyBusiness = () => {
     formData.address &&
     formData.postalCode;
 
-  const areAllPasswordRequirementsMet = () => {
-    return bvnRequirements.every((req) => req.met);
-  };
+  // const areAllBVNRequirementsMet = () => {
+  //   return bvnRequirements.every((req) => req.met);
+  // };
 
-  const isStep3Valid = () => formData.bvn && areAllPasswordRequirementsMet();
+  // const isStep3Valid = () => formData.bvn && areAllBVNRequirementsMet();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement> | string,
@@ -79,7 +109,7 @@ const VerifyBusiness = () => {
     }
   };
 
-  const handleContinue = (e: React.FormEvent) => {
+  const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (currentStep === 1) {
@@ -90,17 +120,33 @@ const VerifyBusiness = () => {
     } else if (currentStep === 2) {
       if (isStep2Valid()) {
         setCompletedSteps([...completedSteps, 2]);
-        setCurrentStep(3);
-      }
-    } else if (currentStep === 3) {
-      if (isStep3Valid()) {
-        console.log("Form submitted:", formData);
-        router.push("/wallet");
+
+        const payload = {
+          phone: formData.phone,
+          city: formData.city,
+          address: formData.address,
+          postal_code: Number(formData.postalCode),
+          website: formData.businessWebsite,
+          business_category_id: formData.businessCategory,
+          state_id: formData.state,
+          country_id: formData.country,
+        };
+
+        const response = await dispatch(
+          verifyBusiness({
+            id: business?.id || "",
+            payload,
+          })
+        ).unwrap();
+        console.log("Form submitted:", response);
+        if (response.status === "success") {
+          router.push("/wallet");
+        }
       }
     }
   };
 
-  const progressWidth = `${(currentStep / 3) * 100}%`;
+  const progressWidth = `${(currentStep / 2) * 100}%`;
 
   return (
     <ProtectedRoute>
@@ -172,21 +218,13 @@ const VerifyBusiness = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="farming">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Farming
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="marketing">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Marketing
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="driving">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Driving
-                            </span>
-                          </SelectItem>
+                          {businessCategories.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
+                                {category.name}
+                              </span>
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -252,21 +290,13 @@ const VerifyBusiness = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="nigeria">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Nigeria
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="ghana">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Ghana
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="kenya">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Kenya
-                            </span>
-                          </SelectItem>
+                          {countries.map((country) => (
+                            <SelectItem key={country.id} value={country.id}>
+                              <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                                {country.name}
+                              </span>
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -276,7 +306,7 @@ const VerifyBusiness = () => {
                 <div>
                   <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
                     <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#010721] px-1 text-[12px] leading-[100%] font-instrument">
-                      Country
+                      State
                     </legend>
                     <Select
                       name="state"
@@ -290,21 +320,13 @@ const VerifyBusiness = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="fct">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              FCT
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="lagos">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Lagos
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="anambra">
-                            <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] !text-[#010721]">
-                              Anambra
-                            </span>
-                          </SelectItem>
+                          {states.map((state) => (
+                            <SelectItem key={state.id} value={state.id}>
+                              <span className="font-instrument text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                                {state.name}
+                              </span>
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -363,75 +385,75 @@ const VerifyBusiness = () => {
             )}
 
             {/* Step 3: BVN */}
-            {currentStep === 3 && (
-              <>
-                <p className="text-[#404040] font-normal text-[12px] lg:text-base leading-[24px] tracking-[0.5px] mb-6">
-                  We need your bank verification to create a virtual bank
-                  account for your business. You will be able to fund your
-                  wallet and start disbursing funds after your BVN is connected.
-                </p>
-                <div>
-                  <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
-                    <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#010721] px-1 text-[12px] leading-[100%] font-instrument">
-                      Bank Verification Number
-                    </legend>
-                    <div className="flex items-center gap-2">
-                      <Input
-                        id="bvn"
-                        name="bvn"
-                        type="number"
-                        placeholder="Enter your BVN"
-                        value={formData.bvn}
-                        onChange={handleInputChange}
-                        className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom placeholder:text-[12px] lg:placeholder:text-[15px]"
-                      />
-                    </div>
-                  </fieldset>
-                </div>
+            {/* {currentStep === 3 && (
+              // <>
+              //   <p className="text-[#404040] font-normal text-[12px] lg:text-base leading-[24px] tracking-[0.5px] mb-6">
+              //     We need your bank verification to create a virtual bank
+              //     account for your business. You will be able to fund your
+              //     wallet and start disbursing funds after your BVN is connected.
+              //   </p>
+              //   <div>
+              //     <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
+              //       <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#010721] px-1 text-[12px] leading-[100%] font-instrument">
+              //         Bank Verification Number
+              //       </legend>
+              //       <div className="flex items-center gap-2">
+              //         <Input
+              //           id="bvn"
+              //           name="bvn"
+              //           type="number"
+              //           placeholder="Enter your BVN"
+              //           value={formData.bvn}
+              //           onChange={handleInputChange}
+              //           className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom placeholder:text-[12px] lg:placeholder:text-[15px]"
+              //         />
+              //       </div>
+              //     </fieldset>
+              //   </div>
 
-                {/* BVN Requirements */}
-                <div className="p-[12px] rounded-[8px] border border-[#E2E2E2] space-y-3">
-                  <p className="text-[12px] lg:text-[14px] font-medium leading-[20px] tracking-[0.1px] text-[#010721] mb-4">
-                    Your BVN should be:
-                  </p>
-                  <div className="space-y-2 font-instrument">
-                    {bvnRequirements.map((req, idx) => (
-                      <div key={idx} className="flex items-center gap-3">
-                        {req.met ? (
-                          <div>
-                            {ECHOPAY_SVG().fillCheck({
-                              className:
-                                "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
-                            })}
-                          </div>
-                        ) : (
-                          <div>
-                            {ECHOPAY_SVG().circleOutline({
-                              className:
-                                "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
-                            })}
-                          </div>
-                        )}
-                        <span
-                          className={`text-[12px] lg:text-[14px] font-normal leading-[20px] tracking-[0.25px] ${
-                            req.met ? "text-[#010721]" : "text-[#828783]"
-                          }`}
-                        >
-                          {req.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
+              //   {/* BVN Requirements */}
+            {/* <div className="p-[12px] rounded-[8px] border border-[#E2E2E2] space-y-3">
+              //     <p className="text-[12px] lg:text-[14px] font-medium leading-[20px] tracking-[0.1px] text-[#010721] mb-4">
+              //       Your BVN should be:
+              //     </p>
+              //     <div className="space-y-2 font-instrument">
+              //       {bvnRequirements.map((req, idx) => (
+              //         <div key={idx} className="flex items-center gap-3">
+              //           {req.met ? (
+              //             <div>
+              //               {ECHOPAY_SVG().fillCheck({
+              //                 className:
+              //                   "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
+              //               })}
+              //             </div>
+              //           ) : (
+              //             <div>
+              //               {ECHOPAY_SVG().circleOutline({
+              //                 className:
+              //                   "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
+              //               })}
+              //             </div>
+              //           )}
+              //           <span
+              //             className={`text-[12px] lg:text-[14px] font-normal leading-[20px] tracking-[0.25px] ${
+              //               req.met ? "text-[#010721]" : "text-[#828783]"
+              //             }`}
+              //           >
+              //             {req.label}
+              //           </span>
+              //         </div>
+              //       ))}
+              //     </div>
+              //   </div> */}
+            {/* // </> */}
+            {/* )} */}
 
             <Button
               type="submit"
               disabled={
                 (currentStep === 1 && !isStep1Valid()) ||
-                (currentStep === 2 && !isStep2Valid()) ||
-                (currentStep === 3 && !isStep3Valid())
+                (currentStep === 2 && !isStep2Valid())
+                // (currentStep === 3 && !isStep3Valid())
               }
               className={`${
                 currentStep === 4 ? "hidden" : "block"

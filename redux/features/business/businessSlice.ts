@@ -1,21 +1,39 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getBusinesses, getCurrentBusiness } from "./businessAPI"; // you'll create this API call next
-import { Business, CurrentBusinessData } from "@/types/business";
+import {
+  getBusinessCategories,
+  getBusinesses,
+  getCurrentBusiness,
+  switchCurrentBusiness,
+  verifyUserBusiness,
+} from "./businessAPI";
+import {
+  Business,
+  BusinessCategory,
+  CurrentBusinessData,
+  VerifyBusinessPayload,
+  VerifyBusinessResponse,
+} from "@/types/business";
 
 interface BusinessState {
   business: CurrentBusinessData | null;
   businesses: Business[];
+  businessCategories: BusinessCategory[];
+  verifyData: VerifyBusinessResponse | null;
   loading: boolean;
   error: string | null;
   count: number;
+  message: string;
 }
 
 const initialState: BusinessState = {
   business: null,
   businesses: [],
+  businessCategories: [],
+  verifyData: null,
   loading: false,
   error: null,
   count: 0,
+  message: "",
 };
 
 // Fetch businesses data
@@ -24,6 +42,7 @@ export const fetchBusinesses = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBusinesses();
+      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -43,6 +62,54 @@ export const fetchCurrentBusiness = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data || "Failed to fetch current business"
+      );
+    }
+  }
+);
+
+export const switchBusiness = createAsyncThunk(
+  "business/switchCurrentBusiness",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await switchCurrentBusiness(id);
+      console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to switch current business"
+      );
+    }
+  }
+);
+
+export const fetchBusinessCategories = createAsyncThunk(
+  "business/fetchBusinessCategories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getBusinessCategories();
+      console.log(response.business_categories);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch business categories"
+      );
+    }
+  }
+);
+
+export const verifyBusiness = createAsyncThunk(
+  "business/verifyBusiness",
+  async (
+    { id, payload }: { id: string; payload: VerifyBusinessPayload },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await verifyUserBusiness(id, payload);
+      console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to verify business"
       );
     }
   }
@@ -87,6 +154,39 @@ const businessSlice = createSlice({
       .addCase(fetchCurrentBusiness.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error as string;
+      })
+      .addCase(switchBusiness.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(switchBusiness.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload.message;
+      })
+      .addCase(switchBusiness.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBusinessCategories.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchBusinessCategories.fulfilled, (state, action) => {
+        state.loading = false;
+        state.businessCategories = action.payload.business_categories || [];
+      })
+      .addCase(fetchBusinessCategories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(verifyBusiness.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyBusiness.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verifyData = action.payload;
+      })
+      .addCase(verifyBusiness.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });

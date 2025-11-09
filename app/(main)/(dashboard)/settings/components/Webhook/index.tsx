@@ -1,34 +1,50 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { Eye, EyeOff, Copy, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { createURL } from "@/redux/features/webhookURL/webhookSlice";
+import { createURL, fetchURL } from "@/redux/features/webhookURL/webhookSlice";
 
 export const WebhookSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { data } = useSelector((state: RootState) => state.webhook);
+  const { fetchedData } = useSelector((state: RootState) => state.webhook);
   const { business } = useSelector((state: RootState) => state.business);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(fetchedData?.webhook.url);
   const [isSecretVisible, setIsSecretVisible] = useState(false);
   // const { toast } = useToast();
 
+  useEffect(() => {
+    const handleFetchURL = async () => {
+      if (business?.id) {
+        const response = await dispatch(fetchURL(business.id)).unwrap();
+        setUrl(response.data.webhook.url);
+      }
+    };
+    handleFetchURL();
+  }, [business?.id, dispatch]);
+
   const handleCopySecret = () => {
-    const secret = data?.data?.secret ?? "";
+    const secret = fetchedData?.webhook.secret ?? "";
     navigator.clipboard.writeText(secret);
   };
 
   const handleSaveWebhook = async () => {
     const business_id = business?.id;
     if (business_id) {
-      await dispatch(
+      const response = await dispatch(
         createURL({
           business_id,
-          url,
+          url: url ?? "",
         })
-      );
+      ).unwrap();
+
+      if (response.status === "success") {
+        await dispatch(fetchURL(business.id));
+      }
     }
     // toast({
     //   title: "Webhook URL saved",
@@ -78,7 +94,7 @@ export const WebhookSettings = () => {
           </div>
           <div className="flex items-center gap-2">
             <div className="font-mono h-[40px] flex items-center text-sm tracking-[0.25px] align-middle text-[#010721] bg-[#F2F2F2] px-[8px] py-[6px] rounded-[8px]">
-              {isSecretVisible ? data?.data.secret : "•".repeat(19)}
+              {isSecretVisible ? fetchedData?.webhook.secret : "•".repeat(19)}
             </div>
             <Button
               variant="ghost"

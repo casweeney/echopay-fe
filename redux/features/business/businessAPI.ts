@@ -2,6 +2,10 @@ import axiosClient from "@/lib/axiosClient";
 import {
   GetBusinessesResponse,
   CurrentBusinessResponse,
+  SwitchCurrentBusinessResponse,
+  BusinessCategoriesResponse,
+  VerifyBusinessResponse,
+  VerifyBusinessPayload,
 } from "@/types/business";
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
@@ -19,3 +23,33 @@ export const getCurrentBusiness =
 
     return data;
   };
+
+export const switchCurrentBusiness = async (
+  id: string
+): Promise<SwitchCurrentBusinessResponse> => {
+  const { data } = await axiosClient.put<SwitchCurrentBusinessResponse>(
+    `/api/v1/businesses/current/${id}`
+  );
+
+  return data;
+};
+
+export const getBusinessCategories =
+  async (): Promise<BusinessCategoriesResponse> => {
+    const { data } = await axiosClient.get<BusinessCategoriesResponse>(
+      "/api/v1/business-categories"
+    );
+    return data;
+  };
+
+export const verifyUserBusiness = async (
+  id: string,
+  payload: VerifyBusinessPayload
+): Promise<VerifyBusinessResponse> => {
+  const { data } = await axiosClient.put<VerifyBusinessResponse>(
+    `/api/v1/businesses/${id}`,
+    payload
+  );
+
+  return data;
+};

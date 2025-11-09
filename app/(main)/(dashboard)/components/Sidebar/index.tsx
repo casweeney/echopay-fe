@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ECHOPAY_SVG } from "@/assets/svgs";
@@ -20,24 +20,23 @@ import type { AppDispatch, RootState } from "@/redux/store";
 import {
   fetchBusinesses,
   fetchCurrentBusiness,
+  switchBusiness,
 } from "@/redux/features/business/businessSlice";
 
 const Sidebar = () => {
   const pathname = usePathname() || "/";
   const { isOpen, closeSidebar } = useSidebar();
+  const [bizness, setBizness] = useState({
+    bizId: "",
+  });
 
   const dispatch = useDispatch<AppDispatch>();
 
-  // 👇 get user from store
   const { user } = useSelector((state: RootState) => state.user);
 
-  // 👇 get businesses from store
-  const { business, businesses, loading, error } = useSelector(
+  const { business, businesses } = useSelector(
     (state: RootState) => state.business
   );
-
-  console.log(businesses[0]);
-  console.log(business);
 
   useEffect(() => {
     const handleBusiness = async () => {
@@ -54,6 +53,25 @@ const Sidebar = () => {
   useEffect(() => {
     closeSidebar();
   }, [pathname, closeSidebar]);
+
+  const handleSwitchBusiness = async (
+    e: React.ChangeEvent<HTMLInputElement> | string,
+    name?: string
+  ) => {
+    if (typeof e === "string" && name) {
+      setBizness({
+        ...bizness,
+        [name]: e,
+      });
+    }
+
+    const response = await dispatch(switchBusiness(bizness.bizId)).unwrap();
+
+    if ((response.status = "success")) {
+      await dispatch(fetchCurrentBusiness());
+      await dispatch(fetchCurrentBusiness());
+    }
+  };
 
   const isActive = (link: string) => {
     if (link === "/") return pathname === "/";
@@ -72,22 +90,16 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue={business?.id}>
+          <Select
+            name="business"
+            defaultValue={business?.id || ""}
+            onValueChange={(value: string) => handleSwitchBusiness(value)}
+          >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {loading && (
-                  <SelectItem value="loading" disabled>
-                    Loading businesses...
-                  </SelectItem>
-                )}
-                {error && (
-                  <SelectItem value="error" disabled>
-                    Failed to load
-                  </SelectItem>
-                )}
                 {businesses.map((biz) => (
                   <SelectItem key={biz?.id} value={biz?.id}>
                     <div className="flex items-center space-x-2">
@@ -183,24 +195,22 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue="myBusiness">
+          <Select defaultValue={business?.id || ""}>
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="myBusiness">
-                  <div className="flex items-center space-x-2">
-                    <div>
-                      {ECHOPAY_SVG().shopIcon({
-                        className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                      })}
+                {businesses.map((biz) => (
+                  <SelectItem key={biz?.id} value={biz?.id}>
+                    <div className="flex items-center space-x-2">
+                      <div>{ECHOPAY_SVG().shopIcon()}</div>
+                      <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                        {biz?.name}
+                      </span>
                     </div>
-                    <span className="text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
-                      My Business
-                    </span>
-                  </div>
-                </SelectItem>
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>

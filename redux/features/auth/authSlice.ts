@@ -101,7 +101,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
-      persistor.purge();
+      localStorage.removeItem("persist:root");
     },
     resetAuthState: (state) => {
       state.loading = false;
