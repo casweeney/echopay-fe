@@ -7,11 +7,13 @@ import { useSidebar } from "@/context/SidebarContext";
 import { MenuIcon, X } from "lucide-react";
 import Link from "next/link";
 import { logout } from "@/redux/features/auth/authSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getInitials } from "@/utils/nameInitial";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.user);
 
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -39,6 +41,11 @@ const Header = () => {
     }
   }, [searchOpen]);
 
+  const fullName = user?.name;
+  const firstName = fullName ? fullName.split(" ")[0] : "User";
+
+  const initials = getInitials(user?.name || "");
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -50,7 +57,7 @@ const Header = () => {
         <Link href="/" className="lg:hidden">
           <img src="/smallLogo.svg" alt="menu" className="w-[22px] h-[22px]" />
         </Link>
-        <div className="text-[13px] lg:text-base">Hello, Ella</div>
+        <div className="text-[13px] lg:text-base">Hello, {firstName}</div>
       </div>
 
       {/* Right section */}
@@ -109,16 +116,14 @@ const Header = () => {
         >
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-1"
           >
-            <img
-              src="/user_img.png"
-              alt="Profile"
-              className="object-cover lg:w-[40px] lg:h-[40px] w-8 h-8 rounded-full"
-            />
+            <div className="flex items-center justify-center text-[14px] w-9 h-9 rounded-full bg-[#0046A7] text-white font-semibold">
+              {initials}
+            </div>
             <div className="hidden lg:block">
               {ECHOPAY_SVG().chevronDown({
-                className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                className: "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
               })}
             </div>
           </button>

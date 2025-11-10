@@ -6,11 +6,13 @@ import { Separator } from "@/components/ui/separator";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { logout } from "@/redux/features/auth/authSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getInitials } from "@/utils/nameInitial";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.user);
 
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -36,6 +38,8 @@ const Header = () => {
       searchRef.current.focus();
     }
   }, [searchOpen]);
+
+  const initials = getInitials(user?.name || "");
 
   const handleLogout = () => {
     dispatch(logout());
@@ -128,12 +132,10 @@ const Header = () => {
           <button
             onClick={() => setOpen(!open)}
             className="flex items-center gap-2"
-          >
-            <img
-              src="/user_img.png"
-              alt="Profile"
-              className="object-cover lg:w-[40px] lg:h-[40px] w-8 h-8 rounded-full"
-            />
+          >tt
+            <div className="flex items-center justify-center text-[14px] w-9 h-9 rounded-full bg-[#0046A7] text-white font-semibold">
+              {initials}
+            </div>
             <div className="hidden lg:block">
               {ECHOPAY_SVG().chevronDown({
                 className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
