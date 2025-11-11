@@ -42,7 +42,7 @@ export const fetchBusinesses = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBusinesses();
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -57,7 +57,7 @@ export const fetchCurrentBusiness = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getCurrentBusiness();
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -87,7 +87,7 @@ export const fetchBusinessCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBusinessCategories();
-      console.log(response.business_categories);
+      // console.log(response.business_categories);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -105,7 +105,7 @@ export const verifyBusiness = createAsyncThunk(
   ) => {
     try {
       const response = await verifyUserBusiness(id, payload);
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(

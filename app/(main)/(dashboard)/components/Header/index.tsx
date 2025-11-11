@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Separator } from "@/components/ui/separator";
 import { useSidebar } from "@/context/SidebarContext";
@@ -21,18 +21,21 @@ const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const { toggleSidebar } = useSidebar();
 
+  // ✅ useCallback: memoized function so it doesn't recreate every render
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setOpen(false);
+    }
+  }, []);
+
+  // ✅ useEffect with stable dependency
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [handleClickOutside]);
 
   // Focus search input when modal opens
   useEffect(() => {
@@ -41,14 +44,15 @@ const Header = () => {
     }
   }, [searchOpen]);
 
-  const fullName = user?.name;
-  const firstName = fullName ? fullName.split(" ")[0] : "User";
+  // ✅ useMemo: compute derived values once when `user` changes
+  const fullName = useMemo(() => user?.name || "User", [user]);
+  const firstName = useMemo(() => fullName.split(" ")[0], [fullName]);
+  const initials = useMemo(() => getInitials(fullName), [fullName]);
 
-  const initials = getInitials(user?.name || "");
-
-  const handleLogout = () => {
+  // ✅ useCallback: stable reference for logout handler
+  const handleLogout = useCallback(() => {
     dispatch(logout());
-  };
+  }, [dispatch]);
 
   return (
     <div className="border-b border-[#E0E0E0] px-4 lg:px-[24px] py-3 lg:py-[16px] flex justify-between items-center gap-2 lg:gap-0">
@@ -115,7 +119,7 @@ const Header = () => {
           ref={dropdownRef}
         >
           <button
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen((prev) => !prev)}
             className="flex items-center gap-1"
           >
             <div className="flex items-center justify-center text-[14px] w-9 h-9 rounded-full bg-[#0046A7] text-white font-semibold">
@@ -142,13 +146,12 @@ const Header = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 text-red-500"
+                  <button
                     onClick={handleLogout}
+                    className="w-full text-left block px-4 py-2 hover:bg-gray-100 text-red-500"
                   >
                     Logout
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>

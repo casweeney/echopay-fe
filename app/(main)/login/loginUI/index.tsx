@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,25 +24,37 @@ export default function LoginUI() {
     password: "",
   });
 
-  const isButtonDisabled = !formData.email.trim() || !formData.password.trim();
+  const isButtonDisabled = useMemo(() => {
+    return !formData.email.trim() || !formData.password.trim();
+  }, [formData.email, formData.password]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  }, []);
 
-  const onLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onLogin = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    const response = await dispatch(login(formData)).unwrap();
+      try {
+        const response = await dispatch(login(formData)).unwrap();
 
-    if (response.status === "success") {
-      router.push("/analytics");
-      await dispatch(fetchUser()).unwrap();
-      console.log(user?.email_verified_at);
-    }
+        if (response.status === "success") {
+          await dispatch(fetchUser()).unwrap();
+          router.push("/analytics");
+          console.log("User verified:", user?.email_verified_at);
+        }
 
-    console.log("Login attempted with:", response);
-  };
+        console.log("Login attempted with:", response);
+      } catch (err) {
+        console.error("Login error:", err);
+      }
+    },
+    [dispatch, router, formData, user?.email_verified_at]
+  );
 
   return (
     <div className="min-h-screen flex mx-auto">
@@ -65,7 +77,6 @@ export default function LoginUI() {
               Fast, secure, and reliable.
             </p>
 
-            {/* Hero Image */}
             <div className="mb-10 rounded-2xl overflow-hidden">
               <img
                 src="/pill2.png"
@@ -74,7 +85,6 @@ export default function LoginUI() {
               />
             </div>
 
-            {/* Feature Cards */}
             <div className="space-y-6">
               <div className="flex items-center gap-2 bg-[#00193633] rounded-full p-4 backdrop-blur-sm shadow border-[0.5px] border-x-0 border-slate-500">
                 <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
@@ -99,18 +109,17 @@ export default function LoginUI() {
         </div>
       </div>
 
-      {/* Right Side - Light Gray */}
+      {/* Right Side */}
       <div className="w-full bg-[#f8f8f8] flex items-center justify-center py-[5.5rem] px-12 lg:p-12 relative">
         <div className="block lg:hidden absolute top-0 left-0 right-0 h-4 bg-[#0046A7]"></div>
         <div className="w-full max-w-md">
-          {/* Mobile Logo - Only visible on small screens */}
           <Link href="/home">
             <div className="lg:hidden mb-[5rem] flex justify-center">
               <img src="/logo.svg" alt="logo" className="w-[120px]" />
             </div>
           </Link>
           <div className="mb-8">
-            <h2 className="text-[28px] md:text-[34px] lg:text-[34px] font-roboto font-medium text-[#010721] mb-2 tracking-[0.02em]">
+            <h2 className="text-[28px] md:text-[34px] font-roboto font-medium text-[#010721] mb-2">
               Login to Your Account
             </h2>
             <p className="text-[#010721] text-[14px] font-instrument">
@@ -120,67 +129,61 @@ export default function LoginUI() {
 
           <form className="space-y-8" onSubmit={onLogin}>
             {/* Email Input */}
-            <div>
-              <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#4e46e5db] transition-all">
-                <legend className="group-focus-within:text-[#4e46e5db] font-[400] bg-[#f8f8f8] text-[#031300] px-1 text-[12px] leading-[100%] font-instrument">
-                  Work Email Address
-                </legend>
-                <Input
-                  name="email"
-                  type="email"
-                  placeholder="example@gmail.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
-                />
-              </fieldset>
-            </div>
+            <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#4e46e5db] transition-all">
+              <legend className="group-focus-within:text-[#4e46e5db] font-[400] bg-[#f8f8f8] text-[#031300] px-1 text-[12px] leading-[100%] font-instrument">
+                Work Email Address
+              </legend>
+              <Input
+                name="email"
+                type="email"
+                placeholder="example@gmail.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783]"
+              />
+            </fieldset>
 
             {/* Password Input */}
-            <div>
-              <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#4e46e5db] transition-all">
-                <legend className="group-focus-within:text-[#4e46e5db] font-[400] bg-[#f8f8f8] text-[#031300] px-1 text-[12px] leading-[100%] font-instrument">
-                  Password
-                </legend>
-                <div className="flex items-center gap-2">
-                  <Input
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="****************"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="text-[#8c8c8c] hover:text-[#49454f] transition-colors"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-              </fieldset>
-            </div>
+            <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#4e46e5db] transition-all">
+              <legend className="group-focus-within:text-[#4e46e5db] font-[400] bg-[#f8f8f8] text-[#031300] px-1 text-[12px] leading-[100%] font-instrument">
+                Password
+              </legend>
+              <div className="flex items-center gap-2">
+                <Input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="****************"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 text-[15px] bg-transparent flex-1 placeholder:text-[#828783]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-[#8c8c8c] hover:text-[#49454f] transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </fieldset>
 
-            {/* Continue Button */}
             <Button
               type="submit"
               disabled={isButtonDisabled || loading}
-              className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0046a7]"
+              className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Continue.." : "Continue"}
             </Button>
 
-            {/* Sign Up Link */}
             <p className="text-center text-[#828783] text-[16px] font-instrument">
               Do not have an account?{" "}
               <Link
                 href="/register"
-                className="text-[#010721] font-medium underline hover:text-[#0046a7] transition-colors"
+                className="text-[#010721] font-medium underline hover:text-[#0046a7]"
               >
                 Create Your Account.
               </Link>
