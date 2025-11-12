@@ -143,3 +143,8 @@ export interface BusinessVerificationStatusResponse {
   };
   status: string;
 }
+
+export interface GetBusinessDetailsResponse {
+  data: BusinessDetails;
+  status: string;
+}

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getBusinessCategories,
+  getBusinessDetails,
   getBusinesses,
   getBusinessVerificationStatus,
   getCurrentBusiness,
@@ -10,6 +11,7 @@ import {
 import {
   Business,
   BusinessCategory,
+  BusinessDetails,
   BusinessVerificationStatusResponse,
   CurrentBusinessData,
   VerifyBusinessPayload,
@@ -17,6 +19,7 @@ import {
 } from "@/types/business";
 
 interface BusinessState {
+  businessDetails: BusinessDetails | null;
   business: CurrentBusinessData | null;
   businesses: Business[];
   businessCategories: BusinessCategory[];
@@ -29,6 +32,7 @@ interface BusinessState {
 }
 
 const initialState: BusinessState = {
+  businessDetails: null,
   business: null,
   businesses: [],
   businessCategories: [],
@@ -134,6 +138,21 @@ export const fetchBusinessVerificationStatus = createAsyncThunk(
   }
 );
 
+export const fetchBusinessDetails = createAsyncThunk(
+  "business/fetchBusinessDetails",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await getBusinessDetails(id);
+      // console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch business details"
+      );
+    }
+  }
+);
+
 const businessSlice = createSlice({
   name: "business",
   initialState,
@@ -215,6 +234,17 @@ const businessSlice = createSlice({
         state.verificationStatus = action.payload;
       })
       .addCase(fetchBusinessVerificationStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBusinessDetails.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchBusinessDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.businessDetails = action.payload.data;
+      })
+      .addCase(fetchBusinessDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
