@@ -18,15 +18,27 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { fetchBusinessVerificationStatus } from "@/redux/features/business/businessSlice";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
 
 const Wallet = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { verificationStatus, business } = useSelector(
     (state: RootState) => state.business
   );
+  const { wallets } = useSelector((state: RootState) => state.wallet);
 
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(true);
+  const [activeWalletId, setActiveWalletId] = useState<string | null>(null);
+
+  const fetchWalletsData = useCallback(async () => {
+    if (!business?.id) return;
+    await dispatch(fetchWallets(business.id));
+  }, [dispatch, business?.id]);
+
+  useEffect(() => {
+    fetchWalletsData();
+  }, [fetchWalletsData]);
 
   const fetchVerification = useCallback(async () => {
     if (!business?.id) return;
@@ -36,6 +48,28 @@ const Wallet = () => {
   useEffect(() => {
     fetchVerification();
   }, [fetchVerification]);
+
+  const activeWallet = useMemo(() => {
+    return (
+      wallets.find((wallet) => wallet.id === activeWalletId) ||
+      wallets[0] ||
+      null
+    );
+  }, [wallets, activeWalletId]);
+
+  const formattedBalance = useMemo(
+    () => activeWallet?.balance.toLocaleString() || "",
+    [activeWallet]
+  );
+
+  const currencyName = useMemo(
+    () => activeWallet?.currency_symbol.toUpperCase() || "",
+    [activeWallet]
+  );
+
+  const handleSelectWallet = useCallback((id: string) => {
+    setActiveWalletId(id);
+  }, []);
 
   const currentStatus = useMemo(
     () => verificationStatus?.data?.status || "unknown",
@@ -90,7 +124,6 @@ const Wallet = () => {
   const StatusIcon = getStatusMessage.icon;
 
   const handleVerifyClick = useCallback(() => {
-    // Navigate to the verification page or trigger a modal
     router.push("/verify-business");
   }, [router]);
 
@@ -183,25 +216,30 @@ const Wallet = () => {
               <h1 className="text-2xl lg:text-[32px] font-medium leading-[32px] lg:leading-[40px] text-[#010721] align-middle tracking-[0px]">
                 Wallet
               </h1>
-              <Select defaultValue="myBusiness">
-                <SelectTrigger className="w-full lg:w-[105px] border rounded-[32px] h-full px-[5px] py-[5px] lg:p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
+              <Select
+                defaultValue={activeWallet?.id || ""}
+                onValueChange={handleSelectWallet}
+              >
+                <SelectTrigger className="w-full lg:w-[100px] h-9 border rounded-[32px] px-[5px] py-[5px] lg:p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="myBusiness">
-                      <div className="flex items-center space-x-2">
-                        <div>
-                          {ECHOPAY_SVG().nigeriaIcon({
-                            className:
-                              "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                          })}
+                    {wallets.map((wallet) => (
+                      <SelectItem key={wallet.id} value={wallet.id}>
+                        <div className="flex items-center space-x-2">
+                          <div>
+                            {ECHOPAY_SVG().nigeriaIcon({
+                              className:
+                                "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                            })}
+                          </div>
+                          <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
+                            {wallet.currency_symbol.toUpperCase()}
+                          </span>
                         </div>
-                        <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
-                          NGN
-                        </span>
-                      </div>
-                    </SelectItem>
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -248,7 +286,7 @@ const Wallet = () => {
           <div className="w-full border border-[#E0E0E0] rounded-[8px] lg:rounded-[12px] p-3 lg:p-[16px] flex-1">
             <div className="mb-4">
               <p className="font-normal text-sm lg:text-[16px] leading-[20px] lg:leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
-                NGN BALANCE
+                {currencyName} BALANCE
               </p>
             </div>
 
@@ -259,7 +297,7 @@ const Wallet = () => {
 
               <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-xl lg:text-[32px] leading-[28px] lg:leading-[40px] tracking-[0px] align-middle font-bold text-[#010721]">
-                  NGN 100,240
+                  {currencyName} {formattedBalance}
                 </h2>
                 <span className="text-[9px] lg:text-[11px] leading-[12px] lg:leading-[16px] tracking-[0.5px] align-middle font-medium text-[#0C614E] bg-[#CDF4E4] p-1 lg:p-[4px] rounded-[100px]">
                   +10%

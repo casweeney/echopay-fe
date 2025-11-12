@@ -9,6 +9,7 @@ import businessReducer from "./features/business/businessSlice";
 import apiKeyReducer from "./features/apiKey/apiKeySlice";
 import webhookReducer from "./features/webhookURL/webhookSlice";
 import regionReducer from "./features/region/regionSlice";
+import walletReducer from "./features/wallet/walletSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -18,12 +19,13 @@ const rootReducer = combineReducers({
   apiKey: apiKeyReducer,
   webhook: webhookReducer,
   region: regionReducer,
+  wallet: walletReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "business", "region"],
+  whitelist: ["user", "business", "region", "wallet"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
