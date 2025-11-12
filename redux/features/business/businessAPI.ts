@@ -6,6 +6,7 @@ import {
   BusinessCategoriesResponse,
   VerifyBusinessResponse,
   VerifyBusinessPayload,
+  BusinessVerificationStatusResponse,
 } from "@/types/business";
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
@@ -49,6 +50,16 @@ export const verifyUserBusiness = async (
   const { data } = await axiosClient.put<VerifyBusinessResponse>(
     `/api/v1/businesses/${id}`,
     payload
+  );
+
+  return data;
+};
+
+export const getBusinessVerificationStatus = async (
+  id: string
+): Promise<BusinessVerificationStatusResponse> => {
+  const { data } = await axiosClient.get<BusinessVerificationStatusResponse>(
+    `/api/v1/businesses/verification-status/${id}`
   );
 
   return data;

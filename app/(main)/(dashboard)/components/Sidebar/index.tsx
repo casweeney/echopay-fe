@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ECHOPAY_SVG } from "@/assets/svgs";
@@ -51,8 +51,8 @@ const Sidebar = () => {
       const response = await dispatch(switchBusiness(value)).unwrap();
 
       if (response.status === "success") {
-        console.log(business?.id, "Switched business to:", value);
         await dispatch(fetchCurrentBusiness());
+        console.log(business?.id, "Switched business to:", value);
       }
     },
     [dispatch]

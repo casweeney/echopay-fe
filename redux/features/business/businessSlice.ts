@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getBusinessCategories,
   getBusinesses,
+  getBusinessVerificationStatus,
   getCurrentBusiness,
   switchCurrentBusiness,
   verifyUserBusiness,
@@ -9,6 +10,7 @@ import {
 import {
   Business,
   BusinessCategory,
+  BusinessVerificationStatusResponse,
   CurrentBusinessData,
   VerifyBusinessPayload,
   VerifyBusinessResponse,
@@ -19,6 +21,7 @@ interface BusinessState {
   businesses: Business[];
   businessCategories: BusinessCategory[];
   verifyData: VerifyBusinessResponse | null;
+  verificationStatus: BusinessVerificationStatusResponse | null;
   loading: boolean;
   error: string | null;
   count: number;
@@ -30,6 +33,7 @@ const initialState: BusinessState = {
   businesses: [],
   businessCategories: [],
   verifyData: null,
+  verificationStatus: null,
   loading: false,
   error: null,
   count: 0,
@@ -115,6 +119,21 @@ export const verifyBusiness = createAsyncThunk(
   }
 );
 
+export const fetchBusinessVerificationStatus = createAsyncThunk(
+  "business/fetchBusinessVerificationStatus",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await getBusinessVerificationStatus(id);
+      console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch business verification status"
+      );
+    }
+  }
+);
+
 const businessSlice = createSlice({
   name: "business",
   initialState,
@@ -185,6 +204,17 @@ const businessSlice = createSlice({
         state.verifyData = action.payload;
       })
       .addCase(verifyBusiness.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBusinessVerificationStatus.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchBusinessVerificationStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verificationStatus = action.payload;
+      })
+      .addCase(fetchBusinessVerificationStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

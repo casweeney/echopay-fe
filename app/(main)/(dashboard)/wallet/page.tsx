@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import { ChevronDown } from "lucide-react";
+import { CheckCircle, ChevronDown, Info, XCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -13,60 +13,140 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchBusinessVerificationStatus } from "@/redux/features/business/businessSlice";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
-const Payouts = () => {
+const Wallet = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { verificationStatus, business } = useSelector(
+    (state: RootState) => state.business
+  );
+
+  const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(true);
 
-  const transactions = [
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-  ];
+  const fetchVerification = useCallback(async () => {
+    if (!business?.id) return;
+    await dispatch(fetchBusinessVerificationStatus(business.id));
+  }, [dispatch, business?.id]);
+
+  useEffect(() => {
+    fetchVerification();
+  }, [fetchVerification]);
+
+  const currentStatus = useMemo(
+    () => verificationStatus?.data?.status || "unknown",
+    [verificationStatus]
+  );
+
+  const isVerified = useMemo(
+    () => verificationStatus?.data?.status === "verified",
+    [verificationStatus]
+  );
+
+  const buttonDisabled = useMemo(
+    () => currentStatus === "pending" || currentStatus === "in_review",
+    [currentStatus]
+  );
+
+  const showAccordion = useMemo(() => {
+    return !(currentStatus === "in_review" || isVerified);
+  }, [currentStatus, isVerified]);
+
+  const getStatusMessage = useMemo(() => {
+    switch (currentStatus) {
+      case "pending":
+        return {
+          text: "Your business verification is pending",
+          color: "#fdf4e2",
+          icon: Info,
+        };
+      case "in_review":
+        return {
+          text: "Your business verification is under review",
+          color: "#d9f0ff",
+          icon: Info,
+        };
+      case "verified":
+        return {
+          text: "Your business has been verified successfully",
+          color: "#cdf4e4",
+          icon: CheckCircle,
+        };
+      case "rejected":
+        return {
+          text: "Your verification was rejected. Please verify again.",
+          color: "#ffdddd",
+          icon: XCircle,
+        };
+      default:
+        return { text: "", color: "transparent", icon: Info };
+    }
+  }, [currentStatus]);
+
+  const StatusIcon = getStatusMessage.icon;
+
+  const handleVerifyClick = useCallback(() => {
+    // Navigate to the verification page or trigger a modal
+    router.push("/verify-business");
+  }, [router]);
+
+  const transactions = useMemo(
+    () => [
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+    ],
+    []
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -86,6 +166,17 @@ const Payouts = () => {
   return (
     <ProtectedRoute>
       <div className="p-3 lg:p-[24px]">
+        {getStatusMessage.text && (
+          <div
+            className="flex items-center gap-2 p-3 rounded-md mb-8"
+            style={{ backgroundColor: getStatusMessage.color }}
+          >
+            <StatusIcon className="w-5 h-5" />
+            <p className="text-sm text-[#010721] font-medium">
+              {getStatusMessage.text}
+            </p>
+          </div>
+        )}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-7 gap-4">
           <div>
             <div className="flex flex-row items-center gap-2 lg:gap-4 mb-2">
@@ -153,8 +244,8 @@ const Payouts = () => {
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-4 mb-6">
-          <div className="w-full border border-[#E0E0E0] rounded-[8px] lg:rounded-[12px] p-3 lg:p-[16px]">
+        <div className="flex flex-col lg:flex-row gap-4 mb-6 items-start">
+          <div className="w-full border border-[#E0E0E0] rounded-[8px] lg:rounded-[12px] p-3 lg:p-[16px] flex-1">
             <div className="mb-4">
               <p className="font-normal text-sm lg:text-[16px] leading-[20px] lg:leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
                 NGN BALANCE
@@ -181,58 +272,96 @@ const Payouts = () => {
             </div>
           </div>
 
-          <div className="w-full border border-[#E5E5E5] p-3 lg:p-[16px] rounded-[8px] lg:rounded-[8px]">
-            <div className="flex items-center gap-2 lg:gap-3 pb-3 lg:pb-4 border-b border-[#E5E5E5]">
-              <h1 className="text-lg lg:text-[22px] font-medium leading-[24px] lg:leading-[28px] tracking-[0px] text-[#010721]">
-                Your action items
-              </h1>
-              <div className="flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 bg-[#0046A7] text-white rounded-full text-sm lg:text-[16px] font-semibold">
-                1
+          {showAccordion && (
+            <div className="w-full border border-[#E5E5E5] p-3 lg:p-[16px] rounded-[8px] lg:rounded-[8px] flex-1">
+              <div className="flex items-center gap-2 lg:gap-3 pb-3 lg:pb-4 border-b border-[#E5E5E5]">
+                <h1 className="text-lg lg:text-[22px] font-medium leading-[24px] lg:leading-[28px] tracking-[0px] text-[#010721]">
+                  Your action items
+                </h1>
+                <div className="flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 bg-[#0046A7] text-white rounded-full text-sm lg:text-[16px] font-semibold">
+                  2
+                </div>
               </div>
-            </div>
 
-            <div className="overflow-hidden">
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="w-full flex items-center justify-between py-3 lg:py-4 bg-white hover:bg-gray-50 transition-colors"
-              >
-                <span className="text-sm lg:text-base tracking-[0.5px] font-normal text-[#404040]">
-                  Finish setting up your account
-                </span>
-                <ChevronDown
-                  size={20}
-                  className={`text-gray-600 transition-transform duration-300 ease-in-out flex-shrink-0 ${
-                    isExpanded ? "rotate-180" : ""
+              <div className="overflow-hidden">
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="w-full flex items-center justify-between py-3 lg:py-4 bg-white hover:bg-gray-50 transition-colors"
+                >
+                  <span className="text-sm lg:text-base tracking-[0.5px] font-normal text-[#404040]">
+                    Finish setting up your account
+                  </span>
+                  <ChevronDown
+                    size={20}
+                    className={`text-gray-600 transition-transform duration-300 ease-in-out flex-shrink-0 ${
+                      isExpanded ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                   }`}
-                />
-              </button>
-
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                }`}
-              >
-                <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 lg:gap-4">
-                      {ECHOPAY_SVG().checkOutline({
-                        className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                      })}
-                      <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
-                        Verify your Business
-                      </span>
+                >
+                  <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4">
+                      <div className="flex items-center gap-2 lg:gap-4">
+                        {ECHOPAY_SVG().checkOutline({
+                          className:
+                            "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                        })}
+                        <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
+                          Verify your BVN
+                        </span>
+                      </div>
+                      <Button
+                        onClick={handleVerifyClick}
+                        disabled={buttonDisabled}
+                        className={`${
+                          buttonDisabled ? "opacity-60 cursor-not-allowed" : ""
+                        } bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6`}
+                      >
+                        {currentStatus === "pending"
+                          ? "Verification Pending"
+                          : "Verify BVN"}
+                      </Button>
                     </div>
-                    <Link
-                      href="/verify-business"
-                      className="bg-[#0046A7] flex items-center h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6 font-medium text-[12px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle whitespace-nowrap"
-                    >
-                      Verify Business
-                    </Link>
+                  </div>
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 lg:gap-4">
+                        {ECHOPAY_SVG().checkOutline({
+                          className:
+                            "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                        })}
+                        <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
+                          Verify your Business
+                        </span>
+                      </div>
+                      <Button
+                        onClick={handleVerifyClick}
+                        disabled={buttonDisabled}
+                        className={`${
+                          buttonDisabled ? "opacity-60 cursor-not-allowed" : ""
+                        } bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6`}
+                      >
+                        {currentStatus === "pending"
+                          ? "Verification Pending"
+                          : "Verify Business"}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="p-3 lg:p-6 rounded-lg border border-[#e0e0e0] overflow-hidden mb-6">
@@ -366,4 +495,4 @@ const Payouts = () => {
   );
 };
 
-export default Payouts;
+export default Wallet;
