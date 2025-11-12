@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback, useMemo } from "react";
+import React, { useEffect, useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ECHOPAY_SVG } from "@/assets/svgs";
@@ -32,6 +32,7 @@ const Sidebar = () => {
   const { business, businesses } = useSelector(
     (state: RootState) => state.business
   );
+  const [bizId, setBizId] = useState<string>("");
 
   useEffect(() => {
     if (!user) return;
@@ -51,8 +52,9 @@ const Sidebar = () => {
       const response = await dispatch(switchBusiness(value)).unwrap();
 
       if (response.status === "success") {
-        await dispatch(fetchCurrentBusiness());
-        console.log(business?.id, "Switched business to:", value);
+        const res = await dispatch(fetchCurrentBusiness()).unwrap();
+        setBizId(res.data.id);
+        console.log(res.data.id, "Switched business to:", value);
       }
     },
     [dispatch]
@@ -125,7 +127,7 @@ const Sidebar = () => {
         <div className="mb-8">
           <Select
             name="business"
-            defaultValue={business?.id}
+            defaultValue={bizId || business?.id}
             onValueChange={handleSwitchBusiness}
           >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
@@ -190,7 +192,7 @@ const Sidebar = () => {
         <div className="mb-8">
           <Select
             name="business"
-            defaultValue={business?.id}
+            defaultValue={bizId || business?.id}
             onValueChange={handleSwitchBusiness}
           >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">

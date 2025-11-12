@@ -19,6 +19,7 @@ import { fetchBusinessVerificationStatus } from "@/redux/features/business/busin
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+import { WalletFundModal } from "./components/WalletFundModal";
 
 const Wallet = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,6 +31,7 @@ const Wallet = () => {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeWalletId, setActiveWalletId] = useState<string | null>(null);
+  const [isFundWalletDialogOpen, setIsFundWalletDialogOpen] = useState(false);
 
   const fetchWalletsData = useCallback(async () => {
     if (!business?.id) return;
@@ -263,7 +265,11 @@ const Wallet = () => {
                 })}
               </p>
             </button>
-            <button className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]">
+            <button
+              disabled={verificationStatus?.data.status !== "verified"}
+              onClick={() => setIsFundWalletDialogOpen(true)}
+              className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]"
+            >
               <p className="font-medium text-[12px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle text-[#FFFFFF]">
                 Fund Wallet
               </p>
@@ -530,6 +536,10 @@ const Wallet = () => {
           </div>
         </div>
       </div>
+      <WalletFundModal
+        isOpen={isFundWalletDialogOpen}
+        onClose={() => setIsFundWalletDialogOpen(false)}
+      />
     </ProtectedRoute>
   );
 };
