@@ -36,10 +36,13 @@ export function WalletFundModal({
   onClose,
   onSubmit,
 }: FundWalletModalProps) {
-  const [expandedAccount, setExpandedAccount] = useState("01");
   const dispatch = useDispatch<AppDispatch>();
   const { virtualAccount } = useSelector((state: RootState) => state.account);
   const { business } = useSelector((state: RootState) => state.business);
+
+  const [expandedAccount, setExpandedAccount] = useState(
+    virtualAccount?.account_number
+  );
 
   const handleFetchVirtualAccount = useCallback(async () => {
     if (business?.id) {
@@ -124,7 +127,7 @@ export function WalletFundModal({
                 </p>
                 <div className="flex items-center gap-2">
                   <p className="text-base tracking-[0.5px] text-[#010721] font-normal">
-                    {virtualAccount.currency_symbol.toUpperCase()}
+                    {virtualAccount?.currency_symbol.toUpperCase()}
                   </p>
                 </div>
               </div>
@@ -136,10 +139,12 @@ export function WalletFundModal({
                 </p>
                 <div className="flex items-center gap-2">
                   <p className="text-base tracking-[0.5px] text-[#010721] font-normal">
-                    {virtualAccount.account_number}
+                    {virtualAccount?.account_number}
                   </p>
                   <button
-                    onClick={() => handleCopy(virtualAccount.account_number)}
+                    onClick={() =>
+                      handleCopy(virtualAccount?.account_number ?? "")
+                    }
                     className="text-[#010721] transition-colors"
                     aria-label="Copy account number"
                   >
@@ -155,10 +160,10 @@ export function WalletFundModal({
                 </p>
                 <div className="flex items-center gap-2">
                   <p className="text-base tracking-[0.5px] text-[#010721] font-normal">
-                    {virtualAccount.bank_name}
+                    {virtualAccount?.bank_name}
                   </p>
                   <button
-                    onClick={() => handleCopy(virtualAccount.bank_name)}
+                    onClick={() => handleCopy(virtualAccount?.bank_name ?? "")}
                     className="text-[#010721] transition-colors"
                     aria-label="Copy bank name"
                   >
