@@ -19,7 +19,7 @@ export const fetchWallets = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await getWallets(id);
-      console.log(response);
+      //   console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Failed to fetch wallets");

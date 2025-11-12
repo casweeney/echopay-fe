@@ -76,7 +76,7 @@ export const switchBusiness = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await switchCurrentBusiness(id);
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -124,7 +124,7 @@ export const fetchBusinessVerificationStatus = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await getBusinessVerificationStatus(id);
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
