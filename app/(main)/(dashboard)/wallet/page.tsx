@@ -123,7 +123,11 @@ const Wallet = () => {
 
   const StatusIcon = getStatusMessage.icon;
 
-  const handleVerifyClick = useCallback(() => {
+  const handleBVNVerifyClick = useCallback(() => {
+    router.push("/verify-bvn");
+  }, [router]);
+
+  const handleBusinessVerifyClick = useCallback(() => {
     router.push("/verify-business");
   }, [router]);
 
@@ -354,19 +358,16 @@ const Wallet = () => {
                         </span>
                       </div>
                       <Button
-                        onClick={handleVerifyClick}
-                        disabled={buttonDisabled}
-                        className={`${
-                          buttonDisabled ? "opacity-60 cursor-not-allowed" : ""
-                        } bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6`}
+                        onClick={handleBVNVerifyClick}
+                        // disabled={buttonDisabled}
+                        className="bg-[#0046A7] hover:bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6"
                       >
-                        {currentStatus === "pending"
-                          ? "Verification Pending"
-                          : "Verify BVN"}
+                        {"Verify BVN"}
                       </Button>
                     </div>
                   </div>
                 </div>
+
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
                     isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
@@ -384,11 +385,11 @@ const Wallet = () => {
                         </span>
                       </div>
                       <Button
-                        onClick={handleVerifyClick}
+                        onClick={handleBusinessVerifyClick}
                         disabled={buttonDisabled}
                         className={`${
                           buttonDisabled ? "opacity-60 cursor-not-allowed" : ""
-                        } bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6`}
+                        } bg-[#0046A7] hover:bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6`}
                       >
                         {currentStatus === "pending"
                           ? "Verification Pending"
