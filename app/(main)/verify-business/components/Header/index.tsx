@@ -157,7 +157,7 @@ const Header = () => {
                 </li>
                 <li>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => handleLogout()}
                     className="w-full text-left block px-4 py-2 hover:bg-gray-100 text-red-500"
                   >
                     Logout

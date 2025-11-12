@@ -9,19 +9,6 @@ export const BusinessSettings = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { business } = useSelector((state: RootState) => state.business);
 
-  // Sample business data
-  const businessData = {
-    businessName: "Ivy's Store",
-    businessCategory: "Chijoke",
-    businessWebsite: "ivystore.com",
-    businessPhone: "+234 816 5678 213",
-    addressCountry: "Nigeria",
-    addressCity: "Ikeja/Lagos",
-    addressStreet: "28, Folorunsho",
-    addressPostal: "200567",
-    bankVerification: "22345678910",
-  };
-
   return (
     <div className="max-w-5xl space-y-6">
       {/* Business Information Card */}
@@ -124,7 +111,7 @@ export const BusinessSettings = () => {
             BANK VERIFICATION NUMBER
           </h2>
           <p className="text-sm tracking-[0.25px] align-middle text-[#010721] font-normal">
-            {businessData.bankVerification}
+            12345678900
           </p>
         </CardContent>
       </Card>
@@ -132,7 +119,7 @@ export const BusinessSettings = () => {
       {/* Support Card */}
       <Card>
         <CardContent className="p-4">
-          <h2 className="text-sm font-semibold tracking-wide text-foreground mb-6">
+          <h2 className="text-base tracking-[0.5px] font-normal align-middle text-[#010721] mb-8">
             SUPPORT
           </h2>
           <div className="space-y-4">

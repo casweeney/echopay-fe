@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "business", "region", "wallet", "currency"], // State slices to persist
+  whitelist: ["user", "business", "apiKey", "region", "wallet", "currency"], // State slices to persist
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

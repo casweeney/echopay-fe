@@ -21,7 +21,6 @@ const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const { toggleSidebar } = useSidebar();
 
-  // ✅ useCallback: memoized function so it doesn't recreate every render
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -31,25 +30,21 @@ const Header = () => {
     }
   }, []);
 
-  // ✅ useEffect with stable dependency
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleClickOutside]);
 
-  // Focus search input when modal opens
   useEffect(() => {
     if (searchOpen && searchRef.current) {
       setTimeout(() => searchRef.current?.focus(), 150);
     }
   }, [searchOpen]);
 
-  // ✅ useMemo: compute derived values once when `user` changes
   const fullName = useMemo(() => user?.name || "User", [user]);
   const firstName = useMemo(() => fullName.split(" ")[0], [fullName]);
   const initials = useMemo(() => getInitials(fullName), [fullName]);
 
-  // ✅ useCallback: stable reference for logout handler
   const handleLogout = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
@@ -147,7 +142,7 @@ const Header = () => {
                 </li>
                 <li>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => handleLogout()}
                     className="w-full text-left block px-4 py-2 hover:bg-gray-100 text-red-500"
                   >
                     Logout
