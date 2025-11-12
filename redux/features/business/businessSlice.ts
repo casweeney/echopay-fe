@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  createBusiness,
   getBusinessCategories,
   getBusinessDetails,
   getBusinesses,
@@ -13,12 +14,15 @@ import {
   BusinessCategory,
   BusinessDetails,
   BusinessVerificationStatusResponse,
+  CreateBusinessPayload,
+  CreateBusinessResponse,
   CurrentBusinessData,
   VerifyBusinessPayload,
   VerifyBusinessResponse,
 } from "@/types/business";
 
 interface BusinessState {
+  businessResponse: CreateBusinessResponse | null;
   businessDetails: BusinessDetails | null;
   business: CurrentBusinessData | null;
   businesses: Business[];
@@ -32,6 +36,7 @@ interface BusinessState {
 }
 
 const initialState: BusinessState = {
+  businessResponse: null,
   businessDetails: null,
   business: null,
   businesses: [],
@@ -43,6 +48,21 @@ const initialState: BusinessState = {
   count: 0,
   message: "",
 };
+
+// Create business
+export const createUserBusiness = createAsyncThunk(
+  "business/createUserBusiness",
+  async (payload: CreateBusinessPayload, { rejectWithValue }) => {
+    try {
+      const response = await createBusiness(payload);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to create business"
+      );
+    }
+  }
+);
 
 // Fetch businesses data
 export const fetchBusinesses = createAsyncThunk(
@@ -166,6 +186,18 @@ const businessSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createUserBusiness.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createUserBusiness.fulfilled, (state, action) => {
+        state.loading = false;
+        state.businessResponse = action.payload;
+      })
+      .addCase(createUserBusiness.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       .addCase(fetchBusinesses.pending, (state) => {
         state.loading = true;
       })

@@ -8,7 +8,19 @@ import {
   VerifyBusinessPayload,
   BusinessVerificationStatusResponse,
   GetBusinessDetailsResponse,
+  CreateBusinessPayload,
+  CreateBusinessResponse,
 } from "@/types/business";
+
+export const createBusiness = async (
+  payload: CreateBusinessPayload
+): Promise<CreateBusinessResponse> => {
+  const { data } = await axiosClient.post<CreateBusinessResponse>(
+    "/api/v1/businesses",
+    payload
+  );
+  return data;
+};
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
   const { data } = await axiosClient.get<GetBusinessesResponse>(
