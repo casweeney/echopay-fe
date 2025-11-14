@@ -12,6 +12,7 @@ import regionReducer from "./features/region/regionSlice";
 import walletReducer from "./features/wallet/walletSlice";
 import currencyReducer from "./features/currency/currencySlice";
 import accountReducer from "./features/account/accountSlice";
+import bankReducer from "./features/bank/bankSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   wallet: walletReducer,
   currency: currencyReducer,
   account: accountReducer,
+  bank: bankReducer,
 });
 
 const persistConfig = {
@@ -38,6 +40,7 @@ const persistConfig = {
     "wallet",
     "currency",
     "account",
+    "bank",
   ], // State slices to persist
 };
 

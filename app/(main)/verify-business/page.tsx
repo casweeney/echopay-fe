@@ -169,7 +169,6 @@ const VerifyBusiness = () => {
         </div>
 
         <div className="max-w-[464px] mx-auto">
-          {/* ✅ Step header now uses memoized data */}
           <div className="mb-10">
             <div className="flex items-center justify-between mb-3">
               {steps.map((step) => (
@@ -386,70 +385,6 @@ const VerifyBusiness = () => {
                 </div>
               </>
             )}
-
-            {/* Step 3: BVN */}
-            {/* {currentStep === 3 && (
-              // <>
-              //   <p className="text-[#404040] font-normal text-[12px] lg:text-base leading-[24px] tracking-[0.5px] mb-6">
-              //     We need your bank verification to create a virtual bank
-              //     account for your business. You will be able to fund your
-              //     wallet and start disbursing funds after your BVN is connected.
-              //   </p>
-              //   <div>
-              //     <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
-              //       <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#010721] px-1 text-[12px] leading-[100%] font-instrument">
-              //         Bank Verification Number
-              //       </legend>
-              //       <div className="flex items-center gap-2">
-              //         <Input
-              //           id="bvn"
-              //           name="bvn"
-              //           type="number"
-              //           placeholder="Enter your BVN"
-              //           value={formData.bvn}
-              //           onChange={handleInputChange}
-              //           className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent flex-1 placeholder:text-[#828783] placeholder:font-instrument placeholder:align-bottom placeholder:text-[12px] lg:placeholder:text-[15px]"
-              //         />
-              //       </div>
-              //     </fieldset>
-              //   </div>
-
-              //   {/* BVN Requirements */}
-            {/* <div className="p-[12px] rounded-[8px] border border-[#E2E2E2] space-y-3">
-              //     <p className="text-[12px] lg:text-[14px] font-medium leading-[20px] tracking-[0.1px] text-[#010721] mb-4">
-              //       Your BVN should be:
-              //     </p>
-              //     <div className="space-y-2 font-instrument">
-              //       {bvnRequirements.map((req, idx) => (
-              //         <div key={idx} className="flex items-center gap-3">
-              //           {req.met ? (
-              //             <div>
-              //               {ECHOPAY_SVG().fillCheck({
-              //                 className:
-              //                   "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
-              //               })}
-              //             </div>
-              //           ) : (
-              //             <div>
-              //               {ECHOPAY_SVG().circleOutline({
-              //                 className:
-              //                   "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
-              //               })}
-              //             </div>
-              //           )}
-              //           <span
-              //             className={`text-[12px] lg:text-[14px] font-normal leading-[20px] tracking-[0.25px] ${
-              //               req.met ? "text-[#010721]" : "text-[#828783]"
-              //             }`}
-              //           >
-              //             {req.label}
-              //           </span>
-              //         </div>
-              //       ))}
-              //     </div>
-              //   </div> */}
-            {/* // </> */}
-            {/* )} */}
 
             <Button
               type="submit"

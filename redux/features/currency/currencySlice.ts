@@ -19,7 +19,7 @@ export const fetchCurrencies = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getCurrencies();
-      //   console.log(response);
+      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -41,7 +41,7 @@ const currencySlice = createSlice({
       })
       .addCase(fetchCurrencies.fulfilled, (state, action) => {
         state.loading = false;
-        state.currencies = action.payload.currencies || [];
+        state.currencies = action.payload.currencies;
       })
       .addCase(fetchCurrencies.rejected, (state, action) => {
         state.loading = false;

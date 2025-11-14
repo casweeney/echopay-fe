@@ -22,6 +22,7 @@ import {
   fetchCurrentBusiness,
   switchBusiness,
 } from "@/redux/features/business/businessSlice";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
 
 const Sidebar = () => {
   const pathname = usePathname() || "/";
@@ -54,7 +55,7 @@ const Sidebar = () => {
       if (response.status === "success") {
         const res = await dispatch(fetchCurrentBusiness()).unwrap();
         setBizId(res.data.id);
-        console.log(res.data.id, "Switched business to:", value);
+        await dispatch(fetchWallets(res.data.id));
       }
     },
     [dispatch]

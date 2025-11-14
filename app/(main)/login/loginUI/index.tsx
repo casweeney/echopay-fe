@@ -11,12 +11,20 @@ import type { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/features/auth/authSlice";
 import { fetchUser } from "@/redux/features/user/userSlice";
 import { useRouter } from "next/navigation";
+import {
+  fetchBusinesses,
+  fetchCurrentBusiness,
+} from "@/redux/features/business/businessSlice";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const { loading } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.user);
+  const { business } = useSelector((state: RootState) => state.business);
+
+  console.log(business?.id);
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -44,8 +52,12 @@ export default function LoginUI() {
 
         if (response.status === "success") {
           await dispatch(fetchUser()).unwrap();
+          await dispatch(fetchBusinesses()).unwrap();
+          await dispatch(fetchCurrentBusiness()).unwrap();
+          if (business?.id) {
+            await dispatch(fetchWallets(business.id)).unwrap();
+          }
           router.push("/analytics");
-          console.log("User verified:", user?.email_verified_at);
         }
 
         console.log("Login attempted with:", response);
@@ -53,7 +65,7 @@ export default function LoginUI() {
         console.error("Login error:", err);
       }
     },
-    [dispatch, router, formData, user?.email_verified_at]
+    [dispatch, router, formData, user?.email_verified_at, business?.id]
   );
 
   return (
