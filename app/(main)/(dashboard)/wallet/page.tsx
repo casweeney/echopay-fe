@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import { ChevronDown } from "lucide-react";
+import { CheckCircle, ChevronDown, Info, XCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -13,60 +13,179 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchBusinessVerificationStatus } from "@/redux/features/business/businessSlice";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+import { WalletFundModal } from "./components/WalletFundModal";
 
-const Payouts = () => {
+const Wallet = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { verificationStatus, business } = useSelector(
+    (state: RootState) => state.business
+  );
+  const { wallets } = useSelector((state: RootState) => state.wallet);
+
+  const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(true);
+  const [activeWalletId, setActiveWalletId] = useState<string | null>(null);
+  const [isFundWalletDialogOpen, setIsFundWalletDialogOpen] = useState(false);
 
-  const transactions = [
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-    {
-      amount: "-NGN 256,000",
-      beforeBal: "500,000.00",
-      afterBal: "234,567.00",
-      details: "Byakuya Kuchiki",
-      date: "01/01/2025 20:40",
-      status: "Success",
-    },
-  ];
+  const fetchWalletsData = useCallback(async () => {
+    if (!business?.id) return;
+    await dispatch(fetchWallets(business.id));
+  }, [dispatch, business?.id]);
+
+  useEffect(() => {
+    fetchWalletsData();
+  }, [fetchWalletsData]);
+
+  const fetchVerification = useCallback(async () => {
+    if (!business?.id) return;
+    await dispatch(fetchBusinessVerificationStatus(business.id));
+  }, [dispatch, business?.id]);
+
+  useEffect(() => {
+    fetchVerification();
+  }, [fetchVerification]);
+
+  const activeWallet = useMemo(() => {
+    return (
+      wallets.find((wallet) => wallet.id === activeWalletId) ||
+      wallets[0] ||
+      null
+    );
+  }, [wallets, activeWalletId]);
+
+  const formattedBalance = useMemo(
+    () => activeWallet?.balance.toLocaleString() || "",
+    [activeWallet]
+  );
+
+  const currencyName = useMemo(
+    () => activeWallet?.currency_symbol.toUpperCase() || "",
+    [activeWallet]
+  );
+
+  const handleSelectWallet = useCallback((id: string) => {
+    setActiveWalletId(id);
+  }, []);
+
+  const currentStatus = useMemo(
+    () => verificationStatus?.data?.status || "unknown",
+    [verificationStatus]
+  );
+
+  const isVerified = useMemo(
+    () => verificationStatus?.data?.status === "verified",
+    [verificationStatus]
+  );
+
+  const buttonDisabled = useMemo(
+    () => currentStatus === "pending" || currentStatus === "in_review",
+    [currentStatus]
+  );
+
+  const showAccordion = useMemo(() => {
+    return !(currentStatus === "in_review" || isVerified);
+  }, [currentStatus, isVerified]);
+
+  const getStatusMessage = useMemo(() => {
+    switch (currentStatus) {
+      case "pending":
+        return {
+          text: "Your business verification is pending",
+          color: "#fdf4e2",
+          icon: Info,
+        };
+      case "in_review":
+        return {
+          text: "Your business verification is under review",
+          color: "#d9f0ff",
+          icon: Info,
+        };
+      case "verified":
+        return {
+          text: "Your business has been verified successfully",
+          color: "#cdf4e4",
+          icon: CheckCircle,
+        };
+      case "rejected":
+        return {
+          text: "Your verification was rejected. Please verify again.",
+          color: "#ffdddd",
+          icon: XCircle,
+        };
+      default:
+        return { text: "", color: "transparent", icon: Info };
+    }
+  }, [currentStatus]);
+
+  const StatusIcon = getStatusMessage.icon;
+
+  const handleBVNVerifyClick = useCallback(() => {
+    router.push("/verify-bvn");
+  }, [router]);
+
+  const handleBusinessVerifyClick = useCallback(() => {
+    router.push("/verify-business");
+  }, [router]);
+
+  const transactions = useMemo(
+    () => [
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+      {
+        amount: "-NGN 256,000",
+        beforeBal: "500,000.00",
+        afterBal: "234,567.00",
+        details: "Byakuya Kuchiki",
+        date: "01/01/2025 20:40",
+        status: "Success",
+      },
+    ],
+    []
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -86,31 +205,47 @@ const Payouts = () => {
   return (
     <ProtectedRoute>
       <div className="p-3 lg:p-[24px]">
+        {getStatusMessage.text && (
+          <div
+            className="flex items-center gap-2 p-3 rounded-md mb-8"
+            style={{ backgroundColor: getStatusMessage.color }}
+          >
+            <StatusIcon className="w-5 h-5" />
+            <p className="text-sm text-[#010721] font-medium">
+              {getStatusMessage.text}
+            </p>
+          </div>
+        )}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-7 gap-4">
           <div>
             <div className="flex flex-row items-center gap-2 lg:gap-4 mb-2">
               <h1 className="text-2xl lg:text-[32px] font-medium leading-[32px] lg:leading-[40px] text-[#010721] align-middle tracking-[0px]">
                 Wallet
               </h1>
-              <Select defaultValue="myBusiness">
-                <SelectTrigger className="w-full lg:w-[105px] border rounded-[32px] h-full px-[5px] py-[5px] lg:p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
+              <Select
+                defaultValue={activeWallet?.id || ""}
+                onValueChange={handleSelectWallet}
+              >
+                <SelectTrigger className="w-full lg:w-[100px] h-9 border rounded-[32px] px-[5px] py-[5px] lg:p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="myBusiness">
-                      <div className="flex items-center space-x-2">
-                        <div>
-                          {ECHOPAY_SVG().nigeriaIcon({
-                            className:
-                              "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                          })}
+                    {wallets.map((wallet) => (
+                      <SelectItem key={wallet.id} value={wallet.id}>
+                        <div className="flex items-center space-x-2">
+                          <div>
+                            {ECHOPAY_SVG().nigeriaIcon({
+                              className:
+                                "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                            })}
+                          </div>
+                          <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
+                            {wallet.currency_symbol.toUpperCase()}
+                          </span>
                         </div>
-                        <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
-                          NGN
-                        </span>
-                      </div>
-                    </SelectItem>
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -130,7 +265,11 @@ const Payouts = () => {
                 })}
               </p>
             </button>
-            <button className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]">
+            <button
+              disabled={verificationStatus?.data.status !== "verified"}
+              onClick={() => setIsFundWalletDialogOpen(true)}
+              className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px] disabled:opacity-60 disabled:cursor-not-allowed"
+            >
               <p className="font-medium text-[12px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle text-[#FFFFFF]">
                 Fund Wallet
               </p>
@@ -140,7 +279,10 @@ const Payouts = () => {
                 })}
               </p>
             </button>
-            <button className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]">
+            <button
+              onClick={() => router.push("/create-disbursement")}
+              className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]"
+            >
               <p className="font-medium text-[12px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle text-[#FFFFFF]">
                 Create Disbursement
               </p>
@@ -153,11 +295,11 @@ const Payouts = () => {
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-4 mb-6">
-          <div className="w-full border border-[#E0E0E0] rounded-[8px] lg:rounded-[12px] p-3 lg:p-[16px]">
+        <div className="flex flex-col lg:flex-row gap-4 mb-6 items-start">
+          <div className="w-full border border-[#E0E0E0] rounded-[8px] lg:rounded-[12px] p-3 lg:p-[16px] flex-1">
             <div className="mb-4">
               <p className="font-normal text-sm lg:text-[16px] leading-[20px] lg:leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
-                NGN BALANCE
+                {currencyName} BALANCE
               </p>
             </div>
 
@@ -168,7 +310,7 @@ const Payouts = () => {
 
               <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-xl lg:text-[32px] leading-[28px] lg:leading-[40px] tracking-[0px] align-middle font-bold text-[#010721]">
-                  NGN 100,240
+                  {currencyName} {formattedBalance}
                 </h2>
                 <span className="text-[9px] lg:text-[11px] leading-[12px] lg:leading-[16px] tracking-[0.5px] align-middle font-medium text-[#0C614E] bg-[#CDF4E4] p-1 lg:p-[4px] rounded-[100px]">
                   +10%
@@ -181,58 +323,93 @@ const Payouts = () => {
             </div>
           </div>
 
-          <div className="w-full border border-[#E5E5E5] p-3 lg:p-[16px] rounded-[8px] lg:rounded-[8px]">
-            <div className="flex items-center gap-2 lg:gap-3 pb-3 lg:pb-4 border-b border-[#E5E5E5]">
-              <h1 className="text-lg lg:text-[22px] font-medium leading-[24px] lg:leading-[28px] tracking-[0px] text-[#010721]">
-                Your action items
-              </h1>
-              <div className="flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 bg-[#0046A7] text-white rounded-full text-sm lg:text-[16px] font-semibold">
-                1
+          {showAccordion && (
+            <div className="w-full border border-[#E5E5E5] p-3 lg:p-[16px] rounded-[8px] lg:rounded-[8px] flex-1">
+              <div className="flex items-center gap-2 lg:gap-3 pb-3 lg:pb-4 border-b border-[#E5E5E5]">
+                <h1 className="text-lg lg:text-[22px] font-medium leading-[24px] lg:leading-[28px] tracking-[0px] text-[#010721]">
+                  Your action items
+                </h1>
+                <div className="flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 bg-[#0046A7] text-white rounded-full text-sm lg:text-[16px] font-semibold">
+                  2
+                </div>
               </div>
-            </div>
 
-            <div className="overflow-hidden">
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="w-full flex items-center justify-between py-3 lg:py-4 bg-white hover:bg-gray-50 transition-colors"
-              >
-                <span className="text-sm lg:text-base tracking-[0.5px] font-normal text-[#404040]">
-                  Finish setting up your account
-                </span>
-                <ChevronDown
-                  size={20}
-                  className={`text-gray-600 transition-transform duration-300 ease-in-out flex-shrink-0 ${
-                    isExpanded ? "rotate-180" : ""
+              <div className="overflow-hidden">
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="w-full flex items-center justify-between py-3 lg:py-4 bg-white hover:bg-gray-50 transition-colors"
+                >
+                  <span className="text-sm lg:text-base tracking-[0.5px] font-normal text-[#404040]">
+                    Finish setting up your account
+                  </span>
+                  <ChevronDown
+                    size={20}
+                    className={`text-gray-600 transition-transform duration-300 ease-in-out flex-shrink-0 ${
+                      isExpanded ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                   }`}
-                />
-              </button>
-
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                }`}
-              >
-                <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 lg:gap-4">
-                      {ECHOPAY_SVG().checkOutline({
-                        className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                      })}
-                      <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
-                        Verify your Business
-                      </span>
+                >
+                  <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4">
+                      <div className="flex items-center gap-2 lg:gap-4">
+                        {ECHOPAY_SVG().checkOutline({
+                          className:
+                            "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                        })}
+                        <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
+                          Verify your BVN
+                        </span>
+                      </div>
+                      <Button
+                        onClick={handleBVNVerifyClick}
+                        // disabled={buttonDisabled}
+                        className="bg-[#0046A7] hover:bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6"
+                      >
+                        {"Verify BVN"}
+                      </Button>
                     </div>
-                    <Link
-                      href="/verify-business"
-                      className="bg-[#0046A7] flex items-center h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6 font-medium text-[12px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle whitespace-nowrap"
-                    >
-                      Verify Business
-                    </Link>
+                  </div>
+                </div>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 lg:gap-4">
+                        {ECHOPAY_SVG().checkOutline({
+                          className:
+                            "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                        })}
+                        <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
+                          Verify your Business
+                        </span>
+                      </div>
+                      <Button
+                        onClick={handleBusinessVerifyClick}
+                        disabled={buttonDisabled}
+                        className={`${
+                          buttonDisabled ? "opacity-60 cursor-not-allowed" : ""
+                        } bg-[#0046A7] hover:bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6`}
+                      >
+                        {currentStatus === "pending"
+                          ? "Verification Pending"
+                          : "Verify Business"}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="p-3 lg:p-6 rounded-lg border border-[#e0e0e0] overflow-hidden mb-6">
@@ -362,8 +539,12 @@ const Payouts = () => {
           </div>
         </div>
       </div>
+      <WalletFundModal
+        isOpen={isFundWalletDialogOpen}
+        onClose={() => setIsFundWalletDialogOpen(false)}
+      />
     </ProtectedRoute>
   );
 };
 
-export default Payouts;
+export default Wallet;

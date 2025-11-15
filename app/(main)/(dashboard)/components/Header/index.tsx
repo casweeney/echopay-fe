@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Separator } from "@/components/ui/separator";
 import { useSidebar } from "@/context/SidebarContext";
 import { MenuIcon, X } from "lucide-react";
 import Link from "next/link";
 import { logout } from "@/redux/features/auth/authSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getInitials } from "@/utils/nameInitial";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.user);
 
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -19,29 +21,33 @@ const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const { toggleSidebar } = useSidebar();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setOpen(false);
+    }
   }, []);
 
-  // Focus search input when modal opens
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [handleClickOutside]);
+
   useEffect(() => {
     if (searchOpen && searchRef.current) {
       setTimeout(() => searchRef.current?.focus(), 150);
     }
   }, [searchOpen]);
 
-  const handleLogout = () => {
+  const fullName = useMemo(() => user?.name || "User", [user]);
+  const firstName = useMemo(() => fullName.split(" ")[0], [fullName]);
+  const initials = useMemo(() => getInitials(fullName), [fullName]);
+
+  const handleLogout = useCallback(() => {
     dispatch(logout());
-  };
+  }, [dispatch]);
 
   return (
     <div className="border-b border-[#E0E0E0] px-4 lg:px-[24px] py-3 lg:py-[16px] flex justify-between items-center gap-2 lg:gap-0">
@@ -50,7 +56,7 @@ const Header = () => {
         <Link href="/" className="lg:hidden">
           <img src="/smallLogo.svg" alt="menu" className="w-[22px] h-[22px]" />
         </Link>
-        <div className="text-[13px] lg:text-base">Hello, Ella</div>
+        <div className="text-[13px] lg:text-base">Hello, {firstName}</div>
       </div>
 
       {/* Right section */}
@@ -108,17 +114,15 @@ const Header = () => {
           ref={dropdownRef}
         >
           <button
-            onClick={() => setOpen(!open)}
-            className="flex items-center gap-2"
+            onClick={() => setOpen((prev) => !prev)}
+            className="flex items-center gap-1"
           >
-            <img
-              src="/user_img.png"
-              alt="Profile"
-              className="object-cover lg:w-[40px] lg:h-[40px] w-8 h-8 rounded-full"
-            />
+            <div className="flex items-center justify-center text-[14px] w-9 h-9 rounded-full bg-[#0046A7] text-white font-semibold">
+              {initials}
+            </div>
             <div className="hidden lg:block">
               {ECHOPAY_SVG().chevronDown({
-                className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                className: "w-[18px] h-[18px] lg:w-[20px] lg:h-[20px]",
               })}
             </div>
           </button>
@@ -137,13 +141,12 @@ const Header = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 text-red-500"
+                  <button
                     onClick={handleLogout}
+                    className="w-full text-left block px-4 py-2 hover:bg-gray-100 text-red-500"
                   >
                     Logout
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ECHOPAY_SVG } from "@/assets/svgs";
@@ -22,64 +22,100 @@ import {
   fetchCurrentBusiness,
   switchBusiness,
 } from "@/redux/features/business/businessSlice";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
 
 const Sidebar = () => {
   const pathname = usePathname() || "/";
   const { isOpen, closeSidebar } = useSidebar();
-  const [bizness, setBizness] = useState({
-    bizId: "",
-  });
-
   const dispatch = useDispatch<AppDispatch>();
 
   const { user } = useSelector((state: RootState) => state.user);
-
   const { business, businesses } = useSelector(
     (state: RootState) => state.business
   );
+  const [bizId, setBizId] = useState<string>("");
 
   useEffect(() => {
+    if (!user) return;
     const handleBusiness = async () => {
-      if (user) {
-        await dispatch(fetchBusinesses());
-        await dispatch(fetchCurrentBusiness());
-      }
+      await dispatch(fetchBusinesses());
+      await dispatch(fetchCurrentBusiness());
     };
-
     handleBusiness();
   }, [dispatch, user]);
 
-  // Close sidebar automatically when navigating to a new route
   useEffect(() => {
     closeSidebar();
   }, [pathname, closeSidebar]);
 
-  const handleSwitchBusiness = async (
-    e: React.ChangeEvent<HTMLInputElement> | string,
-    name?: string
-  ) => {
-    if (typeof e === "string" && name) {
-      setBizness({
-        ...bizness,
-        [name]: e,
-      });
-    }
+  const handleSwitchBusiness = useCallback(
+    async (value: string) => {
+      const response = await dispatch(switchBusiness(value)).unwrap();
 
-    const response = await dispatch(switchBusiness(bizness.bizId)).unwrap();
+      if (response.status === "success") {
+        const res = await dispatch(fetchCurrentBusiness()).unwrap();
+        setBizId(res.data.id);
+        await dispatch(fetchWallets(res.data.id));
+      }
+    },
+    [dispatch]
+  );
 
-    if ((response.status = "success")) {
-      await dispatch(fetchCurrentBusiness());
-      await dispatch(fetchCurrentBusiness());
-    }
-  };
+  const isActive = useCallback(
+    (link: string) =>
+      link === "/" ? pathname === "/" : pathname.startsWith(link),
+    [pathname]
+  );
 
-  const isActive = (link: string) => {
-    if (link === "/") return pathname === "/";
-    return pathname.startsWith(link);
-  };
+  const linkBase = useMemo(
+    () =>
+      "w-[168px] flex items-center gap-3 p-[8px] rounded-[4px] cursor-pointer transition-all",
+    []
+  );
 
-  const linkBase =
-    "w-[168px] flex items-center gap-3 p-[8px] rounded-[4px] cursor-pointer transition-all";
+  const mainMenuLinks = useMemo(
+    () =>
+      MENUTABS.map((tab) => {
+        const active = isActive(tab.link);
+        return (
+          <Link
+            key={tab.name}
+            href={tab.link}
+            className={`${linkBase} ${
+              active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
+            }`}
+          >
+            <div>{tab.icon as React.ReactNode}</div>
+            <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+              {tab.name}
+            </span>
+          </Link>
+        );
+      }),
+    [isActive, linkBase]
+  );
+
+  const settingLinks = useMemo(
+    () =>
+      SETTINGTABS.map((tab) => {
+        const active = isActive(tab.link);
+        return (
+          <Link
+            key={tab.name}
+            href={tab.link}
+            className={`${linkBase} ${
+              active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
+            }`}
+          >
+            <div>{tab.icon as React.ReactNode}</div>
+            <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+              {tab.name}
+            </span>
+          </Link>
+        );
+      }),
+    [isActive, linkBase]
+  );
 
   return (
     <>
@@ -92,8 +128,8 @@ const Sidebar = () => {
         <div className="mb-8">
           <Select
             name="business"
-            defaultValue={business?.id || ""}
-            onValueChange={(value: string) => handleSwitchBusiness(value)}
+            defaultValue={bizId || business?.id}
+            onValueChange={handleSwitchBusiness}
           >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
@@ -120,57 +156,17 @@ const Sidebar = () => {
             <p className="text-[11px] font-medium text-[#010721] leading-[16px] tracking-[0.5px] mb-2 align-middle">
               MAIN MENU
             </p>
-            <nav className="flex flex-col gap-1">
-              {MENUTABS.map((tab) => {
-                const active = isActive(tab.link);
-                return (
-                  <Link
-                    key={tab.name}
-                    href={tab.link}
-                    className={`${linkBase} ${
-                      active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
-                    }`}
-                  >
-                    <div>{tab.icon as React.ReactNode}</div>
-                    <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
-                      {tab.name}
-                    </span>
-                  </Link>
-                );
-              })}
-            </nav>
+            <nav className="flex flex-col gap-1">{mainMenuLinks}</nav>
           </div>
 
           <div>
             <p className="text-[11px] font-medium text-[#010721] leading-[16px] tracking-[0.5px] mb-2 align-middle">
               SYSTEM
             </p>
-            <nav className="flex flex-col gap-1">
-              {SETTINGTABS.map((tab) => {
-                const active = isActive(tab.link);
-                return (
-                  <Link
-                    key={tab.name}
-                    href={tab.link}
-                    className={`${linkBase} ${
-                      active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
-                    }`}
-                  >
-                    <div>{tab.icon as React.ReactNode}</div>
-                    <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
-                      {tab.name}
-                    </span>
-                  </Link>
-                );
-              })}
-            </nav>
+            <nav className="flex flex-col gap-1">{settingLinks}</nav>
           </div>
         </div>
       </div>
-
-      {/* <button onClick={toggleSidebar} className="lg:hidden">
-        <img src="/smallLogo.svg" alt="menu" className="w-[24px] h-[24px]" />
-      </button> */}
 
       {/* 📱 Mobile Overlay */}
       <div
@@ -195,7 +191,11 @@ const Sidebar = () => {
         </div>
 
         <div className="mb-8">
-          <Select defaultValue={business?.id || ""}>
+          <Select
+            name="business"
+            defaultValue={bizId || business?.id}
+            onValueChange={handleSwitchBusiness}
+          >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
               <SelectValue />
             </SelectTrigger>
@@ -221,50 +221,14 @@ const Sidebar = () => {
             <p className="text-[10px] lg:text-[11px] font-medium text-[#010721] leading-[16px] tracking-[0.5px] mb-2 align-middle">
               MAIN MENU
             </p>
-            <nav className="flex flex-col gap-1">
-              {MENUTABS.map((tab) => {
-                const active = isActive(tab.link);
-                return (
-                  <Link
-                    key={tab.name}
-                    href={tab.link}
-                    className={`${linkBase} ${
-                      active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
-                    }`}
-                  >
-                    <div>{tab.icon as React.ReactNode}</div>
-                    <span className="text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
-                      {tab.name}
-                    </span>
-                  </Link>
-                );
-              })}
-            </nav>
+            <nav className="flex flex-col gap-1">{mainMenuLinks}</nav>
           </div>
 
           <div>
             <p className="text-[10px] lg:text-[11px] font-medium text-[#010721] leading-[16px] tracking-[0.5px] mb-2 align-middle">
               SYSTEM
             </p>
-            <nav className="flex flex-col gap-1">
-              {SETTINGTABS.map((tab) => {
-                const active = isActive(tab.link);
-                return (
-                  <Link
-                    key={tab.name}
-                    href={tab.link}
-                    className={`${linkBase} ${
-                      active ? "bg-[#D9F0FF]" : "hover:bg-[#D9F0FF]"
-                    }`}
-                  >
-                    <div>{tab.icon as React.ReactNode}</div>
-                    <span className="text-[12px] lg:text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
-                      {tab.name}
-                    </span>
-                  </Link>
-                );
-              })}
-            </nav>
+            <nav className="flex flex-col gap-1">{settingLinks}</nav>
           </div>
         </div>
       </div>

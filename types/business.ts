@@ -98,42 +98,6 @@ export interface UpdateCurrentBusinessResponse {
   status: string;
 }
 
-export interface VerifyBusinessPayload {
-  phone: string;
-  city: string;
-  address: string;
-  postal_code: number;
-  website: string;
-  business_category_id: string;
-  state_id: string;
-  country_id: string;
-}
-
-export interface VerifyBusinessResponse {
-  data: {
-    next_step: string;
-    verification_status: string;
-  };
-  message: string;
-  status: string;
-}
-
-export interface VerificationStatusResponse {
-  status: string;
-  data: {
-    business_verification: {
-      is_verified: boolean;
-      status: string;
-      verified_at: string | null;
-    };
-    bvn_verification: {
-      is_verified: boolean;
-      verified_at: string | null;
-    };
-    fully_verified: boolean;
-  };
-}
-
 export interface SwitchCurrentBusinessResponse {
   message: string;
   status: string;
@@ -171,18 +135,16 @@ export interface VerifyBusinessResponse {
   status: string;
 }
 
-// export interface VerificationStatusResponse {
-//   status: string;
-//   data: {
-//     business_verification: {
-//       is_verified: boolean;
-//       status: string;
-//       verified_at: string | null;
-//     };
-//     bvn_verification: {
-//       is_verified: boolean;
-//       verified_at: string | null;
-//     };
-//     fully_verified: boolean;
-//   };
-// }
+export interface BusinessVerificationStatusResponse {
+  data: {
+    is_verified: boolean;
+    status: string;
+    verified_at: string | null;
+  };
+  status: string;
+}
+
+export interface GetBusinessDetailsResponse {
+  data: BusinessDetails;
+  status: string;
+}

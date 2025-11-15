@@ -10,8 +10,18 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use((config) => {
   const token = getAuthToken();
-  if (token) {
+  // Only attach JWT if the request did not specify a custom API key header
+  if (token && !config.headers["x-api-key"]) {
     config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  // If using an API key, swap it into Authorization
+  if (config.headers["x-api-key"]) {
+    const apiKey = config.headers["x-api-key"];
+    config.headers.Authorization = `Bearer ${apiKey}`;
+
+    // Remove custom header to avoid sending it to server
+    delete config.headers["x-api-key"];
   }
   return config;
 });

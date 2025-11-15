@@ -6,7 +6,21 @@ import {
   BusinessCategoriesResponse,
   VerifyBusinessResponse,
   VerifyBusinessPayload,
+  BusinessVerificationStatusResponse,
+  GetBusinessDetailsResponse,
+  CreateBusinessPayload,
+  CreateBusinessResponse,
 } from "@/types/business";
+
+export const createBusiness = async (
+  payload: CreateBusinessPayload
+): Promise<CreateBusinessResponse> => {
+  const { data } = await axiosClient.post<CreateBusinessResponse>(
+    "/api/v1/businesses",
+    payload
+  );
+  return data;
+};
 
 export const getBusinesses = async (): Promise<GetBusinessesResponse> => {
   const { data } = await axiosClient.get<GetBusinessesResponse>(
@@ -51,5 +65,24 @@ export const verifyUserBusiness = async (
     payload
   );
 
+  return data;
+};
+
+export const getBusinessVerificationStatus = async (
+  id: string
+): Promise<BusinessVerificationStatusResponse> => {
+  const { data } = await axiosClient.get<BusinessVerificationStatusResponse>(
+    `/api/v1/businesses/verification-status/${id}`
+  );
+
+  return data;
+};
+
+export const getBusinessDetails = async (
+  id: string
+): Promise<GetBusinessDetailsResponse> => {
+  const { data } = await axiosClient.get<GetBusinessDetailsResponse>(
+    `/api/v1/businesses/${id}`
+  );
   return data;
 };

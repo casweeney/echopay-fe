@@ -5,7 +5,7 @@ import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Eye, EyeOff } from "lucide-react";
 import { useDispatch } from "react-redux";
@@ -35,16 +35,28 @@ export default function RegisterUI() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const passwordRequirements = [
-    { label: "Minimum of 8 characters", met: formData.password.length >= 8 },
-    { label: "Lowercase letter(s)", met: /[a-z]/.test(formData.password) },
-    { label: "Uppercase letter(s)", met: /[A-Z]/.test(formData.password) },
-    {
-      label: "A special character (!@#$%*)",
-      met: /[!@#$%*]/.test(formData.password),
-    },
-    { label: "A number (123...)", met: /\d/.test(formData.password) },
-  ];
+  const toggleShowPassword = useCallback(
+    () => setShowPassword((prev) => !prev),
+    []
+  );
+  const toggleShowConfirmPassword = useCallback(
+    () => setShowConfirmPassword((prev) => !prev),
+    []
+  );
+
+  const passwordRequirements = useMemo(
+    () => [
+      { label: "Minimum of 8 characters", met: formData.password.length >= 8 },
+      { label: "Lowercase letter(s)", met: /[a-z]/.test(formData.password) },
+      { label: "Uppercase letter(s)", met: /[A-Z]/.test(formData.password) },
+      {
+        label: "A special character (!@#$%*)",
+        met: /[!@#$%*]/.test(formData.password),
+      },
+      { label: "A number (123...)", met: /\d/.test(formData.password) },
+    ],
+    [formData.password]
+  );
 
   const steps = [
     { number: 1, name: "Business (Identity)" },
@@ -52,72 +64,99 @@ export default function RegisterUI() {
     { number: 3, name: "Password" },
   ];
 
-  const isStep1Valid = () =>
-    formData.businessName && formData.firstName && formData.lastName;
+  const isStep1Valid = useMemo(
+    () => formData.businessName && formData.firstName && formData.lastName,
+    [formData.businessName, formData.firstName, formData.lastName]
+  );
 
-  const isStep2Valid = () => formData.email && formData.phone;
+  const isStep2Valid = useMemo(
+    () => formData.email && formData.phone,
+    [formData.email, formData.phone]
+  );
 
-  const areAllPasswordRequirementsMet = () => {
-    return passwordRequirements.every((req) => req.met);
-  };
+  const areAllPasswordRequirementsMet = useMemo(
+    () => passwordRequirements.every((req) => req.met),
+    [passwordRequirements]
+  );
 
-  const isStep3Valid = () =>
-    formData.password &&
-    formData.confirmPassword &&
-    formData.password === formData.confirmPassword &&
-    areAllPasswordRequirementsMet();
+  const isStep3Valid = useMemo(
+    () =>
+      formData.password &&
+      formData.confirmPassword &&
+      formData.password === formData.confirmPassword &&
+      areAllPasswordRequirementsMet,
+    [formData.password, formData.confirmPassword, areAllPasswordRequirementsMet]
+  );
 
-  const passwordsMatch =
-    formData.confirmPassword === "" ||
-    formData.password === formData.confirmPassword;
+  const passwordsMatch = useMemo(
+    () =>
+      formData.confirmPassword === "" ||
+      formData.password === formData.confirmPassword,
+    [formData.password, formData.confirmPassword]
+  );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
 
-  const handleContinue = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleContinue = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    if (currentStep === 1) {
-      if (isStep1Valid()) {
-        setCompletedSteps([...completedSteps, 1]);
-        setCurrentStep(2);
-      }
-    } else if (currentStep === 2) {
-      if (isStep2Valid()) {
-        setCompletedSteps([...completedSteps, 2]);
-        setCurrentStep(3);
-      }
-    } else if (currentStep === 3) {
-      if (isStep3Valid()) {
-        setCompletedSteps([...completedSteps, 3]);
+      if (currentStep === 1) {
+        if (isStep1Valid) {
+          setCompletedSteps((prev) => [...prev, 1]);
+          setCurrentStep(2);
+        }
+      } else if (currentStep === 2) {
+        if (isStep2Valid) {
+          setCompletedSteps((prev) => [...prev, 2]);
+          setCurrentStep(3);
+        }
+      } else if (currentStep === 3) {
+        if (isStep3Valid) {
+          setCompletedSteps((prev) => [...prev, 3]);
 
-        const payload = {
-          business_name: formData.businessName,
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-        };
+          const payload = {
+            business_name: formData.businessName,
+            name: `${formData.firstName} ${formData.lastName}`,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password,
+          };
 
-        const resultAction = await dispatch(register(payload)).unwrap();
-        console.log("✅ Registration Response:", resultAction);
+          const resultAction = await dispatch(register(payload)).unwrap();
+          console.log("✅ Registration Response:", resultAction);
 
-        if (resultAction && resultAction.status === "success") {
-          localStorage.setItem(
-            "verificationEmail",
-            resultAction.data.user.email
-          );
-          route.push("/verify-email");
+          if (resultAction && resultAction.status === "success") {
+            localStorage.setItem(
+              "verificationEmail",
+              resultAction.data.user.email
+            );
+            route.push("/verify-email");
+          }
         }
       }
-    }
-  };
+    },
+    [
+      currentStep,
+      isStep1Valid,
+      isStep2Valid,
+      isStep3Valid,
+      formData,
+      dispatch,
+      route,
+    ]
+  );
 
-  const progressWidth = `${(currentStep / 3) * 100}%`;
+  const progressWidth = useMemo(
+    () => `${(currentStep / 3) * 100}%`,
+    [currentStep]
+  );
 
   return (
     <div className="flex min-h-screen">
@@ -409,7 +448,7 @@ export default function RegisterUI() {
                       />
                       <button
                         type="button"
-                        onClick={() => setShowPassword(!showPassword)}
+                        onClick={toggleShowPassword}
                         className="text-[#8c8c8c] hover:text-[#49454f] transition-colors"
                       >
                         {showPassword ? (
@@ -477,9 +516,7 @@ export default function RegisterUI() {
                       />
                       <button
                         type="button"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
+                        onClick={toggleShowConfirmPassword}
                         className={`transition-colors ${
                           !passwordsMatch
                             ? "text-[#FF383C]"
@@ -506,9 +543,9 @@ export default function RegisterUI() {
             <Button
               type="submit"
               disabled={
-                (currentStep === 1 && !isStep1Valid()) ||
-                (currentStep === 2 && !isStep2Valid()) ||
-                (currentStep === 3 && !isStep3Valid())
+                (currentStep === 1 && !isStep1Valid) ||
+                (currentStep === 2 && !isStep2Valid) ||
+                (currentStep === 3 && !isStep3Valid)
               }
               className="w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
             >

@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  createBusiness,
   getBusinessCategories,
+  getBusinessDetails,
   getBusinesses,
+  getBusinessVerificationStatus,
   getCurrentBusiness,
   switchCurrentBusiness,
   verifyUserBusiness,
@@ -9,16 +12,23 @@ import {
 import {
   Business,
   BusinessCategory,
+  BusinessDetails,
+  BusinessVerificationStatusResponse,
+  CreateBusinessPayload,
+  CreateBusinessResponse,
   CurrentBusinessData,
   VerifyBusinessPayload,
   VerifyBusinessResponse,
 } from "@/types/business";
 
 interface BusinessState {
+  businessResponse: CreateBusinessResponse | null;
+  businessDetails: BusinessDetails | null;
   business: CurrentBusinessData | null;
   businesses: Business[];
   businessCategories: BusinessCategory[];
   verifyData: VerifyBusinessResponse | null;
+  verificationStatus: BusinessVerificationStatusResponse | null;
   loading: boolean;
   error: string | null;
   count: number;
@@ -26,15 +36,33 @@ interface BusinessState {
 }
 
 const initialState: BusinessState = {
+  businessResponse: null,
+  businessDetails: null,
   business: null,
   businesses: [],
   businessCategories: [],
   verifyData: null,
+  verificationStatus: null,
   loading: false,
   error: null,
   count: 0,
   message: "",
 };
+
+// Create business
+export const createUserBusiness = createAsyncThunk(
+  "business/createUserBusiness",
+  async (payload: CreateBusinessPayload, { rejectWithValue }) => {
+    try {
+      const response = await createBusiness(payload);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to create business"
+      );
+    }
+  }
+);
 
 // Fetch businesses data
 export const fetchBusinesses = createAsyncThunk(
@@ -42,7 +70,7 @@ export const fetchBusinesses = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBusinesses();
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -57,7 +85,7 @@ export const fetchCurrentBusiness = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getCurrentBusiness();
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -72,7 +100,7 @@ export const switchBusiness = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await switchCurrentBusiness(id);
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -87,7 +115,7 @@ export const fetchBusinessCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBusinessCategories();
-      console.log(response.business_categories);
+      // console.log(response.business_categories);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -105,11 +133,41 @@ export const verifyBusiness = createAsyncThunk(
   ) => {
     try {
       const response = await verifyUserBusiness(id, payload);
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data || "Failed to verify business"
+      );
+    }
+  }
+);
+
+export const fetchBusinessVerificationStatus = createAsyncThunk(
+  "business/fetchBusinessVerificationStatus",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await getBusinessVerificationStatus(id);
+      // console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch business verification status"
+      );
+    }
+  }
+);
+
+export const fetchBusinessDetails = createAsyncThunk(
+  "business/fetchBusinessDetails",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await getBusinessDetails(id);
+      // console.log(response);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch business details"
       );
     }
   }
@@ -128,6 +186,18 @@ const businessSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createUserBusiness.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createUserBusiness.fulfilled, (state, action) => {
+        state.loading = false;
+        state.businessResponse = action.payload;
+      })
+      .addCase(createUserBusiness.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       .addCase(fetchBusinesses.pending, (state) => {
         state.loading = true;
       })
@@ -185,6 +255,28 @@ const businessSlice = createSlice({
         state.verifyData = action.payload;
       })
       .addCase(verifyBusiness.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBusinessVerificationStatus.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchBusinessVerificationStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verificationStatus = action.payload;
+      })
+      .addCase(fetchBusinessVerificationStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBusinessDetails.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchBusinessDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.businessDetails = action.payload.data;
+      })
+      .addCase(fetchBusinessDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
