@@ -45,8 +45,10 @@ const Sidebar = () => {
   }, [dispatch, user]);
 
   useEffect(() => {
-    closeSidebar();
-  }, [pathname, closeSidebar]);
+    if (isOpen) {
+      closeSidebar();
+    }
+  }, [pathname, isOpen, closeSidebar]);
 
   const handleSwitchBusiness = useCallback(
     async (value: string) => {
