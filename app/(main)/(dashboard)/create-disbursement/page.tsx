@@ -21,6 +21,7 @@ import { fetchBanks } from "@/redux/features/bank/bankSlice";
 import { SelectGroup } from "@radix-ui/react-select";
 import Link from "next/link";
 import { initiateDisbursement } from "@/redux/features/disbursement/disbursementSlice";
+import DisbursementSuccessDialog from "./components/PayoutSuccessModal";
 
 const CreateDisbursement = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,6 +34,7 @@ const CreateDisbursement = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [formData, setFormData] = useState({
     amount: "",
     bank_code: "",
@@ -120,7 +122,7 @@ const CreateDisbursement = () => {
 
         console.log("Form submitted:", response);
         if (response.status === "success") {
-          router.push("/wallet");
+          setShowSuccessDialog(true);
         }
 
         console.log("Final Form Data:", formData);
@@ -128,6 +130,11 @@ const CreateDisbursement = () => {
     },
     [currentStep, isStepValid, formData, dispatch, router, business?.id]
   );
+
+  const handleViewAllDisbursements = () => {
+    setShowSuccessDialog(false);
+    router.push("/wallet");
+  };
 
   const handleBack = () => {
     setCurrentStep(1);
@@ -140,6 +147,15 @@ const CreateDisbursement = () => {
 
   return (
     <div className="min-h-screen p-6">
+      <DisbursementSuccessDialog
+        open={showSuccessDialog}
+        onOpenChange={setShowSuccessDialog}
+        amount={formData.amount}
+        currency={formData.currency}
+        merchantReference={formData.merchant_reference}
+        transactionReference={formData.merchant_reference}
+        onViewAll={handleViewAllDisbursements}
+      />
       <div className="max-w-[45rem]">
         {/* Header */}
         <div className="flex items-center gap-2 mb-14">
