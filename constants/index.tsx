@@ -20,13 +20,13 @@ export const MENUTABS: SideTabsProps[] = [
     name: "Analytics",
     link: "/analytics",
   },
-  {
-    icon: ECHOPAY_SVG().linkIcon({
-      className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-    }),
-    name: "Payment Links",
-    link: "/payment-links",
-  },
+  // {
+  //   icon: ECHOPAY_SVG().linkIcon({
+  //     className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+  //   }),
+  //   name: "Payment Links",
+  //   link: "/payment-links",
+  // },
   {
     icon: ECHOPAY_SVG().walletIcon({
       className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
@@ -41,13 +41,13 @@ export const MENUTABS: SideTabsProps[] = [
     name: "Transactions",
     link: "/transactions",
   },
-  {
-    icon: ECHOPAY_SVG().invoiceIcon({
-      className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-    }),
-    name: "Invoices",
-    link: "/invoices",
-  },
+  // {
+  //   icon: ECHOPAY_SVG().invoiceIcon({
+  //     className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+  //   }),
+  //   name: "Invoices",
+  //   link: "/invoices",
+  // },
   {
     icon: ECHOPAY_SVG().groupIcon({
       className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
