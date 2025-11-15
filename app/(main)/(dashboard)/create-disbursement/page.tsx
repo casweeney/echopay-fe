@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -13,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { toast } from "@/hooks/use-toast";
+// import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,10 +20,12 @@ import { fetchCurrencies } from "@/redux/features/currency/currencySlice";
 import { fetchBanks } from "@/redux/features/bank/bankSlice";
 import { SelectGroup } from "@radix-ui/react-select";
 import Link from "next/link";
+import { initiateDisbursement } from "@/redux/features/disbursement/disbursementSlice";
 
 const CreateDisbursement = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { banks } = useSelector((state: RootState) => state.bank);
+  const { keys } = useSelector((state: RootState) => state.apiKey);
   const { currencies } = useSelector((state: RootState) => state.currency);
   console.log(currencies);
   const { business } = useSelector((state: RootState) => state.business);
@@ -38,8 +39,14 @@ const CreateDisbursement = () => {
     account_number: "",
     currency: "",
     merchant_reference: "",
-    biz_number: business?.biz_number,
+    biz_number: business?.biz_number || "",
   });
+
+  useEffect(() => {
+    if (business?.biz_number) {
+      setFormData((prev) => ({ ...prev, biz_number: business.biz_number }));
+    }
+  }, [business?.biz_number]);
 
   useEffect(() => {
     dispatch(fetchCurrencies());
@@ -98,28 +105,23 @@ const CreateDisbursement = () => {
       } else if (currentStep === 2) {
         setCompletedSteps((prev) => [...prev, 2]);
 
-        // const payload = {
-        //   phone: formData.phone,
-        //   city: formData.city,
-        //   address: formData.address,
-        //   postal_code: Number(formData.postalCode),
-        //   website: formData.businessWebsite,
-        //   business_category_id: formData.businessCategory,
-        //   state_id: formData.state,
-        //   country_id: formData.country,
-        // };
+        const payload = {
+          amount: Number(formData.amount),
+          bank_code: formData.bank_code,
+          account_number: formData.account_number,
+          currency: formData.currency.toUpperCase(),
+          merchant_reference: formData.merchant_reference,
+          biz_number: formData.biz_number,
+        };
 
-        // const response = await dispatch(
-        //   verifyBusiness({
-        //     id: business?.id || "",
-        //     payload,
-        //   })
-        // ).unwrap();
+        const response = await dispatch(
+          initiateDisbursement({ ...payload, apiKey: keys[0].secret_key })
+        ).unwrap();
 
-        // console.log("Form submitted:", response);
-        // if (response.status === "success") {
-        //   router.push("/wallet");
-        // }
+        console.log("Form submitted:", response);
+        if (response.status === "success") {
+          router.push("/wallet");
+        }
 
         console.log("Final Form Data:", formData);
       }
@@ -157,7 +159,7 @@ const CreateDisbursement = () => {
               {steps.map((step) => (
                 <span
                   key={step.number}
-                  className={`font-normal font-instrument text-[10px] md:text-[12px] lg:text-[12px] leading-[100%] text-center w-1/2 ${
+                  className={`font-normal font-instrument text-[10px] md:text-[12px] lg:text-[14px] leading-[100%] text-center w-1/2 ${
                     currentStep === step.number ||
                     completedSteps.includes(step.number)
                       ? "text-[#010721]"
@@ -342,40 +344,34 @@ const CreateDisbursement = () => {
                   cannot be undone.
                 </p>
 
-                <div className="space-y-4 mb-8">
+                <div className="mb-8">
                   {/* Amount */}
-                  <div className="flex justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">
-                      Amount
-                    </span>
+                  <div className="flex justify-between py-4 border-b border-border">
+                    <span className="text-sm text-[#4D4D4D]">Amount</span>
                     <span className="text-sm font-medium text-foreground">
-                      {formData.amount}
+                      {Number(formData.amount).toFixed(2)}
                     </span>
                   </div>
 
                   {/* Currency */}
-                  <div className="flex justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">
-                      Currency
-                    </span>
+                  <div className="flex justify-between py-4 border-b border-border">
+                    <span className="text-sm text-[#4D4D4D]">Currency</span>
                     <span className="text-sm font-medium text-foreground">
-                      {formData.currency}
+                      {formData.currency.toUpperCase()}
                     </span>
                   </div>
 
                   {/* Bank Name */}
-                  <div className="flex justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">
-                      Bank Name
-                    </span>
+                  <div className="flex justify-between py-4 border-b border-border">
+                    <span className="text-sm text-[#4D4D4D]">Bank Code</span>
                     <span className="text-sm font-medium text-foreground">
                       {formData.bank_code}
                     </span>
                   </div>
 
                   {/* Account Number */}
-                  <div className="flex justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">
+                  <div className="flex justify-between py-4 border-b border-border">
+                    <span className="text-sm text-[#4D4D4D]">
                       Account Number
                     </span>
                     <span className="text-sm font-medium text-foreground">
@@ -384,8 +380,8 @@ const CreateDisbursement = () => {
                   </div>
 
                   {/* Merchant Reference */}
-                  <div className="flex justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">
+                  <div className="flex justify-between py-4 border-b border-border">
+                    <span className="text-sm text-[#4D4D4D]">
                       Merchant Reference
                     </span>
                     <span className="text-sm font-medium text-foreground">
@@ -394,12 +390,10 @@ const CreateDisbursement = () => {
                   </div>
 
                   {/* Total Debit */}
-                  <div className="flex justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">
-                      Total Debit
-                    </span>
+                  <div className="flex justify-between py-4">
+                    <span className="text-sm text-[#010721]">Total Debit</span>
                     <span className="text-sm font-medium text-foreground">
-                      {formData.amount}
+                      {Number(formData.amount).toFixed(2)}
                     </span>
                   </div>
                 </div>
