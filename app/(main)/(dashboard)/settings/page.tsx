@@ -60,63 +60,61 @@ const Settings = () => {
   };
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-background">
-        <SettingsTabs activeTab={activeTab} onTabChange={setActiveTab} />
+    <div className="min-h-screen bg-background">
+      <SettingsTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-        <main className="max-w-7xl mx-auto p-6">
-          {activeTab === "business" && <BusinessSettings />}
+      <main className="max-w-7xl mx-auto p-6">
+        {activeTab === "business" && <BusinessSettings />}
 
-          {activeTab === "profile" && <ProfileSettings />}
+        {activeTab === "profile" && <ProfileSettings />}
 
-          {activeTab === "notification" && <NotificationSettings />}
+        {activeTab === "notification" && <NotificationSettings />}
 
-          {activeTab === "security" && <SecuritySettings />}
+        {activeTab === "security" && <SecuritySettings />}
 
-          {activeTab === "api-keys" && (
-            <div className="space-y-6">
-              {/* API Keys Section */}
-              <div className="p-[16px] border border-[#E0E0E0] rounded-[12px]">
-                <div className="flex items-center justify-between mb-6">
-                  <h1 className="text-base tracking-[0.5px] font-normal text-[#010721]">
-                    API KEYS
-                  </h1>
-                  <button
-                    className="flex items-center justify-center border border-[#0046A7] rounded-[12px] w-[167px] h-[56px] text-[14px] font-medium leading-[20px] tracking-[0.1px] align-middle text-[#0046A7]"
-                    onClick={() => setIsCreateKeyDialogOpen(true)}
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create New Key
-                  </button>
-                </div>
-
-                <CreateApiKeyDialog
-                  open={isCreateKeyDialogOpen}
-                  onOpenChange={setIsCreateKeyDialogOpen}
-                  onCreateKey={handleCreateKey}
-                />
-
-                <div className="space-y-4">
-                  {keys.map((key) => (
-                    <ApiKeyCard
-                      key={key.id}
-                      title={key.name}
-                      apiKey={key.secret_key}
-                      createdDate={key.created_at}
-                      lastUsedDate={key.last_used_at}
-                      onDelete={() => handleDeleteKey(key.id, key.name)}
-                    />
-                  ))}
-                </div>
+        {activeTab === "api-keys" && (
+          <div className="space-y-6">
+            {/* API Keys Section */}
+            <div className="p-[16px] border border-[#E0E0E0] rounded-[12px]">
+              <div className="flex items-center justify-between mb-6">
+                <h1 className="text-base tracking-[0.5px] font-normal text-[#010721]">
+                  API KEYS
+                </h1>
+                <button
+                  className="flex items-center justify-center border border-[#0046A7] rounded-[12px] w-[167px] h-[56px] text-[14px] font-medium leading-[20px] tracking-[0.1px] align-middle text-[#0046A7]"
+                  onClick={() => setIsCreateKeyDialogOpen(true)}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create New Key
+                </button>
               </div>
 
-              {/* Webhook Settings Section */}
-              <WebhookSettings />
+              <CreateApiKeyDialog
+                open={isCreateKeyDialogOpen}
+                onOpenChange={setIsCreateKeyDialogOpen}
+                onCreateKey={handleCreateKey}
+              />
+
+              <div className="space-y-4">
+                {keys.map((key) => (
+                  <ApiKeyCard
+                    key={key.id}
+                    title={key.name}
+                    apiKey={key.secret_key}
+                    createdDate={key.created_at}
+                    lastUsedDate={key.last_used_at}
+                    onDelete={() => handleDeleteKey(key.id, key.name)}
+                  />
+                ))}
+              </div>
             </div>
-          )}
-        </main>
-      </div>
-    </ProtectedRoute>
+
+            {/* Webhook Settings Section */}
+            <WebhookSettings />
+          </div>
+        )}
+      </main>
+    </div>
   );
 };
 

@@ -3,9 +3,5 @@ import RegisterUI from "./registerUI";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default async function RegisterPage() {
-  return (
-    <ProtectedRoute>
-      <RegisterUI />
-    </ProtectedRoute>
-  );
+  return <RegisterUI />;
 }

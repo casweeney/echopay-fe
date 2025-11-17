@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+// import Cookies from "universal-cookie";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,22 +10,17 @@ import { ECHOPAY_SVG } from "@/assets/svgs";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/features/auth/authSlice";
-import { fetchUser } from "@/redux/features/user/userSlice";
 import { useRouter } from "next/navigation";
-import {
-  fetchBusinesses,
-  fetchCurrentBusiness,
-} from "@/redux/features/business/businessSlice";
-import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+import { useToast } from "@/hooks/use-toast";
+
+import { toast } from "react-toastify";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+
   const { loading } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.user);
-  const { business } = useSelector((state: RootState) => state.business);
-
-  console.log(business?.id);
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -51,12 +47,7 @@ export default function LoginUI() {
         const response = await dispatch(login(formData)).unwrap();
 
         if (response.status === "success") {
-          await dispatch(fetchUser()).unwrap();
-          await dispatch(fetchBusinesses()).unwrap();
-          await dispatch(fetchCurrentBusiness()).unwrap();
-          if (business?.id) {
-            await dispatch(fetchWallets(business.id)).unwrap();
-          }
+          toast("Login successful!", { type: "success" });
           router.push("/analytics");
         }
 
@@ -65,7 +56,7 @@ export default function LoginUI() {
         console.error("Login error:", err);
       }
     },
-    [dispatch, router, formData, user?.email_verified_at, business?.id]
+    [dispatch, router, formData, user?.email_verified_at]
   );
 
   return (

@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import { register } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function RegisterUI() {
   const dispatch = useDispatch<AppDispatch>();
@@ -130,9 +131,11 @@ export default function RegisterUI() {
           };
 
           const resultAction = await dispatch(register(payload)).unwrap();
-          console.log("✅ Registration Response:", resultAction);
 
           if (resultAction && resultAction.status === "success") {
+            toast(resultAction.message, {
+              type: "success",
+            });
             localStorage.setItem(
               "verificationEmail",
               resultAction.data.user.email
@@ -554,7 +557,7 @@ export default function RegisterUI() {
           </form>
 
           {/* Back Button */}
-          {/* {currentStep > 1 && (
+          {currentStep > 1 && (
             <Button
               type="button"
               variant="ghost"
@@ -563,7 +566,7 @@ export default function RegisterUI() {
             >
               Back
             </Button>
-          )} */}
+          )}
 
           {/* Footer Links */}
           {currentStep === 1 && (

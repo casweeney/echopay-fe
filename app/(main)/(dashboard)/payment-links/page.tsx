@@ -2,11 +2,7 @@ import React from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 const PaymentLinks = () => {
-  return (
-    <ProtectedRoute>
-      <div>PaymentLinks</div>
-    </ProtectedRoute>
-  );
+  return <div>PaymentLinks</div>;
 };
 
 export default PaymentLinks;

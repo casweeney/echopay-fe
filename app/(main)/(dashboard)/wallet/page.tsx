@@ -203,7 +203,7 @@ const Wallet = () => {
   };
 
   return (
-    <ProtectedRoute>
+    <div>
       <div className="p-3 lg:p-[24px]">
         {getStatusMessage.text && (
           <div
@@ -543,7 +543,7 @@ const Wallet = () => {
         isOpen={isFundWalletDialogOpen}
         onClose={() => setIsFundWalletDialogOpen(false)}
       />
-    </ProtectedRoute>
+    </div>
   );
 };
 

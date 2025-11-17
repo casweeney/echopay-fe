@@ -107,7 +107,6 @@ const Invoices = () => {
   };
 
   return (
-    <ProtectedRoute>
       <div className="p-3 lg:p-[24px]">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
           <div>
@@ -271,7 +270,6 @@ const Invoices = () => {
           </div>
         </div>
       </div>
-    </ProtectedRoute>
   );
 };
 

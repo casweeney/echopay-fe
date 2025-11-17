@@ -2,11 +2,7 @@ import React from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 const Customers = () => {
-  return (
-    <ProtectedRoute>
-      <div>Customers</div>
-    </ProtectedRoute>
-  );
+  return <div>Customers</div>;
 };
 
 export default Customers;

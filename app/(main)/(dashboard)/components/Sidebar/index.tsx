@@ -29,20 +29,18 @@ const Sidebar = () => {
   const { isOpen, closeSidebar } = useSidebar();
   const dispatch = useDispatch<AppDispatch>();
 
-  const { user } = useSelector((state: RootState) => state.user);
   const { business, businesses } = useSelector(
     (state: RootState) => state.business
   );
   const [bizId, setBizId] = useState<string>("");
 
   useEffect(() => {
-    if (!user) return;
-    const handleBusiness = async () => {
-      await dispatch(fetchBusinesses());
-      await dispatch(fetchCurrentBusiness());
-    };
-    handleBusiness();
-  }, [dispatch, user]);
+    if (businesses?.length > 0 && business?.id) {
+      setBizId(business.id);
+
+      dispatch(fetchWallets(business.id));
+    }
+  }, [business?.id]);
 
   useEffect(() => {
     if (isOpen) {
@@ -56,6 +54,7 @@ const Sidebar = () => {
 
       if (response.status === "success") {
         const res = await dispatch(fetchCurrentBusiness()).unwrap();
+        console.log("Switched business to:", res.data.id);
         setBizId(res.data.id);
         await dispatch(fetchWallets(res.data.id));
       }
@@ -129,8 +128,10 @@ const Sidebar = () => {
 
         <div className="mb-8">
           <Select
-            name="business"
-            defaultValue={bizId || business?.id}
+            // name="business"
+            value={bizId}
+            // defaultValue={bizId || business?.id}
+            // defaultValue={bizId}
             onValueChange={handleSwitchBusiness}
           >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">

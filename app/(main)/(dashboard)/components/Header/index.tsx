@@ -10,8 +10,15 @@ import { logout } from "@/redux/features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getInitials } from "@/utils/nameInitial";
+import { useRouter } from "next/navigation";
+import { fetchUser } from "@/redux/features/user/userSlice";
+import {
+  fetchBusinesses,
+  fetchCurrentBusiness,
+} from "@/redux/features/business/businessSlice";
 
 const Header = () => {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -31,6 +38,12 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(fetchUser());
+    dispatch(fetchBusinesses());
+    dispatch(fetchCurrentBusiness());
+  }, []);
+
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleClickOutside]);
@@ -45,9 +58,14 @@ const Header = () => {
   const firstName = useMemo(() => fullName.split(" ")[0], [fullName]);
   const initials = useMemo(() => getInitials(fullName), [fullName]);
 
-  const handleLogout = useCallback(() => {
+  // const handleLogout = useCallback(() => {
+  //   dispatch(logout());
+  // }, [dispatch]);
+
+  const handleLogout = () => {
     dispatch(logout());
-  }, [dispatch]);
+    router.push("/login");
+  };
 
   return (
     <div className="border-b border-[#E0E0E0] px-4 lg:px-[24px] py-3 lg:py-[16px] flex justify-between items-center gap-2 lg:gap-0">
