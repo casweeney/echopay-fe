@@ -31,7 +31,7 @@ const VerifyBusiness = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { countries, states } = useSelector((state: RootState) => state.region);
-  const { business, businessCategories } = useSelector(
+  const { business, businessCategories, loading } = useSelector(
     (state: RootState) => state.business
   );
 
@@ -396,11 +396,16 @@ const VerifyBusiness = () => {
             type="submit"
             disabled={
               (currentStep === 1 && !isStep1Valid) ||
-              (currentStep === 2 && !isStep2Valid)
+              (currentStep === 2 && !isStep2Valid) ||
+              loading
             }
             className="w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-[12px] lg:text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Continue
+            {loading ? (
+              <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+            ) : (
+              "Continue"
+            )}
           </Button>
         </form>
       </div>

@@ -8,17 +8,15 @@ import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Eye, EyeOff } from "lucide-react";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
 import { register } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function RegisterUI() {
   const dispatch = useDispatch<AppDispatch>();
-  // const { user, loading, error, message } = useSelector(
-  //   (state: RootState) => state.auth
-  // );
+  const { loading } = useSelector((state: RootState) => state.auth);
 
   const route = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
@@ -582,11 +580,16 @@ export default function RegisterUI() {
               disabled={
                 (currentStep === 1 && !isStep1Valid) ||
                 (currentStep === 2 && !isStep2Valid) ||
-                (currentStep === 3 && !isStep3Valid)
+                (currentStep === 3 && !isStep3Valid) ||
+                loading
               }
               className="w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Continue
+              {loading ? (
+                <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+              ) : (
+                "Continue"
+              )}
             </Button>
           </form>
 

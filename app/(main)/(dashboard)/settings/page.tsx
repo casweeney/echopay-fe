@@ -54,6 +54,7 @@ const Settings = () => {
         toast(`${response.name} API key created successfully`, {
           type: "success",
         });
+        setIsCreateKeyDialogOpen(false);
         await dispatch(fetchApiKeys(business?.id));
       }
     } catch (err) {

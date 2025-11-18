@@ -11,7 +11,9 @@ import { toast } from "react-toastify";
 
 export const WebhookSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { fetchedData } = useSelector((state: RootState) => state.webhook);
+  const { fetchedData, loading } = useSelector(
+    (state: RootState) => state.webhook
+  );
   const { business } = useSelector((state: RootState) => state.business);
   const [url, setUrl] = useState(fetchedData?.webhook.url);
   const [isSecretVisible, setIsSecretVisible] = useState(false);
@@ -68,12 +70,16 @@ export const WebhookSettings = () => {
         <h1 className="text-base tracking-[0.5px] font-normal text-[#010721]">
           WEBHOOK SETTINGS
         </h1>
-        <button
-          className="rounded-[8px] py-[6px] px-[16px] text-[14px] font-normal leading-[20px] tracking-[0.25px] align-middle text-[#FFFFFF] bg-[#0046A7] h-[48px]"
+        <Button
+          className="rounded-[8px] py-[6px] px-[16px] text-[14px] font-normal leading-[20px] tracking-[0.25px] align-middle text-[#FFFFFF] bg-[#0046A7] hover:bg-[#0046A7] h-[48px]"
           onClick={handleSaveWebhook}
         >
-          Save Webhook URL
-        </button>
+          {loading ? (
+            <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+          ) : (
+            "Save Webhook URL"
+          )}
+        </Button>
       </div>
 
       <div className="space-y-6">

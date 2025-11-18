@@ -4,6 +4,10 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Slide, ToastContainer } from "react-toastify";
 
+export const metadata: Metadata = {
+  title: "Echopay"
+}
+
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700"], // Choose your weights
@@ -24,12 +28,6 @@ const instrumentSans = Instrument_Sans({
   variable: "--font-instrument-sans",
   display: "swap",
 });
-
-export const metadata: Metadata = {
-  title: "ECHOPAY",
-  description:
-    "We provide everything you need to collect and disburse payments across multiple entities.",
-};
 
 export default function RootLayout({
   children,

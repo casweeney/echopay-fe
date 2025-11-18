@@ -36,7 +36,7 @@ export default function LoadingOverlay() {
 
   return (
     <div className="absolute inset-0 z-[9999] bg-white/10 backdrop-blur-[3px] flex items-center justify-center">
-      <div className="h-16 w-16 animate-spin rounded-full border-[6px] border-[#0046A7] border-t-transparent" />
+      <div className="h-8 w-8 animate-spin rounded-full border-[4px] border-[#0046A7] border-t-transparent" />
     </div>
   );
 }

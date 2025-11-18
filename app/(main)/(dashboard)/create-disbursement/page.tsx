@@ -31,6 +31,7 @@ const CreateDisbursement = () => {
   const { currencies } = useSelector((state: RootState) => state.currency);
   console.log(currencies);
   const { business } = useSelector((state: RootState) => state.business);
+  const { loading } = useSelector((state: RootState) => state.payout);
   const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -434,9 +435,14 @@ const CreateDisbursement = () => {
                   </Button>
                   <Button
                     type="submit"
+                    disabled={loading}
                     className="w-1/2 h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-[12px] lg:text-base font-medium font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Confirm & Send
+                    {loading ? (
+                      <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+                    ) : (
+                      "Confirm & Send"
+                    )}
                   </Button>
                 </div>
               </>

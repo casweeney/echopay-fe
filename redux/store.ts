@@ -13,6 +13,7 @@ import walletReducer from "./features/wallet/walletSlice";
 import currencyReducer from "./features/currency/currencySlice";
 import accountReducer from "./features/account/accountSlice";
 import bankReducer from "./features/bank/bankSlice";
+import payoutReducer from "./features/disbursement/disbursementSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   currency: currencyReducer,
   account: accountReducer,
   bank: bankReducer,
+  payout: payoutReducer,
 });
 
 const persistConfig = {
