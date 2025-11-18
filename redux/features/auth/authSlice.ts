@@ -95,8 +95,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
-
-      // localStorage.removeItem("persist:root");
+      localStorage.removeItem("persist:root");
     },
     resetAuthState: (state) => {
       state.loading = false;

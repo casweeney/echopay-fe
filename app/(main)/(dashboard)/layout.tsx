@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import { SidebarProvider } from "@/context/SidebarContext";
 import { Providers } from "@/app/providers";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 export default function DashboardLayout({
   children,
@@ -16,7 +17,10 @@ export default function DashboardLayout({
           <Sidebar />
           <div className="flex-1 flex flex-col overflow-hidden border border-[#CAC4D0] bg-white rounded-[12px] h-full">
             <Header />
-            <main className="flex-1 overflow-auto">{children}</main>
+            <main className="flex-1 overflow-auto relative">
+              {children}
+              <LoadingOverlay />
+            </main>
           </div>
         </div>
       </SidebarProvider>

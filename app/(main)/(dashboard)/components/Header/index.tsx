@@ -16,8 +16,6 @@ import {
   fetchBusinesses,
   fetchCurrentBusiness,
 } from "@/redux/features/business/businessSlice";
-import { decodeJWT } from "@/utils/jwt";
-import { getAuthToken } from "@/utils/token";
 
 const Header = () => {
   const router = useRouter();

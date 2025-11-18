@@ -15,7 +15,7 @@ export const ProfileSettings = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { business } = useSelector((state: RootState) => state.business);
 
-  const fullName = useMemo(() => user?.name || "User", [user]);
+  const fullName = useMemo(() => user?.data?.user.name || "User", [user]);
   const firstName = useMemo(() => fullName.split(" ")[0], [fullName]);
   const lastName = useMemo(() => {
     const names = fullName.split(" ");
@@ -26,19 +26,6 @@ export const ProfileSettings = () => {
   const handleLogout = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
-
-  // Sample profile data
-  const profileData = {
-    firstName: "Ella",
-    lastName: "Chijoke",
-    email: "mail@ivynest.com",
-    phone: "+234 816 5678 213",
-    addressCountry: "Nigeria",
-    addressCity: "Ikeja/Lagos",
-    addressStreet: "28, Folorusho",
-    addressPostal: "200567",
-    dateOfBirth: "08/12/1997",
-  };
 
   return (
     <div className="max-w-5xl space-y-6">
@@ -104,7 +91,7 @@ export const ProfileSettings = () => {
                     Email Address
                   </label>
                   <p className="text-sm tracking-[0.25px] align-middle text-[#010721] font-normal">
-                    {user?.email}
+                    {user?.data?.user.email}
                   </p>
                 </div>
 
@@ -113,7 +100,7 @@ export const ProfileSettings = () => {
                     Phone Number
                   </label>
                   <p className="text-sm tracking-[0.25px] align-middle text-[#010721] font-normal">
-                    {user?.phone}
+                    {user?.data?.user.phone}
                   </p>
                 </div>
               </div>
@@ -161,15 +148,6 @@ export const ProfileSettings = () => {
                   </p>
                 </div>
               </div>
-            </div>
-
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Date of Birth
-              </label>
-              <p className="text-sm tracking-[0.25px] align-middle text-[#010721] font-normal">
-                {profileData.dateOfBirth}
-              </p>
             </div>
           </div>
         </CardContent>

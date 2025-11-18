@@ -11,9 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
 
 import { toast } from "react-toastify";
+import { fetchUser } from "@/redux/features/user/userSlice";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
@@ -50,6 +50,7 @@ export default function LoginUI() {
 
         if (response.status === "success") {
           toast("Login successful!", { type: "success" });
+          await dispatch(fetchUser());
           router.push("/analytics");
         }
       } catch (err) {
@@ -185,7 +186,11 @@ export default function LoginUI() {
               disabled={isButtonDisabled || loading}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Continue.." : "Continue"}
+              {loading ? (
+                <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+              ) : (
+                "Continue"
+              )}
             </Button>
 
             <p className="text-center text-[#828783] text-[16px] font-instrument">
