@@ -32,7 +32,7 @@ export default function ProtectedRoute({
     (state: RootState) => state.auth
   );
   const { user } = useSelector((state: RootState) => state.user);
-  console.log("ProtectedRoute user:", user?.email_verified_at);
+  console.log("ProtectedRoute user:", user?.data?.user?.email_verified_at);
   const dispatch = useDispatch<AppDispatch>();
 
   const [isAuthVerified, setIsAuthVerified] = useState(false);
@@ -60,7 +60,7 @@ export default function ProtectedRoute({
         }
 
         // ======= RULE 2: If email not verified, redirect to verify-email =======
-        if (jwt && token && !user?.email_verified_at) {
+        if (jwt && token && !user?.data?.user?.email_verified_at) {
           const decoded = decodeJWT(jwt);
           if (decoded?.email) {
             localStorage.setItem("pendingEmail", decoded.email);
@@ -73,7 +73,10 @@ export default function ProtectedRoute({
         }
 
         // ======= RULE 3: Verified users cannot access verify-email again =======
-        if (user?.email_verified_at && pathname === "/verify-email") {
+        if (
+          user?.data?.user?.email_verified_at &&
+          pathname === "/verify-email"
+        ) {
           if (token) {
             router.replace("/analytics");
             return;
@@ -86,7 +89,7 @@ export default function ProtectedRoute({
         // ======= RULE 4: Logged-in verified users cannot access register/login =======
         if (
           token &&
-          user?.email_verified_at &&
+          user?.data?.user?.email_verified_at &&
           ["/login", "/register"].includes(pathname)
         ) {
           router.replace("/analytics");
@@ -94,7 +97,7 @@ export default function ProtectedRoute({
         }
 
         // ======= RULE 5: Unauthenticated verified users cannot access dashboard =======
-        if (!token && isProtectedRoute && user?.email_verified_at) {
+        if (!token && isProtectedRoute && user?.data?.user?.email_verified_at) {
           router.replace("/login");
           return;
         }

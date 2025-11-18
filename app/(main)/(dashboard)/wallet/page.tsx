@@ -223,11 +223,25 @@ const Wallet = () => {
                 Wallet
               </h1>
               <Select
-                defaultValue={activeWallet?.id || ""}
+                value={activeWallet?.id}
                 onValueChange={handleSelectWallet}
               >
                 <SelectTrigger className="w-full lg:w-[100px] h-9 border rounded-[32px] px-[5px] py-[5px] lg:p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
-                  <SelectValue />
+                  <SelectValue>
+                    {activeWallet ? (
+                      <div className="flex items-center space-x-2">
+                        <div>
+                          {ECHOPAY_SVG().nigeriaIcon({
+                            className:
+                              "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                          })}
+                        </div>
+                        <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
+                          {activeWallet.currency_symbol.toUpperCase()}
+                        </span>
+                      </div>
+                    ) : null}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>

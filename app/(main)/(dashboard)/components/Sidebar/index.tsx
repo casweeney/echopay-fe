@@ -128,14 +128,27 @@ const Sidebar = () => {
 
         <div className="mb-8">
           <Select
-            // name="business"
-            value={bizId}
-            // defaultValue={bizId || business?.id}
-            // defaultValue={bizId}
+            value={bizId || business?.id}
             onValueChange={handleSwitchBusiness}
           >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
-              <SelectValue />
+              <SelectValue>
+                {(() => {
+                  const selectedBiz = businesses.find(
+                    (biz) => biz?.id === (bizId || business?.id)
+                  );
+                  return selectedBiz ? (
+                    <div className="flex items-center space-x-2">
+                      <div>{ECHOPAY_SVG().shopIcon()}</div>
+                      <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                        {selectedBiz.name}
+                      </span>
+                    </div>
+                  ) : (
+                    <span>Select a business</span>
+                  );
+                })()}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

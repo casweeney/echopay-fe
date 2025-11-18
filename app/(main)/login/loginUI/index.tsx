@@ -46,17 +46,23 @@ export default function LoginUI() {
       try {
         const response = await dispatch(login(formData)).unwrap();
 
+        console.log("Login response:", response);
+
         if (response.status === "success") {
           toast("Login successful!", { type: "success" });
           router.push("/analytics");
         }
-
-        console.log("Login attempted with:", response);
       } catch (err) {
-        console.error("Login error:", err);
+        if (err === "Request failed with status code 401") {
+          toast("Invalid email or password.", { type: "error" });
+        }
+
+        if (err === "Network Error") {
+          toast("Check your internet connection", { type: "error" });
+        }
       }
     },
-    [dispatch, router, formData, user?.email_verified_at]
+    [dispatch, router, formData, user?.data?.user?.email_verified_at]
   );
 
   return (

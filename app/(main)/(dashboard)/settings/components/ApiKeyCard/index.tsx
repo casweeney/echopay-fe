@@ -1,7 +1,6 @@
 import { Eye, Copy, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 import { formatDate } from "@/utils/formatDate";
 
 interface ApiKeyCardProps {
@@ -10,6 +9,7 @@ interface ApiKeyCardProps {
   createdDate: string;
   lastUsedDate: string;
   onDelete: () => void;
+  handleCopy: () => void;
 }
 
 export const ApiKeyCard = ({
@@ -18,17 +18,9 @@ export const ApiKeyCard = ({
   createdDate,
   lastUsedDate,
   onDelete,
+  handleCopy,
 }: ApiKeyCardProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { toast } = useToast();
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(apiKey);
-    toast({
-      title: "Copied to clipboard",
-      description: "API key has been copied successfully.",
-    });
-  };
 
   const displayKey = isVisible ? apiKey : apiKey.replace(/./g, "•");
 

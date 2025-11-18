@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -32,18 +31,16 @@ const DisbursementSuccessDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] p-8">
+      <DialogContent className="sm:max-w-[600px] p-6 font-instrument">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold text-foreground text-left">
             Disbursement Successful!
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col items-center space-y-6 py-6">
+        <div className="flex flex-col items-center space-y-4 py-6">
           {/* Success Icon */}
-          <div className="w-24 h-24 rounded-full bg-green-500 flex items-center justify-center">
-            <Check className="w-12 h-12 text-white stroke-[3]" />
-          </div>
+          <img src="/success-check.svg" alt="" />
 
           {/* Success Message */}
           <p className="text-center text-muted-foreground">
@@ -87,7 +84,7 @@ const DisbursementSuccessDialog = ({
           </Button>
           <Button
             onClick={onViewAll}
-            className="flex-1 h-12 bg-blue-600 hover:bg-blue-700 text-white"
+            className="flex-1 h-12 bg-[#0046A7] hover:[#0046A7] text-white"
           >
             View All Disbursement
           </Button>

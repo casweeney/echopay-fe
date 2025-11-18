@@ -25,6 +25,7 @@ import {
   fetchBusinessCategories,
   verifyBusiness,
 } from "@/redux/features/business/businessSlice";
+import { toast } from "react-toastify";
 
 const VerifyBusiness = () => {
   const router = useRouter();
@@ -115,27 +116,35 @@ const VerifyBusiness = () => {
         if (isStep2Valid) {
           setCompletedSteps((prev) => [...prev, 2]);
 
-          const payload = {
-            phone: formData.phone,
-            city: formData.city,
-            address: formData.address,
-            postal_code: Number(formData.postalCode),
-            website: formData.businessWebsite,
-            business_category_id: formData.businessCategory,
-            state_id: formData.state,
-            country_id: formData.country,
-          };
+          try {
+            const payload = {
+              phone: formData.phone,
+              city: formData.city,
+              address: formData.address,
+              postal_code: Number(formData.postalCode),
+              website: formData.businessWebsite,
+              business_category_id: formData.businessCategory,
+              state_id: formData.state,
+              country_id: formData.country,
+            };
 
-          const response = await dispatch(
-            verifyBusiness({
-              id: business?.id || "",
-              payload,
-            })
-          ).unwrap();
+            const response = await dispatch(
+              verifyBusiness({
+                id: business?.id || "",
+                payload,
+              })
+            ).unwrap();
 
-          console.log("Form submitted:", response);
-          if (response.status === "success") {
-            router.push("/wallet");
+            console.log("Form submitted:", response);
+            if (response.status === "success") {
+              toast(response.message, { type: "success" });
+              router.push("/wallet");
+            }
+          } catch (err) {
+            console.error("Business Error:", err);
+            if (err === "Network Error") {
+              toast("Check your internet connection", { type: "error" });
+            }
           }
         }
       }

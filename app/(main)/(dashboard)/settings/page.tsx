@@ -10,7 +10,6 @@ import { ProfileSettings } from "./components/Profile";
 import { NotificationSettings } from "./components/Notification";
 import { SecuritySettings } from "./components/Security";
 import { CreateApiKeyDialog } from "./components/CreateApiKeyModal";
-import { useToast } from "@/hooks/use-toast";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -19,6 +18,7 @@ import {
   deleteKey,
   fetchApiKeys,
 } from "@/redux/features/apiKey/apiKeySlice";
+import { toast } from "react-toastify";
 
 const Settings = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,7 +29,6 @@ const Settings = () => {
 
   const [activeTab, setActiveTab] = useState("business");
   const [isCreateKeyDialogOpen, setIsCreateKeyDialogOpen] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     if (business?.id) {
@@ -37,26 +36,38 @@ const Settings = () => {
     }
   }, [dispatch, business?.id]);
 
-  const handleCreateKey = async (business_id: string, name: string) => {
-    const response = await dispatch(createKey({ business_id, name })).unwrap();
-    console.log(response);
+  const handleCopyKey = (key: string) => {
+    const secret = key ?? "";
+    navigator.clipboard.writeText(secret);
 
-    if (response.id && business?.id) {
-      await dispatch(fetchApiKeys(business?.id));
-    }
-    toast({
-      title: "API key created",
-      description: `Created key: ${name}`,
-    });
+    toast("API key copied");
   };
 
-  const handleDeleteKey = async (id: string, name: string) => {
-    await dispatch(deleteKey(id));
-    toast({
-      title: "Delete API key",
-      description: `${name} API key would be deleted.`,
-      variant: "destructive",
-    });
+  const handleCreateKey = async (business_id: string, name: string) => {
+    try {
+      const response = await dispatch(
+        createKey({ business_id, name })
+      ).unwrap();
+      console.log(response);
+
+      if (response.id && business?.id) {
+        toast(`${response.name} API key created successfully`, {
+          type: "success",
+        });
+        await dispatch(fetchApiKeys(business?.id));
+      }
+    } catch (err) {
+      console.error("API error:", err);
+      if (err === "Network Error") {
+        toast("Check your internet connection", { type: "error" });
+        return;
+      }
+    }
+  };
+
+  const handleDeleteKey = (id: string, name: string) => {
+    dispatch(deleteKey(id));
+    toast(`${name} API key Deleted`, { type: "success" });
   };
 
   return (
@@ -104,6 +115,7 @@ const Settings = () => {
                     createdDate={key.created_at}
                     lastUsedDate={key.last_used_at}
                     onDelete={() => handleDeleteKey(key.id, key.name)}
+                    handleCopy={() => handleCopyKey(key.secret_key)}
                   />
                 ))}
               </div>

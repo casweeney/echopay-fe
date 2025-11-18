@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { Eye, EyeOff, Copy, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { useToast } from "@/hooks/use-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { createURL, fetchURL } from "@/redux/features/webhookURL/webhookSlice";
+import { toast } from "react-toastify";
 
 export const WebhookSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,7 +15,6 @@ export const WebhookSettings = () => {
   const { business } = useSelector((state: RootState) => state.business);
   const [url, setUrl] = useState(fetchedData?.webhook.url);
   const [isSecretVisible, setIsSecretVisible] = useState(false);
-  // const { toast } = useToast();
 
   useEffect(() => {
     const handleFetchURL = async () => {
@@ -30,26 +29,33 @@ export const WebhookSettings = () => {
   const handleCopySecret = () => {
     const secret = fetchedData?.webhook.secret ?? "";
     navigator.clipboard.writeText(secret);
+
+    toast("Secret key copied");
   };
 
   const handleSaveWebhook = async () => {
-    const business_id = business?.id;
-    if (business_id) {
-      const response = await dispatch(
-        createURL({
-          business_id,
-          url: url ?? "",
-        })
-      ).unwrap();
+    try {
+      const business_id = business?.id;
+      if (business_id) {
+        const response = await dispatch(
+          createURL({
+            business_id,
+            url: url ?? "",
+          })
+        ).unwrap();
 
-      if (response.status === "success") {
-        await dispatch(fetchURL(business.id));
+        if (response.status === "success") {
+          await dispatch(fetchURL(business.id));
+          toast("Webhook URL saved successfully", { type: "success" });
+        }
+      }
+    } catch (err) {
+      console.error("webhook err:", err);
+      if (err === "Network Error") {
+        toast("Check your internet connection", { type: "error" });
+        return;
       }
     }
-    // toast({
-    //   title: "Webhook URL saved",
-    //   description: "Your webhook settings have been updated.",
-    // });
   };
 
   const handleTestWebhook = () => {};

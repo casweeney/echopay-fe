@@ -35,6 +35,7 @@ export default function RegisterUI() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const toggleShowPassword = useCallback(
     () => setShowPassword((prev) => !prev),
@@ -44,6 +45,13 @@ export default function RegisterUI() {
     () => setShowConfirmPassword((prev) => !prev),
     []
   );
+
+  const emailValidation = useMemo(() => {
+    const robustEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return (
+      formData.email.trim() === "" || robustEmailRegex.test(formData.email)
+    );
+  }, [formData.email]);
 
   const passwordRequirements = useMemo(
     () => [
@@ -71,8 +79,8 @@ export default function RegisterUI() {
   );
 
   const isStep2Valid = useMemo(
-    () => formData.email && formData.phone,
-    [formData.email, formData.phone]
+    () => formData.email && formData.phone && emailValidation,
+    [formData.email, formData.phone, emailValidation]
   );
 
   const areAllPasswordRequirementsMet = useMemo(
@@ -122,25 +130,36 @@ export default function RegisterUI() {
         if (isStep3Valid) {
           setCompletedSteps((prev) => [...prev, 3]);
 
-          const payload = {
-            business_name: formData.businessName,
-            name: `${formData.firstName} ${formData.lastName}`,
-            email: formData.email,
-            phone: formData.phone,
-            password: formData.password,
-          };
+          try {
+            const payload = {
+              business_name: formData.businessName,
+              name: `${formData.firstName} ${formData.lastName}`,
+              email: formData.email,
+              phone: formData.phone,
+              password: formData.password,
+            };
 
-          const resultAction = await dispatch(register(payload)).unwrap();
+            const resultAction = await dispatch(register(payload)).unwrap();
 
-          if (resultAction && resultAction.status === "success") {
-            toast(resultAction.message, {
-              type: "success",
-            });
-            localStorage.setItem(
-              "verificationEmail",
-              resultAction.data.user.email
-            );
-            route.push("/verify-email");
+            if (resultAction && resultAction.status === "success") {
+              toast(resultAction.message, {
+                type: "success",
+              });
+              localStorage.setItem(
+                "verificationEmail",
+                resultAction.data.user.email
+              );
+              route.push("/verify-email");
+            }
+          } catch (err: any) {
+            console.error("Registration error:", err);
+            if (err === "Network Error") {
+              toast("Check your internet connection", { type: "error" });
+              return;
+            } else if (err === "Request failed with status code 409") {
+              toast("User already exists", { type: "error" });
+              return;
+            }
           }
         }
       }
@@ -396,8 +415,20 @@ export default function RegisterUI() {
             {currentStep === 2 && (
               <>
                 <div>
-                  <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
-                    <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#010721] px-1 text-[12px] leading-[100%] font-instrument">
+                  <fieldset
+                    className={`group border rounded-lg px-2 py-0 focus-within:ring-[1.5px] transition-all ${
+                      !emailValidation
+                        ? "border-[#FF383C] focus-within:ring-[#FF383C]"
+                        : "border-[#828783] focus-within:ring-[#0046A7]"
+                    }`}
+                  >
+                    <legend
+                      className={`group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] px-1 text-[12px] leading-[100%] font-instrument ${
+                        !emailValidation
+                          ? "text-[#FF383C] group-focus-within:text-[#FF383C]"
+                          : "text-[#010721]"
+                      }`}
+                    >
                       Work Email Address
                     </legend>
                     <Input
@@ -410,6 +441,9 @@ export default function RegisterUI() {
                       className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
                     />
                   </fieldset>
+                  <p className="text-[12px] text-[#FF383C] font-instrument pl-3 mt-1">
+                    {!emailValidation && "Invalid email address"}
+                  </p>
                 </div>
 
                 <div>

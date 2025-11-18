@@ -22,6 +22,7 @@ import { SelectGroup } from "@radix-ui/react-select";
 import Link from "next/link";
 import { initiateDisbursement } from "@/redux/features/disbursement/disbursementSlice";
 import DisbursementSuccessDialog from "./components/PayoutSuccessModal";
+import { toast } from "react-toastify";
 
 const CreateDisbursement = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +41,7 @@ const CreateDisbursement = () => {
     bank_code: "",
     account_number: "",
     currency: "",
-    merchant_reference: "",
+    merchant_reference: new Date().toISOString(),
     biz_number: business?.biz_number || "",
   });
 
@@ -103,29 +104,37 @@ const CreateDisbursement = () => {
         if (isStepValid) {
           setCompletedSteps((prev) => [...prev, 1]);
           setCurrentStep(2);
+          setShowSuccessDialog(true);
         }
       } else if (currentStep === 2) {
         setCompletedSteps((prev) => [...prev, 2]);
 
-        const payload = {
-          amount: Number(formData.amount),
-          bank_code: formData.bank_code,
-          account_number: formData.account_number,
-          currency: formData.currency.toUpperCase(),
-          merchant_reference: formData.merchant_reference,
-          biz_number: formData.biz_number,
-        };
+        try {
+          const payload = {
+            amount: Number(formData.amount),
+            bank_code: formData.bank_code,
+            account_number: formData.account_number,
+            currency: formData.currency.toUpperCase(),
+            merchant_reference: formData.merchant_reference,
+            biz_number: formData.biz_number,
+          };
 
-        const response = await dispatch(
-          initiateDisbursement({ ...payload, apiKey: keys[0].secret_key })
-        ).unwrap();
+          const response = await dispatch(
+            initiateDisbursement({ ...payload, apiKey: keys[0].secret_key })
+          ).unwrap();
 
-        console.log("Form submitted:", response);
-        if (response.status === "success") {
-          setShowSuccessDialog(true);
+          console.log("Form submitted:", response);
+          if (response.status === "success") {
+            setShowSuccessDialog(true);
+          }
+
+          console.log("Final Form Data:", formData);
+        } catch (err) {
+          console.error("Payout error:", err);
+          if (err === "Network Error") {
+            toast("Check you internet connection", { type: "error" });
+          }
         }
-
-        console.log("Final Form Data:", formData);
       }
     },
     [currentStep, isStepValid, formData, dispatch, router, business?.id]
@@ -133,7 +142,7 @@ const CreateDisbursement = () => {
 
   const handleViewAllDisbursements = () => {
     setShowSuccessDialog(false);
-    router.push("/wallet");
+    router.push("/transactions");
   };
 
   const handleBack = () => {

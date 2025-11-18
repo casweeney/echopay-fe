@@ -19,13 +19,11 @@ export const initiateDisbursement = createAsyncThunk(
   async (payload: DisbursementRequest, { rejectWithValue }) => {
     try {
       const response = await createDisbursement(payload);
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error: any) {
       console.log("API ERROR:", error);
-      return rejectWithValue(
-        error.response?.data || "Failed to initiate disbursement"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );

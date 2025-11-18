@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUser } from "./userAPI";
-import { User } from "@/types/user";
+import { GetUserResponse, User } from "@/types/user";
 
 interface UserState {
-  user: User | null;
+  user: GetUserResponse | null;
   loading: boolean;
   error: string | null;
   isVerified: boolean;
@@ -22,6 +22,7 @@ export const fetchUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getUser();
+      console.log("Fetched user response:", response);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Failed to fetch user");
@@ -55,7 +56,7 @@ const userSlice = createSlice({
           state.error = "Please verify your email address first";
           state.isVerified = false;
         } else {
-          state.user = action.payload.data?.user || null;
+          state.user = action.payload || null;
           state.isVerified = !!action.payload.data?.user?.email_verified_at;
         }
       })

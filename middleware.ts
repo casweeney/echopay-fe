@@ -11,8 +11,9 @@ const protectedRoutes = [
   "/wallet",
   "/verify-business",
   "/verify-bvn",
-  // "/verify-email",
+  "/verify-email",
   "/verification-success",
+  "create-disbursement",
 ];
 
 const publicRoutes = ["/login", "/register"];

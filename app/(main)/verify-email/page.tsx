@@ -43,6 +43,8 @@ const VerifyEmail = () => {
       const nextInput = document.getElementById(`code-${index + 1}`);
       nextInput?.focus();
     }
+
+    setCodeError("");
   }, []);
 
   const handleKeyDown = useCallback(
@@ -56,23 +58,31 @@ const VerifyEmail = () => {
   );
 
   const handleResendCode = useCallback(async () => {
-    setResendTimer(30);
-    const response = await dispatch(
-      resendEmailVerification({ email })
-    ).unwrap();
+    try {
+      const response = await dispatch(
+        resendEmailVerification({ email })
+      ).unwrap();
 
-    if (response && response.status === "success") {
-      toast(response.message, { type: "success" });
+      if (response.status === "success") {
+        setResendTimer(30);
+        toast(response.message, { type: "success" });
+      }
+      const interval = setInterval(() => {
+        setResendTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err: any) {
+      console.error("Resend code error:", err);
+      if (err === "Network Error") {
+        toast("Check your internet connection", { type: "error" });
+        return;
+      }
     }
-    const interval = setInterval(() => {
-      setResendTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
   }, [dispatch, email]);
 
   const handleVerify = useCallback(
@@ -80,20 +90,30 @@ const VerifyEmail = () => {
       e.preventDefault();
       const code = codes.join("");
 
-      const response = await dispatch(verifyEmail({ email, code })).unwrap();
+      try {
+        const response = await dispatch(verifyEmail({ email, code })).unwrap();
 
-      console.log("Verification response:", response);
-
-      if (response.status === "error") {
-        setCodeError(response.message);
-      }
-      if (response && response.status === "success") {
-        localStorage.removeItem("verificationEmail");
-        localStorage.removeItem("pendingEmail");
-        if (typeof window !== "undefined") {
-          localStorage.setItem("emailVerifiedRecently", "true");
+        if (response && response.status === "success") {
+          localStorage.removeItem("verificationEmail");
+          localStorage.removeItem("pendingEmail");
+          if (typeof window !== "undefined") {
+            localStorage.setItem("emailVerifiedRecently", "true");
+          }
+          route.push("/verification-success");
         }
-        route.push("/verification-success");
+      } catch (err: any) {
+        console.error("Email error:", err);
+
+        if (err === "Network Error") {
+          toast("Check your internet connection", { type: "error" });
+          return;
+        } else if (err === "Request failed with status code 400") {
+          toast("Please enter your verification code", { type: "error" });
+          return;
+        } else if (err === "Request failed with status code 404") {
+          setCodeError("There may be a mistake in the code you entered.");
+          return;
+        }
       }
     },
     [codes, dispatch, email, route, setCodeError]
@@ -196,7 +216,7 @@ const VerifyEmail = () => {
                 <div className="flex gap-3 justify-between">{codeInputs}</div>
                 <div className="flex gap-3 justify-between">
                   {codeError && (
-                    <span className="text-[#FF383C] font-instrument text-base mt-2">
+                    <span className="text-[#FF383C] font-instrument text-base">
                       {codeError}
                     </span>
                   )}

@@ -10,12 +10,14 @@ import { logout } from "@/redux/features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getInitials } from "@/utils/nameInitial";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { fetchUser } from "@/redux/features/user/userSlice";
 import {
   fetchBusinesses,
   fetchCurrentBusiness,
 } from "@/redux/features/business/businessSlice";
+import { decodeJWT } from "@/utils/jwt";
+import { getAuthToken } from "@/utils/token";
 
 const Header = () => {
   const router = useRouter();
@@ -27,6 +29,33 @@ const Header = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const { toggleSidebar } = useSidebar();
+
+  useEffect(() => {
+    function tokenExp() {
+      dispatch(logout());
+      redirect("/login");
+    }
+
+    if (!user?.data?.token_expires_at) return;
+
+    const expiryTimestamp = user.data.token_expires_at; // in SECONDS
+    const nowInSeconds = Math.floor(Date.now() / 1000);
+
+    const secondsLeft = expiryTimestamp - nowInSeconds;
+    console.log("Token expires in:", secondsLeft, "seconds");
+
+    const myTimeout = setTimeout(() => {
+      tokenExp();
+    }, secondsLeft * 1000);
+
+    if (user.data.token_expires_at !== undefined) {
+      setTimeout(() => {
+        tokenExp();
+      }, secondsLeft * 1000);
+    } else {
+      return () => clearTimeout(myTimeout);
+    }
+  }, [user?.data?.token_expires_at]);
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
@@ -54,7 +83,7 @@ const Header = () => {
     }
   }, [searchOpen]);
 
-  const fullName = useMemo(() => user?.name || "User", [user]);
+  const fullName = useMemo(() => user?.data?.user?.name || "User", [user]);
   const firstName = useMemo(() => fullName.split(" ")[0], [fullName]);
   const initials = useMemo(() => getInitials(fullName), [fullName]);
 
