@@ -104,7 +104,6 @@ const CreateDisbursementUI = () => {
         if (isStepValid) {
           setCompletedSteps((prev) => [...prev, 1]);
           setCurrentStep(2);
-          setShowSuccessDialog(true);
         }
       } else if (currentStep === 2) {
         setCompletedSteps((prev) => [...prev, 2]);

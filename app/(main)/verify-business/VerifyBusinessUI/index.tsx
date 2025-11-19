@@ -136,6 +136,7 @@ const VerifyBusinessUI = () => {
 
             console.log("Form submitted:", response);
             if (response.status === "success") {
+              document.cookie = `businessStatus=${response.data.verification_status}; path=/;`;
               toast(response.message, { type: "success" });
               router.push("/wallet");
             }

@@ -87,10 +87,6 @@ const Header = () => {
   const firstName = useMemo(() => fullName.split(" ")[0], [fullName]);
   const initials = useMemo(() => getInitials(fullName), [fullName]);
 
-  // const handleLogout = useCallback(() => {
-  //   dispatch(logout());
-  // }, [dispatch]);
-
   const handleLogout = () => {
     dispatch(logout());
     router.push("/login");

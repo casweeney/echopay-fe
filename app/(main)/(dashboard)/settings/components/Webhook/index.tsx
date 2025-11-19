@@ -16,7 +16,7 @@ export const WebhookSettings = () => {
   );
   const { business } = useSelector((state: RootState) => state.business);
   const [url, setUrl] = useState(fetchedData?.webhook.url);
-  const [isSecretVisible, setIsSecretVisible] = useState(false);
+  const [isSecretVisible, setIsSecretVisible] = useState(true);
 
   useEffect(() => {
     const handleFetchURL = async () => {
@@ -106,7 +106,7 @@ export const WebhookSettings = () => {
           </div>
           <div className="flex items-center gap-2">
             <div className="font-mono h-[40px] flex items-center text-sm tracking-[0.25px] align-middle text-[#010721] bg-[#F2F2F2] px-[8px] py-[6px] rounded-[8px]">
-              {isSecretVisible ? fetchedData?.webhook.secret : "•".repeat(19)}
+              {!isSecretVisible ? fetchedData?.webhook.secret : "•".repeat(19)}
             </div>
             <Button
               variant="ghost"
@@ -141,7 +141,7 @@ export const WebhookSettings = () => {
               Last Triggered
             </div>
             <div className="text-sm tracking-[0.25px] align-middle text-[#828783]">
-              2025-10-20 14:32
+              {fetchedData?.webhook.updated_at}
             </div>
           </div>
           <Button

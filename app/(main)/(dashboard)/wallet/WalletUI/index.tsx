@@ -83,7 +83,7 @@ const WalletUI = () => {
   );
 
   const buttonDisabled = useMemo(
-    () => currentStatus === "pending" || currentStatus === "in_review",
+    () => currentStatus === "in_review",
     [currentStatus]
   );
 
@@ -95,7 +95,7 @@ const WalletUI = () => {
     switch (currentStatus) {
       case "pending":
         return {
-          text: "Your business verification is pending",
+          text: "Please verify your business",
           color: "#fdf4e2",
           icon: Info,
         };
