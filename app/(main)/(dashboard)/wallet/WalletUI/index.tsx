@@ -293,6 +293,7 @@ const WalletUI = () => {
               </p>
             </button>
             <button
+              disabled={verificationStatus?.data.status !== "verified"}
               onClick={() => router.push("/create-disbursement")}
               className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]"
             >
@@ -413,9 +414,7 @@ const WalletUI = () => {
                           buttonDisabled ? "opacity-60 cursor-not-allowed" : ""
                         } bg-[#0046A7] hover:bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6`}
                       >
-                        {currentStatus === "pending"
-                          ? "Verification Pending"
-                          : "Verify Business"}
+                        Verify Business
                       </Button>
                     </div>
                   </div>

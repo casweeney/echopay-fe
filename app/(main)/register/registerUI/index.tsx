@@ -33,7 +33,6 @@ export default function RegisterUI() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState("");
 
   const toggleShowPassword = useCallback(
     () => setShowPassword((prev) => !prev),
@@ -50,6 +49,11 @@ export default function RegisterUI() {
       formData.email.trim() === "" || robustEmailRegex.test(formData.email)
     );
   }, [formData.email]);
+
+  const phoneValidation = useMemo(() => {
+    const phoneRegex = /^(\+234\d{10}|0\d{10})$/;
+    return formData.phone.trim() === "" || phoneRegex.test(formData.phone);
+  }, [formData.phone]);
 
   const passwordRequirements = useMemo(
     () => [
@@ -77,7 +81,8 @@ export default function RegisterUI() {
   );
 
   const isStep2Valid = useMemo(
-    () => formData.email && formData.phone && emailValidation,
+    () =>
+      formData.email && formData.phone && emailValidation && phoneValidation,
     [formData.email, formData.phone, emailValidation]
   );
 
@@ -445,8 +450,20 @@ export default function RegisterUI() {
                 </div>
 
                 <div>
-                  <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
-                    <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#010721] px-1 text-[12px] leading-[100%] font-instrument">
+                  <fieldset
+                    className={`group border rounded-lg px-2 py-0 focus-within:ring-[1.5px] transition-all ${
+                      !phoneValidation
+                        ? "border-[#FF383C] focus-within:ring-[#FF383C]"
+                        : "border-[#828783] focus-within:ring-[#0046A7]"
+                    }`}
+                  >
+                    <legend
+                      className={`group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] px-1 text-[12px] leading-[100%] font-instrument ${
+                        !phoneValidation
+                          ? "text-[#FF383C] group-focus-within:text-[#FF383C]"
+                          : "text-[#010721]"
+                      }`}
+                    >
                       Phone Number
                     </legend>
                     <Input
@@ -459,6 +476,9 @@ export default function RegisterUI() {
                       className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
                     />
                   </fieldset>
+                  <p className="text-[12px] text-[#FF383C] font-instrument pl-3 mt-1">
+                    {!phoneValidation && "Invalid phone number"}
+                  </p>
                 </div>
               </>
             )}
