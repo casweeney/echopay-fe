@@ -106,19 +106,25 @@ const SettingsUI = () => {
                 onCreateKey={handleCreateKey}
               />
 
-              <div className="space-y-4">
-                {keys.map((key) => (
-                  <ApiKeyCard
-                    key={key.id}
-                    title={key.name}
-                    apiKey={key.secret_key}
-                    createdDate={key.created_at}
-                    lastUsedDate={key.last_used_at}
-                    onDelete={() => handleDeleteKey(key.id, key.name)}
-                    handleCopy={() => handleCopyKey(key.secret_key)}
-                  />
-                ))}
-              </div>
+              {keys.length === 0 ? (
+                <div className="text-center">
+                  Nothing Yet. Create your first key
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {keys.map((key) => (
+                    <ApiKeyCard
+                      key={key.id}
+                      title={key.name}
+                      apiKey={key.secret_key}
+                      createdDate={key.created_at}
+                      lastUsedDate={key.last_used_at}
+                      onDelete={() => handleDeleteKey(key.id, key.name)}
+                      handleCopy={() => handleCopyKey(key.secret_key)}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Webhook Settings Section */}

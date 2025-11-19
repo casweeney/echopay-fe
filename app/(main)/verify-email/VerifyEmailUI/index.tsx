@@ -94,7 +94,8 @@ const VerifyEmailUI = () => {
       try {
         const response = await dispatch(verifyEmail({ email, code })).unwrap();
 
-        if (response && response.status === "success") {
+        if (response.status === "success") {
+          document.cookie = "emailVerified=true; path=/;";
           localStorage.removeItem("verificationEmail");
           localStorage.removeItem("pendingEmail");
           if (typeof window !== "undefined") {
