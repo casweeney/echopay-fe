@@ -14,12 +14,6 @@ import { useRouter } from "next/navigation";
 
 import { toast } from "react-toastify";
 import { fetchUser } from "@/redux/features/user/userSlice";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Login - Echopay",
-  description: "Create and manage disbursements",
-};
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();

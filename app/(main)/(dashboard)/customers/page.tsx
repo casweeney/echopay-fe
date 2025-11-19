@@ -1,8 +1,11 @@
 import React from "react";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import CustomersUI from "./CustomersUI";
+export const metadata = {
+  title: "Customers - Echopay",
+};
 
 const Customers = () => {
-  return <div>Customers</div>;
+  return <CustomersUI />;
 };
 
 export default Customers;
