@@ -50,7 +50,6 @@ export default function ProtectedRoute({
       const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
         pathname.startsWith(route)
       );
-      const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
 
       try {
         // ======= RULE 1: Unauthenticated users cannot access protected routes =======

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -51,12 +51,9 @@ const VerifyBVNUI = () => {
     []
   );
 
-  const handleContinue = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-    },
-    [formData, dispatch, router, business?.id]
-  );
+  const handleContinue = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+  }, []);
 
   return (
     <div>

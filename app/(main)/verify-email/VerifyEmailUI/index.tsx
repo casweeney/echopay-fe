@@ -77,7 +77,7 @@ const VerifyEmailUI = () => {
           return prev - 1;
         });
       }, 1000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Resend code error:", err);
       if (err === "Network Error") {
         toast("Check your internet connection", { type: "error" });
@@ -102,7 +102,7 @@ const VerifyEmailUI = () => {
           }
           route.push("/verification-success");
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Email error:", err);
 
         if (err === "Network Error") {

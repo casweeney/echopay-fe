@@ -12,7 +12,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchBusinessVerificationStatus } from "@/redux/features/business/businessSlice";

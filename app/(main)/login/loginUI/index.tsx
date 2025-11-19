@@ -1,7 +1,7 @@
 "use client";
 
 // import Cookies from "universal-cookie";
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,7 +63,7 @@ export default function LoginUI() {
         }
       }
     },
-    [dispatch, router, formData, user?.data?.user?.email_verified_at]
+    [dispatch, router, formData]
   );
 
   return (

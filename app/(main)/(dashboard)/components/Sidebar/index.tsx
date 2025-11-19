@@ -18,7 +18,6 @@ import { X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import {
-  fetchBusinesses,
   fetchCurrentBusiness,
   switchBusiness,
 } from "@/redux/features/business/businessSlice";
@@ -40,7 +39,7 @@ const Sidebar = () => {
 
       dispatch(fetchWallets(business.id));
     }
-  }, [business?.id]);
+  }, [business?.id, businesses?.length, dispatch]);
 
   useEffect(() => {
     if (isOpen) {

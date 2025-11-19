@@ -137,7 +137,7 @@ const CreateDisbursementUI = () => {
         }
       }
     },
-    [currentStep, isStepValid, formData, dispatch, router, business?.id]
+    [currentStep, isStepValid, formData, dispatch, router, business?.id, keys]
   );
 
   const handleViewAllDisbursements = () => {

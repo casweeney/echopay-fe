@@ -3,7 +3,6 @@
 import { useSelector } from "react-redux";
 import { selectGlobalLoading } from "@/redux/selectors/loadingSelector";
 import { useEffect, useState, useRef } from "react";
-import { applyMinDelay } from "@/utils/applyDelay";
 
 export default function LoadingOverlay() {
   const loading = useSelector(selectGlobalLoading);

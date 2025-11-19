@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ProtectedRoute from "@/components/ProtectedRoute";
 
 const Invoices = () => {
   const transactions = [

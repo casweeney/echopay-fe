@@ -149,7 +149,7 @@ export default function RegisterUI() {
               );
               route.push("/verify-email");
             }
-          } catch (err: any) {
+          } catch (err: unknown) {
             console.error("Registration error:", err);
             if (err === "Network Error") {
               toast("Check your internet connection", { type: "error" });
