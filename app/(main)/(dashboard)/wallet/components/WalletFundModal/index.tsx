@@ -13,24 +13,6 @@ interface FundWalletModalProps {
   onSubmit?: () => void;
 }
 
-interface Account {
-  id: string;
-  name: string;
-  accountNumber: string;
-  accountName: string;
-  bankName: string;
-}
-
-const accounts: Account[] = [
-  {
-    id: "01",
-    name: "Account 01",
-    accountNumber: "77886543212",
-    accountName: "David Egorp Ikwen",
-    bankName: "Wema Bank",
-  },
-];
-
 export function WalletFundModal({
   isOpen,
   onClose,

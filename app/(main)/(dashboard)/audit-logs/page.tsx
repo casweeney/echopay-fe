@@ -1,12 +1,12 @@
 import React from "react";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import AuditLogsUI from "./AuditLogsUI";
+
+export const metadata = {
+  title: "AuditLogs - Echopay",
+};
 
 const AuditLogs = () => {
-  return (
-    <ProtectedRoute>
-      <div>AuditLogs</div>
-    </ProtectedRoute>
-  );
+  return <AuditLogsUI />;
 };
 
 export default AuditLogs;

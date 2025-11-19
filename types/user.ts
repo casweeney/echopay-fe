@@ -10,6 +10,7 @@ export interface User {
 
 export interface GetUserResponse {
   data?: {
+    token_expires_at: number;
     user: User;
   };
   message?: string;

@@ -2,6 +2,10 @@ import React from "react";
 import Header from "./components/Header";
 import { Providers } from "@/app/providers";
 
+export const metadata = {
+  title: "Verify Business - Echopay",
+};
+
 export default function DashboardLayout({
   children,
 }: {

@@ -22,9 +22,7 @@ export const fetchCurrencies = createAsyncThunk(
       console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch currencies"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );

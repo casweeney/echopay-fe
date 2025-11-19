@@ -1,11 +1,10 @@
 import React from "react";
 import RegisterUI from "./registerUI";
-import ProtectedRoute from "@/components/ProtectedRoute";
+
+export const metadata = {
+  title: "Register - Echopay",
+};
 
 export default async function RegisterPage() {
-  return (
-    <ProtectedRoute>
-      <RegisterUI />
-    </ProtectedRoute>
-  );
+  return <RegisterUI />;
 }

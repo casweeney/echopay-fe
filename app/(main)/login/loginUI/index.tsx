@@ -1,5 +1,6 @@
 "use client";
 
+// import Cookies from "universal-cookie";
 import { useState, useCallback, useMemo } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,22 +10,17 @@ import { ECHOPAY_SVG } from "@/assets/svgs";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/features/auth/authSlice";
-import { fetchUser } from "@/redux/features/user/userSlice";
 import { useRouter } from "next/navigation";
-import {
-  fetchBusinesses,
-  fetchCurrentBusiness,
-} from "@/redux/features/business/businessSlice";
-import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+
+import { toast } from "react-toastify";
+import { fetchUser } from "@/redux/features/user/userSlice";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+
   const { loading } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.user);
-  const { business } = useSelector((state: RootState) => state.business);
-
-  console.log(business?.id);
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -50,22 +46,24 @@ export default function LoginUI() {
       try {
         const response = await dispatch(login(formData)).unwrap();
 
+        console.log("Login response:", response);
+
         if (response.status === "success") {
-          await dispatch(fetchUser()).unwrap();
-          await dispatch(fetchBusinesses()).unwrap();
-          await dispatch(fetchCurrentBusiness()).unwrap();
-          if (business?.id) {
-            await dispatch(fetchWallets(business.id)).unwrap();
-          }
+          toast("Login successful!", { type: "success" });
+          await dispatch(fetchUser());
           router.push("/analytics");
         }
-
-        console.log("Login attempted with:", response);
       } catch (err) {
-        console.error("Login error:", err);
+        if (err === "Request failed with status code 401") {
+          toast("Invalid email or password.", { type: "error" });
+        }
+
+        if (err === "Network Error") {
+          toast("Check your internet connection", { type: "error" });
+        }
       }
     },
-    [dispatch, router, formData, user?.email_verified_at, business?.id]
+    [dispatch, router, formData]
   );
 
   return (
@@ -188,7 +186,11 @@ export default function LoginUI() {
               disabled={isButtonDisabled || loading}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Continue.." : "Continue"}
+              {loading ? (
+                <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+              ) : (
+                "Continue"
+              )}
             </Button>
 
             <p className="text-center text-[#828783] text-[16px] font-instrument">

@@ -18,7 +18,6 @@ import { X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import {
-  fetchBusinesses,
   fetchCurrentBusiness,
   switchBusiness,
 } from "@/redux/features/business/businessSlice";
@@ -29,24 +28,24 @@ const Sidebar = () => {
   const { isOpen, closeSidebar } = useSidebar();
   const dispatch = useDispatch<AppDispatch>();
 
-  const { user } = useSelector((state: RootState) => state.user);
   const { business, businesses } = useSelector(
     (state: RootState) => state.business
   );
   const [bizId, setBizId] = useState<string>("");
 
   useEffect(() => {
-    if (!user) return;
-    const handleBusiness = async () => {
-      await dispatch(fetchBusinesses());
-      await dispatch(fetchCurrentBusiness());
-    };
-    handleBusiness();
-  }, [dispatch, user]);
+    if (businesses?.length > 0 && business?.id) {
+      setBizId(business.id);
+
+      dispatch(fetchWallets(business.id));
+    }
+  }, [business?.id, businesses?.length, dispatch]);
 
   useEffect(() => {
-    closeSidebar();
-  }, [pathname, closeSidebar]);
+    if (isOpen) {
+      closeSidebar();
+    }
+  }, [pathname, isOpen, closeSidebar]);
 
   const handleSwitchBusiness = useCallback(
     async (value: string) => {
@@ -54,6 +53,7 @@ const Sidebar = () => {
 
       if (response.status === "success") {
         const res = await dispatch(fetchCurrentBusiness()).unwrap();
+        console.log("Switched business to:", res.data.id);
         setBizId(res.data.id);
         await dispatch(fetchWallets(res.data.id));
       }
@@ -127,12 +127,27 @@ const Sidebar = () => {
 
         <div className="mb-8">
           <Select
-            name="business"
-            defaultValue={bizId || business?.id}
+            value={bizId || business?.id}
             onValueChange={handleSwitchBusiness}
           >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
-              <SelectValue />
+              <SelectValue>
+                {(() => {
+                  const selectedBiz = businesses.find(
+                    (biz) => biz?.id === (bizId || business?.id)
+                  );
+                  return selectedBiz ? (
+                    <div className="flex items-center space-x-2">
+                      <div>{ECHOPAY_SVG().shopIcon()}</div>
+                      <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                        {selectedBiz.name}
+                      </span>
+                    </div>
+                  ) : (
+                    <span>Select a business</span>
+                  );
+                })()}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

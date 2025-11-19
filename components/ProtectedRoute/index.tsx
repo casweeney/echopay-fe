@@ -1,11 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthToken } from "@/utils/token";
 import { decodeJWT } from "@/utils/jwt";
+
+const PROTECTED_ROUTES = [
+  "/analytics",
+  "/audit-logs",
+  "/customers",
+  "/invoices",
+  "/payment-links",
+  "/settings",
+  "/transactions",
+  "/wallet",
+  "/verify-business",
+];
+
+const PUBLIC_ROUTES = ["/login", "/register", "/"];
+
 export default function ProtectedRoute({
   children,
 }: {
@@ -17,7 +32,11 @@ export default function ProtectedRoute({
     (state: RootState) => state.auth
   );
   const { user } = useSelector((state: RootState) => state.user);
+  console.log("ProtectedRoute user:", user?.data?.user?.email_verified_at);
   const dispatch = useDispatch<AppDispatch>();
+
+  const [isAuthVerified, setIsAuthVerified] = useState(false);
+
   const recentlyVerified =
     typeof window !== "undefined"
       ? localStorage.getItem("emailVerifiedRecently")
@@ -27,91 +46,73 @@ export default function ProtectedRoute({
     const handleProtectedRoute = async () => {
       const jwt = getAuthToken();
 
-      if (jwt) {
-        // If email not verified
-        if (token && !user?.email_verified_at) {
-          const decoded = decodeJWT(jwt);
+      // Determine if this is a protected route
+      const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
+        pathname.startsWith(route)
+      );
 
+      try {
+        // ======= RULE 1: Unauthenticated users cannot access protected routes =======
+        if (isProtectedRoute && !jwt && !token) {
+          router.replace("/login");
+          return;
+        }
+
+        // ======= RULE 2: If email not verified, redirect to verify-email =======
+        if (jwt && token && !user?.data?.user?.email_verified_at) {
+          const decoded = decodeJWT(jwt);
           if (decoded?.email) {
             localStorage.setItem("pendingEmail", decoded.email);
           }
 
-          // router.push("/verify-email");
-        } else if ((!token || !isAuthenticated) && !user?.email_verified_at) {
-          router.push("/login");
-        } else if (pathname === "/verify-email" && user) {
-          router.push("/analytics");
+          if (pathname !== "/verify-email") {
+            router.replace("/verify-email");
+            return;
+          }
         }
-      } else {
-        // Not logged in
-        if (pathname.startsWith("/analytics")) {
-          router.push("/login");
+
+        // ======= RULE 3: Verified users cannot access verify-email again =======
+        if (
+          user?.data?.user?.email_verified_at &&
+          pathname === "/verify-email"
+        ) {
+          if (token) {
+            router.replace("/analytics");
+            return;
+          } else {
+            router.replace("/login");
+            return;
+          }
         }
-      }
 
-      // ======= RULE 1: Unregistered users cannot access verify-email or dashboard =======
-      // if (
-      //   !user?.created_at &&
-      //   (pathname === "/verify-email" ||
-      //     pathname.startsWith("/analytics") ||
-      //     pathname.startsWith("/audit-logs") ||
-      //     pathname.startsWith("/customers") ||
-      //     pathname.startsWith("/invoices") ||
-      //     pathname.startsWith("/payment-links") ||
-      //     pathname.startsWith("/settings") ||
-      //     pathname.startsWith("/transactions") ||
-      //     pathname.startsWith("/wallet") ||
-      //     pathname.startsWith("/verify-business"))
-      // ) {
-      //   router.replace("/register");
-      //   return;
-      // }
-
-      // ======= RULE 2: Verified users cannot access verify-email again =======
-      if (user?.email_verified_at && pathname === "/verify-email") {
-        if (isAuthenticated || token) {
-          router.replace("/analytics"); // logged in + verified → dashboard
-        } else if (!isAuthenticated || !token) {
-          router.replace("/login"); // verified but not logged in → login
-        }
-        return;
-      }
-
-      // ======= RULE 3: Logged-in users cannot access register/login/verify-email =======
-      if (
-        token &&
-        user?.email_verified_at &&
-        ["/login", "/register", "/verify-email"].includes(pathname)
-      ) {
-        router.replace("/analytics");
-        return;
-      }
-
-      // ======= RULE 4: Unauthenticated verified users cannot access dashboard =======
-      if (
-        !token &&
-        (pathname.startsWith("/analytics") ||
-          pathname.startsWith("/audit-logs") ||
-          pathname.startsWith("/customers") ||
-          pathname.startsWith("/invoices") ||
-          pathname.startsWith("/payment-links") ||
-          pathname.startsWith("/settings") ||
-          pathname.startsWith("/transactions") ||
-          pathname.startsWith("/wallet") ||
-          pathname.startsWith("/verify-business")) &&
-        user?.email_verified_at
-      ) {
-        router.replace("/login");
-        return;
-      }
-
-      // ======= RULE 5: Email verification success page =======
-      if (pathname === "/verification-success") {
-        // If user has not just verified email or not logged in
-        if (!recentlyVerified) {
-          router.push("/login");
+        // ======= RULE 4: Logged-in verified users cannot access register/login =======
+        if (
+          token &&
+          user?.data?.user?.email_verified_at &&
+          ["/login", "/register"].includes(pathname)
+        ) {
+          router.replace("/analytics");
           return;
         }
+
+        // ======= RULE 5: Unauthenticated verified users cannot access dashboard =======
+        if (!token && isProtectedRoute && user?.data?.user?.email_verified_at) {
+          router.replace("/login");
+          return;
+        }
+
+        // ======= RULE 6: Email verification success page =======
+        if (pathname === "/verification-success") {
+          if (!recentlyVerified) {
+            router.replace("/login");
+            return;
+          }
+        }
+
+        setIsAuthVerified(true);
+      } catch (error) {
+        console.error("[v0] Route protection error:", error);
+        router.replace("/login");
       }
     };
 
@@ -125,6 +126,13 @@ export default function ProtectedRoute({
     recentlyVerified,
     user,
   ]);
+
+  // For public routes (login, register, home), render immediately
+  // For protected routes, wait for verification
+  const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
+  if (!isPublicRoute && !isAuthVerified) {
+    return null;
+  }
 
   return <>{children}</>;
 }

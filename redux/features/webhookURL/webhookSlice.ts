@@ -28,9 +28,7 @@ export const createURL = createAsyncThunk(
       console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Key Creation failed"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -42,7 +40,7 @@ export const fetchURL = createAsyncThunk(
       const response = await getWebhookURL(id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || "Failed to fetch URL");
+      return rejectWithValue(error?.message);
     }
   }
 );

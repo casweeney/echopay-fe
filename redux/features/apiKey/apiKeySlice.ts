@@ -25,9 +25,7 @@ export const createKey = createAsyncThunk(
       const response = await createApiKey(payload);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Key Creation failed"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -39,9 +37,7 @@ export const fetchApiKeys = createAsyncThunk(
       const response = await getApiKeys(id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch API keys"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -53,9 +49,7 @@ export const deleteKey = createAsyncThunk(
       await deleteApiKey(id);
       return id;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to delete API key"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );

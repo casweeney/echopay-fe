@@ -4,18 +4,19 @@ import { useEffect, useState } from "react";
 import { Eye, EyeOff, Copy, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { useToast } from "@/hooks/use-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { createURL, fetchURL } from "@/redux/features/webhookURL/webhookSlice";
+import { toast } from "react-toastify";
 
 export const WebhookSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { fetchedData } = useSelector((state: RootState) => state.webhook);
+  const { fetchedData, loading } = useSelector(
+    (state: RootState) => state.webhook
+  );
   const { business } = useSelector((state: RootState) => state.business);
   const [url, setUrl] = useState(fetchedData?.webhook.url);
   const [isSecretVisible, setIsSecretVisible] = useState(false);
-  // const { toast } = useToast();
 
   useEffect(() => {
     const handleFetchURL = async () => {
@@ -30,26 +31,33 @@ export const WebhookSettings = () => {
   const handleCopySecret = () => {
     const secret = fetchedData?.webhook.secret ?? "";
     navigator.clipboard.writeText(secret);
+
+    toast("Secret key copied");
   };
 
   const handleSaveWebhook = async () => {
-    const business_id = business?.id;
-    if (business_id) {
-      const response = await dispatch(
-        createURL({
-          business_id,
-          url: url ?? "",
-        })
-      ).unwrap();
+    try {
+      const business_id = business?.id;
+      if (business_id) {
+        const response = await dispatch(
+          createURL({
+            business_id,
+            url: url ?? "",
+          })
+        ).unwrap();
 
-      if (response.status === "success") {
-        await dispatch(fetchURL(business.id));
+        if (response.status === "success") {
+          await dispatch(fetchURL(business.id));
+          toast("Webhook URL saved successfully", { type: "success" });
+        }
+      }
+    } catch (err) {
+      console.error("webhook err:", err);
+      if (err === "Network Error") {
+        toast("Check your internet connection", { type: "error" });
+        return;
       }
     }
-    // toast({
-    //   title: "Webhook URL saved",
-    //   description: "Your webhook settings have been updated.",
-    // });
   };
 
   const handleTestWebhook = () => {};
@@ -62,12 +70,16 @@ export const WebhookSettings = () => {
         <h1 className="text-base tracking-[0.5px] font-normal text-[#010721]">
           WEBHOOK SETTINGS
         </h1>
-        <button
-          className="rounded-[8px] py-[6px] px-[16px] text-[14px] font-normal leading-[20px] tracking-[0.25px] align-middle text-[#FFFFFF] bg-[#0046A7] h-[48px]"
+        <Button
+          className="rounded-[8px] py-[6px] px-[16px] text-[14px] font-normal leading-[20px] tracking-[0.25px] align-middle text-[#FFFFFF] bg-[#0046A7] hover:bg-[#0046A7] h-[48px]"
           onClick={handleSaveWebhook}
         >
-          Save Webhook URL
-        </button>
+          {loading ? (
+            <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+          ) : (
+            "Save Webhook URL"
+          )}
+        </Button>
       </div>
 
       <div className="space-y-6">

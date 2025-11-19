@@ -57,9 +57,7 @@ export const createUserBusiness = createAsyncThunk(
       const response = await createBusiness(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to create business"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -73,9 +71,7 @@ export const fetchBusinesses = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch businesses"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -88,9 +84,7 @@ export const fetchCurrentBusiness = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch current business"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -103,9 +97,7 @@ export const switchBusiness = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to switch current business"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -118,9 +110,7 @@ export const fetchBusinessCategories = createAsyncThunk(
       // console.log(response.business_categories);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch business categories"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -136,9 +126,7 @@ export const verifyBusiness = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to verify business"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -151,9 +139,7 @@ export const fetchBusinessVerificationStatus = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch business verification status"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -166,9 +152,7 @@ export const fetchBusinessDetails = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch business details"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );

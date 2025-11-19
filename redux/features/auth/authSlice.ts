@@ -41,9 +41,7 @@ export const register = createAsyncThunk(
       const response = await registerUser(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Registration failed"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -57,7 +55,7 @@ export const login = createAsyncThunk(
       setAuthToken(response.token);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Login failed");
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -70,9 +68,7 @@ export const verifyEmail = createAsyncThunk(
       const response = await verifyUserEmail(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Email verification failed"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -85,9 +81,7 @@ export const resendEmailVerification = createAsyncThunk(
       const response = await resendUserEmailVerification(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Resend email verification failed"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );

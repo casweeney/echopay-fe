@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { DM_Sans, Roboto, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Slide, ToastContainer } from "react-toastify";
+
+export const metadata: Metadata = {
+  title: "Echopay"
+}
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -24,12 +29,6 @@ const instrumentSans = Instrument_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "ECHOPAY",
-  description:
-    "We provide everything you need to collect and disburse payments across multiple entities.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,7 +40,10 @@ export default function RootLayout({
       className={`${dmSans.variable} ${roboto.variable} ${instrumentSans.variable}`}
     >
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <ToastContainer hideProgressBar transition={Slide} />
+        </Providers>
       </body>
     </html>
   );

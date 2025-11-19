@@ -25,9 +25,7 @@ export const fetchCountries = createAsyncThunk(
       const response = await getCountries();
       return response;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch countries"
-      );
+      return rejectWithValue(error?.message);
     }
   }
 );
@@ -39,7 +37,7 @@ export const fetchStates = createAsyncThunk(
       const response = await getStates(id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || "Failed to fetch states");
+      return rejectWithValue(error?.message);
     }
   }
 );
