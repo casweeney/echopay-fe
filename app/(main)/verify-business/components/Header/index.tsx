@@ -19,7 +19,10 @@ const Header = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const initials = useMemo(() => getInitials(user?.name || ""), [user?.name]);
+  const initials = useMemo(
+    () => getInitials(user?.data?.user.name || ""),
+    [user?.data?.user.name]
+  );
 
   const handleLogout = useCallback(() => {
     dispatch(logout());
