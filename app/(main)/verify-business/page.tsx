@@ -1,12 +1,12 @@
 import React from "react";
-import VerificationSuccessUI from "../verification-success/VerificationSuccessUI";
+import VerifyBusinessUI from "./VerifyBusinessUI";
 
 export const metadata = {
   title: "Verify Business - Echopay",
 };
 
 const VerifyBusiness = () => {
-  return <VerificationSuccessUI />;
+  return <VerifyBusinessUI />;
 };
 
 export default VerifyBusiness;
