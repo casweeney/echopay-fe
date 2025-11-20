@@ -32,6 +32,7 @@ const CreateDisbursementUI = () => {
   console.log(currencies);
   const { business } = useSelector((state: RootState) => state.business);
   const { loading } = useSelector((state: RootState) => state.payout);
+  const [tnxRef, setTnxRef] = useState("");
   const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -140,10 +141,9 @@ const CreateDisbursementUI = () => {
 
           console.log("Form submitted:", response);
           if (response.status === "success") {
+            setTnxRef(response.data.reference);
             setShowSuccessDialog(true);
           }
-
-          console.log("Final Form Data:", formData);
         } catch (err: unknown) {
           console.error("Payout error:", err);
 
@@ -194,7 +194,7 @@ const CreateDisbursementUI = () => {
         amount={formData.amount}
         currency={formData.currency}
         merchantReference={formData.merchant_reference}
-        transactionReference={formData.merchant_reference}
+        transactionReference={tnxRef.toUpperCase()}
         onViewAll={handleViewAllDisbursements}
       />
       <div className="max-w-[45rem]">
