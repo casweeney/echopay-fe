@@ -9,7 +9,7 @@ export default function LoadingOverlay() {
   if (!loading) return null;
 
   return (
-    <div className="absolute inset-0 z-[9999] bg-white/10 backdrop-blur-[3px] flex items-center justify-center">
+    <div className="absolute inset-0 z-[9999] bg-white/10 backdrop-blur-[8px] flex items-center justify-center">
       <div className="h-8 w-8 animate-spin rounded-full border-[4px] border-[#0046A7] border-t-transparent" />
     </div>
   );

@@ -21,7 +21,7 @@ export const fetchVirtualAccount = createAsyncThunk(
       const response = await getVirtualAccount(id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

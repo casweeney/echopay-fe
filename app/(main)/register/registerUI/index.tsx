@@ -156,10 +156,15 @@ export default function RegisterUI() {
             }
           } catch (err: unknown) {
             console.error("Registration error:", err);
-            if (err === "Network Error") {
+            const msg = (err as any)?.message;
+            if (
+              msg === "Cannot read properties of undefined (reading 'data')"
+            ) {
               toast("Check your internet connection", { type: "error" });
               return;
-            } else if (err === "Request failed with status code 409") {
+            }
+
+            if (err === "Request failed with status code 409") {
               toast("User already exists", { type: "error" });
               return;
             }

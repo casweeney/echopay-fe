@@ -25,7 +25,7 @@ export const createKey = createAsyncThunk(
       const response = await createApiKey(payload);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -37,7 +37,7 @@ export const fetchApiKeys = createAsyncThunk(
       const response = await getApiKeys(id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -49,7 +49,7 @@ export const deleteKey = createAsyncThunk(
       await deleteApiKey(id);
       return id;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

@@ -10,7 +10,7 @@ import {
   verifyEmail,
   resendEmailVerification,
 } from "@/redux/features/auth/authSlice";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const VerifyEmailUI = () => {
@@ -78,10 +78,18 @@ const VerifyEmailUI = () => {
         });
       }, 1000);
     } catch (err: unknown) {
-      console.error("Resend code error:", err);
-      if (err === "Network Error") {
+      const message = (err as any)?.message;
+      console.error("Resend code error:", message ?? err);
+      if (message === "Cannot read properties of undefined (reading 'data')") {
         toast("Check your internet connection", { type: "error" });
         return;
+      }
+      if (
+        err === "Email already verified" ||
+        message === "Email already verified"
+      ) {
+        toast(message ?? String(err), { type: "error" });
+        redirect("/login");
       }
     }
   }, [dispatch, email]);
@@ -106,15 +114,21 @@ const VerifyEmailUI = () => {
       } catch (err: unknown) {
         console.error("Email error:", err);
 
-        if (err === "Network Error") {
+        const message = (err as any)?.message;
+        if (
+          message === "Cannot read properties of undefined (reading 'data')"
+        ) {
           toast("Check your internet connection", { type: "error" });
           return;
-        } else if (err === "Request failed with status code 400") {
+        } else if (err === "Validation failed") {
           toast("Please enter your verification code", { type: "error" });
           return;
         } else if (err === "Request failed with status code 404") {
           setCodeError("There may be a mistake in the code you entered.");
           return;
+        } else if (err === "Email already verified") {
+          toast(err, { type: "error" });
+          redirect("/login");
         }
       }
     },
@@ -228,6 +242,7 @@ const VerifyEmailUI = () => {
               <div className="text-[12px] md:text-[14px] text-[#8C8C8C] font-instrument font-medium">
                 Didn&#39;t receive the code?{" "}
                 <button
+                  type="button"
                   onClick={handleResendCode}
                   disabled={resendTimer > 0}
                   className="text-[#0046A7] font-medium hover:underline disabled:text-[#8C8C8C] disabled:cursor-not-allowed"

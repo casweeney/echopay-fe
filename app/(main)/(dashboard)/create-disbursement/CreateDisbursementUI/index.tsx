@@ -22,6 +22,7 @@ import Link from "next/link";
 import { initiateDisbursement } from "@/redux/features/disbursement/disbursementSlice";
 import DisbursementSuccessDialog from "../components/PayoutSuccessModal";
 import { toast } from "react-toastify";
+import { fetchApiKeys } from "@/redux/features/apiKey/apiKeySlice";
 
 const CreateDisbursementUI = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -52,9 +53,18 @@ const CreateDisbursementUI = () => {
   }, [business?.biz_number]);
 
   useEffect(() => {
+    const handleApiKeys = async () => {
+      if (business?.id) {
+        const res = await dispatch(fetchApiKeys(business.id)).unwrap();
+
+        console.log(res);
+      }
+    };
     dispatch(fetchCurrencies());
     dispatch(fetchBanks());
-  }, [dispatch]);
+
+    handleApiKeys();
+  }, [dispatch, business?.id]);
 
   const steps = useMemo(
     () => [
@@ -134,15 +144,28 @@ const CreateDisbursementUI = () => {
           }
 
           console.log("Final Form Data:", formData);
-        } catch (err) {
+        } catch (err: unknown) {
           console.error("Payout error:", err);
-          const message =
-            err instanceof Error
-              ? err.message
-              : typeof err === "string"
-              ? err
-              : JSON.stringify(err);
-          toast.error(message, { type: "error" });
+
+          const msg = (err as any)?.message;
+          if (msg === "Cannot read properties of undefined (reading 'data')") {
+            toast("Check your internet connection", { type: "error" });
+            return;
+          }
+
+          if (err === "External service error") {
+            toast("Failed to Disburse. Please try again later", {
+              type: "error",
+            });
+          } else {
+            const message =
+              err instanceof Error
+                ? err.message
+                : typeof err === "string"
+                ? err
+                : JSON.stringify(err);
+            toast.error(message, { type: "error" });
+          }
         }
       }
     },

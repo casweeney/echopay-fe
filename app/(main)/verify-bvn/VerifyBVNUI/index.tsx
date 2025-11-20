@@ -74,6 +74,12 @@ const VerifyBVNUI = () => {
       } catch (error: unknown) {
         console.error(error);
 
+        const msg = (error as any)?.message;
+        if (msg === "Cannot read properties of undefined (reading 'data')") {
+          toast("Check your internet connection", { type: "error" });
+          return;
+        }
+
         const message =
           error instanceof Error
             ? error.message

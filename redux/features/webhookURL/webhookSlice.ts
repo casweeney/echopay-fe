@@ -40,7 +40,7 @@ export const fetchURL = createAsyncThunk(
       const response = await getWebhookURL(id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

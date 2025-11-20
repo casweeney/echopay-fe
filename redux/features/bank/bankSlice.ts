@@ -21,7 +21,7 @@ export const fetchBanks = createAsyncThunk(
       const response = await getBanks();
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

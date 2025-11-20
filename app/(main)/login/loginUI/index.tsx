@@ -20,7 +20,6 @@ export default function LoginUI() {
   const router = useRouter();
 
   const { loading } = useSelector((state: RootState) => state.auth);
-  const { user } = useSelector((state: RootState) => state.user);
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -53,12 +52,16 @@ export default function LoginUI() {
           await dispatch(fetchUser());
           router.push("/analytics");
         }
-      } catch (err) {
-        if (err === "Request failed with status code 401") {
+      } catch (err: any) {
+        console.error("Login error:", err);
+        if (err === "Unauthorized") {
           toast("Invalid email or password.", { type: "error" });
         }
 
-        if (err === "Network Error") {
+        if (
+          err?.message ===
+          "Cannot read properties of undefined (reading 'data')"
+        ) {
           toast("Check your internet connection", { type: "error" });
         }
       }
