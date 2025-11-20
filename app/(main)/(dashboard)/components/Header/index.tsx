@@ -181,14 +181,12 @@ const Header = () => {
               <div className="absolute right-0 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg z-50">
                 <ul className="py-2 text-sm text-gray-700">
                   <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                      Profile
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                    <Link
+                      href="/settings"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Settings
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <button
