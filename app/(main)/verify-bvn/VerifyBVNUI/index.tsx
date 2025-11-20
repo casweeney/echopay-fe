@@ -6,15 +6,8 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
 
 const VerifyBVNUI = () => {
-  const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
-  const { business } = useSelector((state: RootState) => state.business);
-
   const [formData, setFormData] = useState({
     bvn: "",
     firstName: "",
