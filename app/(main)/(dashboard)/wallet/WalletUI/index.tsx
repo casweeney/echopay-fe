@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { fetchWallets } from "@/redux/features/wallet/walletSlice";
 import { WalletFundModal } from "../components/WalletFundModal";
+import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
 
 const WalletUI = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +27,7 @@ const WalletUI = () => {
     (state: RootState) => state.business
   );
   const { wallets } = useSelector((state: RootState) => state.wallet);
+  const { bvnStatus } = useSelector((state: RootState) => state.bvn);
 
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(true);
@@ -40,6 +42,13 @@ const WalletUI = () => {
   useEffect(() => {
     fetchWalletsData();
   }, [fetchWalletsData]);
+
+  useEffect(() => {
+    const loadBvnStatus = async () => {
+      await dispatch(fetchBvnStatus());
+    };
+    loadBvnStatus();
+  }, [dispatch]);
 
   const fetchVerification = useCallback(async () => {
     if (!business?.id) return;
@@ -77,25 +86,38 @@ const WalletUI = () => {
     [verificationStatus]
   );
 
-  const isVerified = useMemo(
+  const isBusinessVerified = useMemo(
     () => verificationStatus?.data?.status === "verified",
     [verificationStatus]
   );
 
+  const isBvnVerified = useMemo(
+    () => bvnStatus?.data?.bvn_verified === true,
+    [bvnStatus?.data?.bvn_verified]
+  );
+
   const buttonDisabled = useMemo(
-    () => currentStatus === "in_review",
-    [currentStatus]
+    () => bvnStatus?.data.bvn_verified === false,
+    [bvnStatus?.data.bvn_verified]
   );
 
   const showAccordion = useMemo(() => {
-    return !(currentStatus === "in_review" || isVerified);
-  }, [currentStatus, isVerified]);
+    return !(currentStatus === "in_review" || isBusinessVerified);
+  }, [currentStatus, isBusinessVerified]);
 
   const getStatusMessage = useMemo(() => {
+    if (!isBvnVerified) {
+      return {
+        text: "Verify your BVN to proceed",
+        color: "#fdf4e2",
+        icon: Info,
+      };
+    }
+
     switch (currentStatus) {
       case "pending":
         return {
-          text: "Please verify your business",
+          text: "Proceed to verify your business",
           color: "#fdf4e2",
           icon: Info,
         };
@@ -107,7 +129,7 @@ const WalletUI = () => {
         };
       case "verified":
         return {
-          text: "Your business has been verified successfully",
+          text: "Your business has been verified",
           color: "#cdf4e4",
           icon: CheckCircle,
         };
@@ -120,7 +142,7 @@ const WalletUI = () => {
       default:
         return { text: "", color: "transparent", icon: Info };
     }
-  }, [currentStatus]);
+  }, [currentStatus, isBvnVerified]);
 
   const StatusIcon = getStatusMessage.icon;
 
@@ -295,7 +317,7 @@ const WalletUI = () => {
             <button
               disabled={verificationStatus?.data.status !== "verified"}
               onClick={() => router.push("/create-disbursement")}
-              className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]"
+              className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px] disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <p className="font-medium text-[12px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle text-[#FFFFFF]">
                 Create Disbursement
@@ -344,7 +366,7 @@ const WalletUI = () => {
                   Your action items
                 </h1>
                 <div className="flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 bg-[#0046A7] text-white rounded-full text-sm lg:text-[16px] font-semibold">
-                  2
+                  {isBvnVerified ? "1" : "2"}
                 </div>
               </div>
 
@@ -364,32 +386,33 @@ const WalletUI = () => {
                   />
                 </button>
 
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4">
-                      <div className="flex items-center gap-2 lg:gap-4">
-                        {ECHOPAY_SVG().checkOutline({
-                          className:
-                            "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                        })}
-                        <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
-                          Verify your BVN
-                        </span>
+                {!isBvnVerified && (
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="border-t border-gray-200 pt-3 lg:pt-4 bg-white">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4">
+                        <div className="flex items-center gap-2 lg:gap-4">
+                          {ECHOPAY_SVG().checkOutline({
+                            className:
+                              "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                          })}
+                          <span className="text-sm lg:text-base leading-[20px] text-[#010721]">
+                            Verify your BVN
+                          </span>
+                        </div>
+                        <Button
+                          onClick={handleBVNVerifyClick}
+                          className="bg-[#0046A7] hover:bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6"
+                        >
+                          Verify BVN
+                        </Button>
                       </div>
-                      <Button
-                        onClick={handleBVNVerifyClick}
-                        // disabled={buttonDisabled}
-                        className="bg-[#0046A7] hover:bg-[#0046A7] h-10 lg:h-[56px] text-white rounded-[8px] lg:rounded-[12px] px-4 lg:px-6"
-                      >
-                        {"Verify BVN"}
-                      </Button>
                     </div>
                   </div>
-                </div>
+                )}
 
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
