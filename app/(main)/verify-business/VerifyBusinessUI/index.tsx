@@ -141,13 +141,19 @@ const VerifyBusinessUI = () => {
             }
           } catch (err: unknown) {
             console.error("Business Error:", err);
-            const msg = (err as any)?.message;
-            if (
-              msg === "Cannot read properties of undefined (reading 'data')"
-            ) {
-              toast("Check your internet connection", { type: "error" });
-              return;
+            
+            if (typeof err === "object" && err !== null && "message" in err) {
+              const message = String((err as { message: string }).message);
+
+              if (
+                message ===
+                "Cannot read properties of undefined (reading 'data')"
+              ) {
+                toast("Check your internet connection", { type: "error" });
+                return;
+              }
             }
+
             const message =
               err instanceof Error
                 ? err.message

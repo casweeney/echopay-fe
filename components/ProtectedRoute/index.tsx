@@ -44,7 +44,14 @@ export default function ProtectedRoute({
     };
 
     handleProtectedRoute();
-  }, [token, pathname, router, isBvnVerified, isBusinessVerified]);
+  }, [
+    token,
+    pathname,
+    router,
+    isBvnVerified,
+    isBusinessVerified,
+    isBusinessInreview,
+  ]);
 
   return <>{children}</>;
 }

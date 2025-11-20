@@ -56,7 +56,7 @@ const Header = () => {
     } else {
       return () => clearTimeout(myTimeout);
     }
-  }, [user?.data?.token_expires_at]);
+  }, [user?.data?.token_expires_at, dispatch]);
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (

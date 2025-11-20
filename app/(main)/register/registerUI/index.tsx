@@ -83,7 +83,7 @@ export default function RegisterUI() {
   const isStep2Valid = useMemo(
     () =>
       formData.email && formData.phone && emailValidation && phoneValidation,
-    [formData.email, formData.phone, emailValidation]
+    [formData.email, formData.phone, emailValidation, phoneValidation]
   );
 
   const areAllPasswordRequirementsMet = useMemo(
@@ -156,16 +156,20 @@ export default function RegisterUI() {
             }
           } catch (err: unknown) {
             console.error("Registration error:", err);
-            const msg = (err as any)?.message;
-            if (
-              msg === "Cannot read properties of undefined (reading 'data')"
-            ) {
-              toast("Check your internet connection", { type: "error" });
-              return;
+            if (typeof err === "object" && err !== null && "message" in err) {
+              const message = String((err as { message: string }).message);
+
+              if (
+                message ===
+                "Cannot read properties of undefined (reading 'data')"
+              ) {
+                toast("Check your internet connection", { type: "error" });
+                return;
+              }
             }
 
-            if (err === "Request failed with status code 409") {
-              toast("User already exists", { type: "error" });
+            if (err === "User already exists") {
+              toast(err, { type: "error" });
               return;
             }
           }

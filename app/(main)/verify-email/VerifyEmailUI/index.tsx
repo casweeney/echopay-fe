@@ -78,17 +78,18 @@ const VerifyEmailUI = () => {
         });
       }, 1000);
     } catch (err: unknown) {
-      const message = (err as any)?.message;
-      console.error("Resend code error:", message ?? err);
-      if (message === "Cannot read properties of undefined (reading 'data')") {
-        toast("Check your internet connection", { type: "error" });
-        return;
+      if (typeof err === "object" && err !== null && "message" in err) {
+        const message = String((err as { message: string }).message);
+
+        if (
+          message === "Cannot read properties of undefined (reading 'data')"
+        ) {
+          toast("Check your internet connection", { type: "error" });
+          return;
+        }
       }
-      if (
-        err === "Email already verified" ||
-        message === "Email already verified"
-      ) {
-        toast(message ?? String(err), { type: "error" });
+      if (err === "Email already verified") {
+        toast(err, { type: "error" });
         redirect("/login");
       }
     }
@@ -114,21 +115,24 @@ const VerifyEmailUI = () => {
       } catch (err: unknown) {
         console.error("Email error:", err);
 
-        const message = (err as any)?.message;
-        if (
-          message === "Cannot read properties of undefined (reading 'data')"
-        ) {
-          toast("Check your internet connection", { type: "error" });
-          return;
+        if (typeof err === "object" && err !== null && "message" in err) {
+          const message = String((err as { message: string }).message);
+
+          if (
+            message === "Cannot read properties of undefined (reading 'data')"
+          ) {
+            toast("Check your internet connection", { type: "error" });
+            return;
+          }
         } else if (err === "Validation failed") {
           toast("Please enter your verification code", { type: "error" });
-          return;
-        } else if (err === "Request failed with status code 404") {
-          setCodeError("There may be a mistake in the code you entered.");
           return;
         } else if (err === "Email already verified") {
           toast(err, { type: "error" });
           redirect("/login");
+        } else if (err === "Code not found") {
+          setCodeError("There may be a mistake in the code you entered.");
+          return;
         }
       }
     },

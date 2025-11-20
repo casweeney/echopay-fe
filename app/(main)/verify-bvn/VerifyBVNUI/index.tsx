@@ -71,26 +71,31 @@ const VerifyBVNUI = () => {
           await dispatch(fetchBvnStatus());
           router.push("/wallet");
         }
-      } catch (error: unknown) {
-        console.error(error);
+      } catch (err: unknown) {
+        console.error(err);
 
-        const msg = (error as any)?.message;
-        if (msg === "Cannot read properties of undefined (reading 'data')") {
-          toast("Check your internet connection", { type: "error" });
-          return;
+        if (typeof err === "object" && err !== null && "message" in err) {
+          const message = String((err as { message: string }).message);
+
+          if (
+            message === "Cannot read properties of undefined (reading 'data')"
+          ) {
+            toast("Check your internet connection", { type: "error" });
+            return;
+          }
         }
 
         const message =
-          error instanceof Error
-            ? error.message
-            : typeof error === "string"
-            ? error
-            : JSON.stringify(error) || "An unexpected error occurred";
+          err instanceof Error
+            ? err.message
+            : typeof err === "string"
+            ? err
+            : JSON.stringify(err) || "An unexpected error occurred";
 
         toast(message, { type: "error" });
       }
     },
-    [dispatch, formData.bvn, formData.firstName, formData.lastName]
+    [dispatch, formData.bvn, formData.firstName, formData.lastName, router]
   );
 
   return (

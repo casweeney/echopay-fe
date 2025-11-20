@@ -31,7 +31,7 @@ const Header = () => {
     dispatch(fetchUser());
     dispatch(fetchBusinesses());
     dispatch(fetchCurrentBusiness());
-  }, []);
+  }, [dispatch]);
 
   const initials = useMemo(
     () => getInitials(user?.data?.user.name || ""),
@@ -78,7 +78,7 @@ const Header = () => {
     } else {
       return () => clearTimeout(myTimeout);
     }
-  }, [user?.data?.token_expires_at]);
+  }, [user?.data?.token_expires_at, dispatch]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

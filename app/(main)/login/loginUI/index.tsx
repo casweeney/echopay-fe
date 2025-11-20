@@ -52,17 +52,21 @@ export default function LoginUI() {
           await dispatch(fetchUser());
           router.push("/analytics");
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Login error:", err);
         if (err === "Unauthorized") {
           toast("Invalid email or password.", { type: "error" });
         }
 
-        if (
-          err?.message ===
-          "Cannot read properties of undefined (reading 'data')"
-        ) {
-          toast("Check your internet connection", { type: "error" });
+        if (typeof err === "object" && err !== null && "message" in err) {
+          const message = String((err as { message: string }).message);
+
+          if (
+            message === "Cannot read properties of undefined (reading 'data')"
+          ) {
+            toast("Check your internet connection", { type: "error" });
+            return;
+          }
         }
       }
     },
