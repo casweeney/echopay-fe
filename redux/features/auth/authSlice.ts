@@ -41,7 +41,7 @@ export const register = createAsyncThunk(
       const response = await registerUser(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -55,7 +55,7 @@ export const login = createAsyncThunk(
       setAuthToken(response.token);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -68,7 +68,7 @@ export const verifyEmail = createAsyncThunk(
       const response = await verifyUserEmail(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -81,7 +81,7 @@ export const resendEmailVerification = createAsyncThunk(
       const response = await resendUserEmailVerification(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

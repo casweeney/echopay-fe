@@ -57,9 +57,16 @@ export const WebhookSettings = () => {
       if (err === "Invalid URL format") {
         toast("Invalid URL", { type: "error" });
       }
-      if (err === "Network Error") {
-        toast("Check your internet connection", { type: "error" });
-        return;
+
+      if (typeof err === "object" && err !== null && "message" in err) {
+        const message = String((err as { message: string }).message);
+
+        if (
+          message === "Cannot read properties of undefined (reading 'data')"
+        ) {
+          toast("Check your internet connection", { type: "error" });
+          return;
+        }
       }
     }
   };

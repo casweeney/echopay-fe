@@ -141,6 +141,19 @@ const VerifyBusinessUI = () => {
             }
           } catch (err: unknown) {
             console.error("Business Error:", err);
+            
+            if (typeof err === "object" && err !== null && "message" in err) {
+              const message = String((err as { message: string }).message);
+
+              if (
+                message ===
+                "Cannot read properties of undefined (reading 'data')"
+              ) {
+                toast("Check your internet connection", { type: "error" });
+                return;
+              }
+            }
+
             const message =
               err instanceof Error
                 ? err.message
@@ -185,7 +198,7 @@ const VerifyBusinessUI = () => {
             {steps.map((step) => (
               <span
                 key={step.number}
-                className={`font-normal font-instrument text-[10px] md:text-[12px] lg:text-[12px] leading-[100%] text-center ${
+                className={`font-normal font-instrument text-[10px] md:text-[12px] lg:text-[12px] leading-[100%] text-center w-1/2 ${
                   currentStep === step.number ||
                   completedSteps.includes(step.number)
                     ? "text-[#010721]"

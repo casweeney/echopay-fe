@@ -22,6 +22,7 @@ import Link from "next/link";
 import { initiateDisbursement } from "@/redux/features/disbursement/disbursementSlice";
 import DisbursementSuccessDialog from "../components/PayoutSuccessModal";
 import { toast } from "react-toastify";
+import { fetchApiKeys } from "@/redux/features/apiKey/apiKeySlice";
 
 const CreateDisbursementUI = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,6 +32,7 @@ const CreateDisbursementUI = () => {
   console.log(currencies);
   const { business } = useSelector((state: RootState) => state.business);
   const { loading } = useSelector((state: RootState) => state.payout);
+  const [tnxRef, setTnxRef] = useState("");
   const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -52,9 +54,18 @@ const CreateDisbursementUI = () => {
   }, [business?.biz_number]);
 
   useEffect(() => {
+    const handleApiKeys = async () => {
+      if (business?.id) {
+        const res = await dispatch(fetchApiKeys(business.id)).unwrap();
+
+        console.log(res);
+      }
+    };
     dispatch(fetchCurrencies());
     dispatch(fetchBanks());
-  }, [dispatch]);
+
+    handleApiKeys();
+  }, [dispatch, business?.id]);
 
   const steps = useMemo(
     () => [
@@ -130,23 +141,40 @@ const CreateDisbursementUI = () => {
 
           console.log("Form submitted:", response);
           if (response.status === "success") {
+            setTnxRef(response.data.reference);
             setShowSuccessDialog(true);
           }
-
-          console.log("Final Form Data:", formData);
-        } catch (err) {
+        } catch (err: unknown) {
           console.error("Payout error:", err);
-          const message =
-            err instanceof Error
-              ? err.message
-              : typeof err === "string"
-              ? err
-              : JSON.stringify(err);
-          toast.error(message, { type: "error" });
+
+          if (typeof err === "object" && err !== null && "message" in err) {
+            const message = String((err as { message: string }).message);
+
+            if (
+              message === "Cannot read properties of undefined (reading 'data')"
+            ) {
+              toast("Check your internet connection", { type: "error" });
+              return;
+            }
+          }
+
+          if (err === "External service error") {
+            toast("Failed to Disburse. Please try again later", {
+              type: "error",
+            });
+          } else {
+            const message =
+              err instanceof Error
+                ? err.message
+                : typeof err === "string"
+                ? err
+                : JSON.stringify(err);
+            toast.error(message, { type: "error" });
+          }
         }
       }
     },
-    [currentStep, isStepValid, formData, dispatch, router, business?.id, keys]
+    [currentStep, isStepValid, formData, dispatch, keys]
   );
 
   const handleViewAllDisbursements = () => {
@@ -171,7 +199,7 @@ const CreateDisbursementUI = () => {
         amount={formData.amount}
         currency={formData.currency}
         merchantReference={formData.merchant_reference}
-        transactionReference={formData.merchant_reference}
+        transactionReference={tnxRef.toUpperCase()}
         onViewAll={handleViewAllDisbursements}
       />
       <div className="max-w-[45rem]">

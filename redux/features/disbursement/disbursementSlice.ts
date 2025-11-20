@@ -1,4 +1,4 @@
-import { DisbursementPayload, DisbursementRequest } from "@/types/disbursement";
+import { DisbursementRequest } from "@/types/disbursement";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createDisbursement } from "./disbursementAPI";
 
@@ -22,7 +22,7 @@ export const initiateDisbursement = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      // console.log("API ERROR:", error?.response.data.message);
+      // console.log("API ERROR:", error);
       return rejectWithValue(error?.response.data.message);
     }
   }

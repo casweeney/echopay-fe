@@ -27,7 +27,7 @@ export const createBusinessWallet = createAsyncThunk(
       const response = await createWallet(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -40,7 +40,7 @@ export const fetchWallets = createAsyncThunk(
       //   console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

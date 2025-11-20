@@ -25,7 +25,7 @@ export const fetchCountries = createAsyncThunk(
       const response = await getCountries();
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -37,7 +37,7 @@ export const fetchStates = createAsyncThunk(
       const response = await getStates(id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

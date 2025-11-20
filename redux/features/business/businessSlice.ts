@@ -57,7 +57,7 @@ export const createUserBusiness = createAsyncThunk(
       const response = await createBusiness(payload);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -71,7 +71,7 @@ export const fetchBusinesses = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -84,7 +84,7 @@ export const fetchCurrentBusiness = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -97,7 +97,7 @@ export const switchBusiness = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -110,7 +110,7 @@ export const fetchBusinessCategories = createAsyncThunk(
       // console.log(response.business_categories);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -139,7 +139,7 @@ export const fetchBusinessVerificationStatus = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
@@ -152,7 +152,7 @@ export const fetchBusinessDetails = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

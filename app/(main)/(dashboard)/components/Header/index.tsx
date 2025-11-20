@@ -31,6 +31,12 @@ const Header = () => {
   const { toggleSidebar } = useSidebar();
 
   useEffect(() => {
+    function isExpiredToken() {
+      setShowModal(true);
+      dispatch(logout());
+      redirect("/login");
+    }
+
     if (!user?.data?.token_expires_at) return;
 
     const expiryTimestamp = user.data.token_expires_at; // in SECONDS
@@ -40,22 +46,17 @@ const Header = () => {
     console.log("Token expires in:", secondsLeft, "seconds");
 
     const myTimeout = setTimeout(() => {
-      setShowModal(true);
+      isExpiredToken();
     }, secondsLeft * 1000);
 
     if (user.data.token_expires_at !== undefined) {
       setTimeout(() => {
-        setShowModal(true);
+        isExpiredToken();
       }, secondsLeft * 1000);
     } else {
       return () => clearTimeout(myTimeout);
     }
-  }, [user?.data?.token_expires_at]);
-
-  function handleConfirm() {
-    dispatch(logout());
-    redirect("/login");
-  }
+  }, [user?.data?.token_expires_at, dispatch]);
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
@@ -70,7 +71,7 @@ const Header = () => {
     dispatch(fetchUser());
     dispatch(fetchBusinesses());
     dispatch(fetchCurrentBusiness());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -94,7 +95,7 @@ const Header = () => {
 
   return (
     <>
-      {showModal && <SessionExpiredModal onConfirm={handleConfirm} />}
+      {showModal && <SessionExpiredModal />}
       <div className="border-b border-[#E0E0E0] px-4 lg:px-[24px] py-3 lg:py-[16px] flex justify-between items-center gap-2 lg:gap-0">
         {/* Left section */}
         <div className="flex items-end gap-2 lg:gap-0">
@@ -180,14 +181,12 @@ const Header = () => {
               <div className="absolute right-0 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg z-50">
                 <ul className="py-2 text-sm text-gray-700">
                   <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                      Profile
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                    <Link
+                      href="/settings"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Settings
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <button

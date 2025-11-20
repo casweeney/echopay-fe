@@ -1,12 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-
-export default function SessionExpiredModal({
-  onConfirm,
-}: {
-  onConfirm: () => void;
-}) {
+export default function SessionExpiredModal() {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm">
       <div className="bg-white z-[9999] p-6 rounded-xl max-w-sm w-full text-center shadow-xl">
@@ -17,13 +11,6 @@ export default function SessionExpiredModal({
         <p className="text-gray-600 mb-6">
           Your session has expired. Please log in again.
         </p>
-
-        <Button
-          className="w-full bg-[#0046A7] hover:bg-[#0046A7]"
-          onClick={onConfirm}
-        >
-          OK
-        </Button>
       </div>
     </div>
   );

@@ -25,7 +25,9 @@ export const fetchUser = createAsyncThunk(
       console.log("Fetched user response:", response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message || "Failed to fetch user");
+      return rejectWithValue(
+        error?.response.data.message || "Failed to fetch user"
+      );
     }
   }
 );
