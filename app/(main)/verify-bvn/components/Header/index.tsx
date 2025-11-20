@@ -40,6 +40,7 @@ const Header = () => {
 
   const handleLogout = useCallback(() => {
     dispatch(logout());
+    redirect("/login");
   }, [dispatch]);
 
   const handleClickOutside = useCallback((event: MouseEvent) => {

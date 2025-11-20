@@ -165,7 +165,7 @@ export default function LoginUI() {
                   placeholder="****************"
                   value={formData.password}
                   onChange={handleChange}
-                  className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 text-[15px] bg-transparent flex-1 placeholder:text-[#828783]"
+                  className="font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783]"
                 />
                 <button
                   type="button"

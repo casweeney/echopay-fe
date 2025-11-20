@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUser } from "./userAPI";
-import { GetUserResponse, User } from "@/types/user";
+import { GetUserResponse } from "@/types/user";
 
 interface UserState {
   user: GetUserResponse | null;
@@ -25,7 +25,7 @@ export const fetchUser = createAsyncThunk(
       console.log("Fetched user response:", response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || "Failed to fetch user");
+      return rejectWithValue(error?.message || "Failed to fetch user");
     }
   }
 );

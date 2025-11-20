@@ -21,7 +21,7 @@ export const BusinessSettings = () => {
             <Button
               variant="outline"
               onClick={() => setIsEditing(!isEditing)}
-              className="text-[#0046A7] border-[#0046A7] rounded-[12px] hover:bg-[#0046A7] transition-colors font-medium text-sm tracking-[0.1px] align-middle h-[56px]"
+              className="text-[#0046A7] border-[#0046A7] rounded-[12px] hover:bg-transparent hover:text-[#0046A7] transition-colors font-medium text-sm tracking-[0.1px] align-middle h-[56px]"
             >
               <Pencil className="h-[13.5px] w-[13.5px] mr-2" />
               Edit Information
@@ -101,18 +101,6 @@ export const BusinessSettings = () => {
               </p>
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Bank Verification Number Card */}
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="text-base tracking-[0.5px] font-normal align-middle text-[#010721] mb-8">
-            BANK VERIFICATION NUMBER
-          </h2>
-          <p className="text-sm tracking-[0.25px] align-middle text-[#010721] font-normal">
-            12345678900
-          </p>
         </CardContent>
       </Card>
 

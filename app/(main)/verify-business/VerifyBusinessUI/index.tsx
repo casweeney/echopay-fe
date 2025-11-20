@@ -136,15 +136,18 @@ const VerifyBusinessUI = () => {
 
             console.log("Form submitted:", response);
             if (response.status === "success") {
-              document.cookie = `businessStatus=${response.data.verification_status}; path=/;`;
               toast(response.message, { type: "success" });
               router.push("/wallet");
             }
-          } catch (err) {
+          } catch (err: unknown) {
             console.error("Business Error:", err);
-            if (err === "Network Error") {
-              toast("Check your internet connection", { type: "error" });
-            }
+            const message =
+              err instanceof Error
+                ? err.message
+                : typeof err === "string"
+                ? err
+                : JSON.stringify(err) || "An unexpected error occurred";
+            toast(message, { type: "error" });
           }
         }
       }
@@ -228,7 +231,7 @@ const VerifyBusinessUI = () => {
                     handleInputChange(value, "businessCategory")
                   }
                 >
-                  <SelectTrigger className="text-[#828783] text-[12px] lg:text-[14px] border-none outline-0">
+                  <SelectTrigger className="text-[#828783] font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 text-[12px] lg:text-[14px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]">
                     <SelectValue placeholder="Select business category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -254,7 +257,7 @@ const VerifyBusinessUI = () => {
                   placeholder="Enter your business website"
                   value={formData.businessWebsite}
                   onChange={handleInputChange}
-                  className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 bg-transparent"
+                  className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
                 />
               </fieldset>
             </>

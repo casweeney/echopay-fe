@@ -41,7 +41,7 @@ const CreateDisbursementUI = () => {
     bank_code: "",
     account_number: "",
     currency: "",
-    merchant_reference: new Date().toISOString(),
+    merchant_reference: `MERCH-REF-${new Date().toISOString()}`,
     biz_number: business?.biz_number || "",
   });
 
@@ -81,6 +81,12 @@ const CreateDisbursementUI = () => {
     formData.merchant_reference,
     formData.biz_number,
   ]);
+
+  const selectedBankName = useMemo(() => {
+    if (!formData.bank_code || !banks?.banks) return "";
+    const found = banks.banks.find((bank) => bank.code === formData.bank_code);
+    return found?.name || "";
+  }, [formData.bank_code, banks?.banks]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement> | string, name?: string) => {
@@ -130,9 +136,13 @@ const CreateDisbursementUI = () => {
           console.log("Final Form Data:", formData);
         } catch (err) {
           console.error("Payout error:", err);
-          if (err === "Network Error") {
-            toast("Check you internet connection", { type: "error" });
-          }
+          const message =
+            err instanceof Error
+              ? err.message
+              : typeof err === "string"
+              ? err
+              : JSON.stringify(err);
+          toast.error(message, { type: "error" });
         }
       }
     },
@@ -387,9 +397,9 @@ const CreateDisbursementUI = () => {
 
                   {/* Bank Name */}
                   <div className="flex justify-between py-4 border-b border-border">
-                    <span className="text-sm text-[#4D4D4D]">Bank Code</span>
+                    <span className="text-sm text-[#4D4D4D]">Bank Name</span>
                     <span className="text-sm font-medium text-foreground">
-                      {formData.bank_code}
+                      {selectedBankName}
                     </span>
                   </div>
 

@@ -3,10 +3,11 @@ import { DM_Sans, Roboto, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Slide, ToastContainer } from "react-toastify";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
-  title: "Echopay"
-}
+  title: "Echopay",
+};
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -41,7 +42,7 @@ export default function RootLayout({
     >
       <body>
         <Providers>
-          {children}
+          <ProtectedRoute>{children}</ProtectedRoute>
           <ToastContainer hideProgressBar transition={Slide} />
         </Providers>
       </body>

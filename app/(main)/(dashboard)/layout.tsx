@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import { SidebarProvider } from "@/context/SidebarContext";
 import { Providers } from "@/app/providers";
 import LoadingOverlay from "@/components/LoadingOverlay";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function DashboardLayout({
   children,
@@ -18,7 +19,7 @@ export default function DashboardLayout({
           <div className="flex-1 flex flex-col overflow-hidden border border-[#CAC4D0] bg-white rounded-[12px] h-full">
             <Header />
             <main className="flex-1 overflow-auto relative">
-              {children}
+              <ProtectedRoute>{children}</ProtectedRoute>
               <LoadingOverlay />
             </main>
           </div>

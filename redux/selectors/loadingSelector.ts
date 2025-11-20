@@ -5,6 +5,9 @@ export const selectGlobalLoading = (state: RootState) => {
     state.user.loading ||
     state.business.loading ||
     state.wallet.loading ||
+    state.bvn.loading ||
+    state.apiKey.loading ||
+    state.webhook.loading ||
     false
   );
 };
