@@ -126,7 +126,7 @@ export const verifyBusiness = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );

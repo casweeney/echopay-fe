@@ -139,11 +139,15 @@ const VerifyBusinessUI = () => {
               toast(response.message, { type: "success" });
               router.push("/wallet");
             }
-          } catch (err) {
+          } catch (err: unknown) {
             console.error("Business Error:", err);
-            if (err === "Network Error") {
-              toast("Check your internet connection", { type: "error" });
-            }
+            const message =
+              err instanceof Error
+                ? err.message
+                : typeof err === "string"
+                ? err
+                : JSON.stringify(err) || "An unexpected error occurred";
+            toast(message, { type: "error" });
           }
         }
       }
