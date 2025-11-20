@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { createURL, fetchURL } from "@/redux/features/webhookURL/webhookSlice";
 import { toast } from "react-toastify";
+import { formatDate } from "@/utils/formatDate";
 
 export const WebhookSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -53,6 +54,9 @@ export const WebhookSettings = () => {
       }
     } catch (err) {
       console.error("webhook err:", err);
+      if (err === "Invalid URL format") {
+        toast("Invalid URL", { type: "error" });
+      }
       if (err === "Network Error") {
         toast("Check your internet connection", { type: "error" });
         return;
@@ -141,7 +145,7 @@ export const WebhookSettings = () => {
               Last Triggered
             </div>
             <div className="text-sm tracking-[0.25px] align-middle text-[#828783]">
-              {fetchedData?.webhook.updated_at}
+              {formatDate(fetchedData?.webhook.updated_at || "")}
             </div>
           </div>
           <Button

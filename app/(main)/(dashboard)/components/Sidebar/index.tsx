@@ -130,7 +130,7 @@ const Sidebar = () => {
             value={bizId || business?.id}
             onValueChange={handleSwitchBusiness}
           >
-            <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">
+            <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:ring-offset-0">
               <SelectValue>
                 {(() => {
                   const selectedBiz = businesses.find(

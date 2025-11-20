@@ -247,7 +247,7 @@ const WalletUI = () => {
                 value={activeWallet?.id}
                 onValueChange={handleSelectWallet}
               >
-                <SelectTrigger className="w-full lg:w-[100px] h-9 border rounded-[32px] px-[5px] py-[5px] lg:p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
+                <SelectTrigger className="w-full lg:w-[100px] h-9 border rounded-[32px] px-[5px] py-[5px] lg:p-[8px] border-[#E0E0E0] focus:ring-0 focus:ring-offset-0 text-xs lg:text-sm">
                   <SelectValue>
                     {activeWallet ? (
                       <div className="flex items-center space-x-2">

@@ -104,18 +104,6 @@ export const BusinessSettings = () => {
         </CardContent>
       </Card>
 
-      {/* Bank Verification Number Card */}
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="text-base tracking-[0.5px] font-normal align-middle text-[#010721] mb-8">
-            BANK VERIFICATION NUMBER
-          </h2>
-          <p className="text-sm tracking-[0.25px] align-middle text-[#010721] font-normal">
-            12345678900
-          </p>
-        </CardContent>
-      </Card>
-
       {/* Support Card */}
       <Card>
         <CardContent className="p-4">

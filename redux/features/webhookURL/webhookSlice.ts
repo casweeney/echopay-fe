@@ -28,7 +28,7 @@ export const createURL = createAsyncThunk(
       console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error?.response.data.errors.url[0]);
     }
   }
 );
