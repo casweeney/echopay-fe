@@ -136,9 +136,13 @@ const CreateDisbursementUI = () => {
           console.log("Final Form Data:", formData);
         } catch (err) {
           console.error("Payout error:", err);
-          if (err === "Network Error") {
-            toast("Check you internet connection", { type: "error" });
-          }
+          const message =
+            err instanceof Error
+              ? err.message
+              : typeof err === "string"
+              ? err
+              : JSON.stringify(err);
+          toast.error(message, { type: "error" });
         }
       }
     },

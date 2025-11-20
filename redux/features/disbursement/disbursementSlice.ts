@@ -22,8 +22,8 @@ export const initiateDisbursement = createAsyncThunk(
       // console.log(response);
       return response;
     } catch (error: any) {
-      console.log("API ERROR:", error);
-      return rejectWithValue(error?.message);
+      console.log("API ERROR:", error?.response.data.message);
+      return rejectWithValue(error?.response.data.message);
     }
   }
 );
