@@ -23,7 +23,9 @@ export const CreateApiKeyDialog = ({
   onCreateKey,
 }: CreateApiKeyDialogProps) => {
   const { business } = useSelector((state: RootState) => state.business);
-  const { loading } = useSelector((state: RootState) => state.apiKey);
+  const { isCreateKeyLoading } = useSelector(
+    (state: RootState) => state.apiKey
+  );
 
   const [keyName, setKeyName] = useState("");
 
@@ -68,9 +70,9 @@ export const CreateApiKeyDialog = ({
           <Button
             type="submit"
             className="w-full h-14 text-base bg-[#0046A7] hover:bg-[#0046A7] text-white"
-            disabled={!keyName || !business?.id || loading}
+            disabled={!keyName || !business?.id || isCreateKeyLoading}
           >
-            {loading ? (
+            {isCreateKeyLoading ? (
               <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
             ) : (
               "Create Key"

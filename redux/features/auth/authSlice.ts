@@ -18,6 +18,8 @@ import { persistor } from "@/redux/store";
 interface AuthState {
   user: User | null;
   token: string | null;
+  isResendLoading: boolean;
+  isVerifyEmailLoading: boolean;
   loading: boolean;
   error: string | null;
   message: string | null;
@@ -27,6 +29,8 @@ interface AuthState {
 const initialState: AuthState = {
   user: null,
   token: getAuthToken(),
+  isResendLoading: false,
+  isVerifyEmailLoading: false,
   loading: false,
   error: null,
   message: null,
@@ -136,28 +140,28 @@ const authSlice = createSlice({
       })
       // Verify Email
       .addCase(verifyEmail.pending, (state) => {
-        state.loading = true;
+        state.isVerifyEmailLoading = true;
         state.error = null;
       })
       .addCase(verifyEmail.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isVerifyEmailLoading = false;
         state.message = action.payload.message;
       })
       .addCase(verifyEmail.rejected, (state, action) => {
-        state.loading = false;
+        state.isVerifyEmailLoading = false;
         state.error = action.payload as string;
       })
       //Resend Email Verification
       .addCase(resendEmailVerification.pending, (state) => {
-        state.loading = true;
+        state.isResendLoading = true;
         state.error = null;
       })
       .addCase(resendEmailVerification.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isResendLoading = false;
         state.message = action.payload.message;
       })
       .addCase(resendEmailVerification.rejected, (state, action) => {
-        state.loading = false;
+        state.isResendLoading = false;
         state.error = action.payload as string;
       });
   },

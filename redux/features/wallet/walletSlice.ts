@@ -9,6 +9,7 @@ import {
 interface WalletState {
   wallet: CreateWalletResponse | null;
   wallets: Wallet[];
+  isCreateWalletLoading: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -16,6 +17,7 @@ interface WalletState {
 const initialState: WalletState = {
   wallet: null,
   wallets: [],
+  isCreateWalletLoading: false,
   loading: false,
   error: null,
 };
@@ -64,15 +66,15 @@ const walletSlice = createSlice({
         state.error = action.payload as string;
       })
       .addCase(createBusinessWallet.pending, (state) => {
-        state.loading = true;
+        state.isCreateWalletLoading = true;
         state.error = null;
       })
       .addCase(createBusinessWallet.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isCreateWalletLoading = false;
         state.wallet = action.payload;
       })
       .addCase(createBusinessWallet.rejected, (state, action) => {
-        state.loading = false;
+        state.isCreateWalletLoading = false;
         state.error = action.payload as string;
       });
   },

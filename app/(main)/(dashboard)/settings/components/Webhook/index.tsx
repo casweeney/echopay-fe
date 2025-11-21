@@ -12,7 +12,7 @@ import { formatDate } from "@/utils/formatDate";
 
 export const WebhookSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { fetchedData, loading } = useSelector(
+  const { fetchedData, isCreateUrlLodading } = useSelector(
     (state: RootState) => state.webhook
   );
   const { business } = useSelector((state: RootState) => state.business);
@@ -85,7 +85,7 @@ export const WebhookSettings = () => {
           className="rounded-[8px] py-[6px] px-[16px] text-[14px] font-normal leading-[20px] tracking-[0.25px] align-middle text-[#FFFFFF] bg-[#0046A7] hover:bg-[#0046A7] h-[48px]"
           onClick={handleSaveWebhook}
         >
-          {loading ? (
+          {isCreateUrlLodading ? (
             <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
           ) : (
             "Save Webhook URL"

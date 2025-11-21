@@ -36,15 +36,16 @@ const persistConfig = {
   key: "root",
   storage,
   whitelist: [
-    // "user",
-    // "business",
+    "user",
+    "business",
     // "apiKey",
     // "webhook",
     // "region",
-    // "wallet",
+    "wallet",
     // "currency",
     // "account",
     // "bank",
+    "bvn",
   ], // State slices to persist
 };
 

@@ -6,6 +6,8 @@ interface ApiKeysState {
   keys: ApiKey[];
   key: CreateKeyData | null;
   loading: boolean;
+  isCreateKeyLoading: boolean;
+  isDeleteKeyLoading: boolean;
   error: string | null;
   success: string | null;
 }
@@ -14,6 +16,8 @@ const initialState: ApiKeysState = {
   keys: [],
   key: null,
   loading: false,
+  isCreateKeyLoading: false,
+  isDeleteKeyLoading: false,
   error: null,
   success: null,
 };
@@ -66,15 +70,15 @@ const apiKeysSlice = createSlice({
     // Create Key
     builder
       .addCase(createKey.pending, (state) => {
-        state.loading = true;
+        state.isCreateKeyLoading = true;
         state.error = null;
       })
       .addCase(createKey.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isCreateKeyLoading = false;
         state.key = action.payload;
       })
       .addCase(createKey.rejected, (state, action) => {
-        state.loading = false;
+        state.isCreateKeyLoading = false;
         state.error = action.error as string;
       })
       // Get Keys
@@ -92,16 +96,16 @@ const apiKeysSlice = createSlice({
       })
       // Delete Key
       .addCase(deleteKey.pending, (state) => {
-        state.loading = true;
+        state.isDeleteKeyLoading = true;
         state.error = null;
       })
       .addCase(deleteKey.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isDeleteKeyLoading = false;
         state.keys = state.keys.filter((key) => key.id !== action.payload);
         state.success = "API key deleted successfully!";
       })
       .addCase(deleteKey.rejected, (state, action) => {
-        state.loading = false;
+        state.isDeleteKeyLoading = false;
         state.error = action.payload as string;
       });
   },
