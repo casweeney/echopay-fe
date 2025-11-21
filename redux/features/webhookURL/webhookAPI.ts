@@ -3,6 +3,7 @@ import {
   CreateWebhookUrlPayload,
   CreateWebhookUrlResponse,
   GetWebhookUrlResposne,
+  RegeneratUrlSecretResponse,
 } from "@/types/webhook";
 
 export const createWebhookURL = async (
@@ -20,6 +21,15 @@ export const getWebhookURL = async (
 ): Promise<GetWebhookUrlResposne> => {
   const { data } = await axiosClient.get<GetWebhookUrlResposne>(
     `/webhooks/${id}`
+  );
+  return data;
+};
+
+export const regenerateWebhookUrl = async (
+  id: string
+): Promise<RegeneratUrlSecretResponse> => {
+  const { data } = await axiosClient.post<RegeneratUrlSecretResponse>(
+    `/webhooks/${id}/regenerate-secret`
   );
   return data;
 };

@@ -1,15 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createWebhookURL, getWebhookURL } from "./webhookAPI";
+import {
+  createWebhookURL,
+  getWebhookURL,
+  regenerateWebhookUrl,
+} from "./webhookAPI";
 import {
   CreateWebhookUrlPayload,
   CreateWebhookUrlResponse,
+  RegeneratUrlSecretResponse,
   Webhook,
 } from "@/types/webhook";
 
 interface WebhookState {
   fetchedData: Webhook | null;
   data: CreateWebhookUrlResponse | null;
+  regenerate: RegeneratUrlSecretResponse | null;
   isCreateUrlLodading: boolean;
+  isRegenerating: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -17,7 +24,9 @@ interface WebhookState {
 const initialState: WebhookState = {
   fetchedData: null,
   data: null,
+  regenerate: null,
   isCreateUrlLodading: false,
+  isRegenerating: false,
   loading: false,
   error: null,
 };
@@ -40,6 +49,18 @@ export const fetchURL = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await getWebhookURL(id);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error?.response.data.message);
+    }
+  }
+);
+
+export const regenerateUrl = createAsyncThunk(
+  "webhookURL/regenerateUrl",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await regenerateWebhookUrl(id);
       return response;
     } catch (error: any) {
       return rejectWithValue(error?.response.data.message);
@@ -83,6 +104,17 @@ const webhookSlice = createSlice({
       .addCase(fetchURL.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(regenerateUrl.pending, (state) => {
+        state.isRegenerating = true;
+      })
+      .addCase(regenerateUrl.fulfilled, (state, action) => {
+        state.isRegenerating = false;
+        state.regenerate = action.payload;
+      })
+      .addCase(regenerateUrl.rejected, (state, action) => {
+        state.isRegenerating = true;
+        state.error = action.error as string;
       });
   },
 });

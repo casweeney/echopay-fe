@@ -6,7 +6,7 @@ export const getTransactions = async (
   page: number
 ): Promise<GetTransactionsResponse> => {
   const { data } = await axiosClient.get<GetTransactionsResponse>(
-    `/api/v1/transactions/${id}?page=${page}&limit=10`
+    `/api/v1/wallets/transactions/${id}?page=${page}&limit=10`
   );
   return data;
 };
