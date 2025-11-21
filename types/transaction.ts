@@ -26,7 +26,7 @@ export interface Pagination {
   has_previous: boolean;
 }
 
-export interface TransactionsApiResponse {
+export interface GetTransactionsResponse {
   data: Transaction[];
   pagination: Pagination;
 }

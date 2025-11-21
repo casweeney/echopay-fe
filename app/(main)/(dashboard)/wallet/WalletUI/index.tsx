@@ -20,6 +20,10 @@ import { useRouter } from "next/navigation";
 import { fetchWallets } from "@/redux/features/wallet/walletSlice";
 import { WalletFundModal } from "../components/WalletFundModal";
 import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
+import { fetchTransactions } from "@/redux/features/transaction/transactionSlice";
+import { format } from "date-fns";
+import { Pagination } from "@/types/transaction";
+import PaginationWrapper from "@/components/Pagination";
 
 const WalletUI = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,15 +32,31 @@ const WalletUI = () => {
   );
   const { wallets } = useSelector((state: RootState) => state.wallet);
   const { bvnStatus } = useSelector((state: RootState) => state.bvn);
+  const { transactions } = useSelector((state: RootState) => state.transaction);
 
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeWalletId, setActiveWalletId] = useState<string | null>(() => {
-    // Try to get from localStorage
     const saved = localStorage.getItem("activeWalletId");
-    return saved || null; // fallback handled after wallets are fetched
+    return saved || null;
   });
+
   const [isFundWalletDialogOpen, setIsFundWalletDialogOpen] = useState(false);
+  const [pagination, setPagination] = useState<Pagination>({
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 1,
+    has_next: false,
+    has_previous: false,
+  });
+
+  const handlePageChange = (page: number) => {
+    setPagination((prev) => ({ ...prev, current_page: page }));
+    if (activeWalletId) {
+      dispatch(fetchTransactions(activeWalletId));
+    }
+  };
 
   const fetchWalletsData = useCallback(async () => {
     if (!business?.id) return;
@@ -62,6 +82,14 @@ const WalletUI = () => {
   useEffect(() => {
     fetchVerification();
   }, [fetchVerification]);
+
+  useEffect(() => {
+    const handleTnx = async () => {
+      if (!activeWalletId) return;
+      await dispatch(fetchTransactions(activeWalletId));
+    };
+    handleTnx();
+  }, [dispatch, activeWalletId]);
 
   useEffect(() => {
     if (!wallets || wallets.length === 0) return;
@@ -171,69 +199,69 @@ const WalletUI = () => {
     router.push("/verify-business");
   }, [router]);
 
-  const transactions = useMemo(
-    () => [
-      {
-        amount: "-NGN 256,000",
-        beforeBal: "500,000.00",
-        afterBal: "234,567.00",
-        details: "Byakuya Kuchiki",
-        date: "01/01/2025 20:40",
-        status: "Success",
-      },
-      {
-        amount: "-NGN 256,000",
-        beforeBal: "500,000.00",
-        afterBal: "234,567.00",
-        details: "Byakuya Kuchiki",
-        date: "01/01/2025 20:40",
-        status: "Success",
-      },
-      {
-        amount: "-NGN 256,000",
-        beforeBal: "500,000.00",
-        afterBal: "234,567.00",
-        details: "Byakuya Kuchiki",
-        date: "01/01/2025 20:40",
-        status: "Success",
-      },
-      {
-        amount: "-NGN 256,000",
-        beforeBal: "500,000.00",
-        afterBal: "234,567.00",
-        details: "Byakuya Kuchiki",
-        date: "01/01/2025 20:40",
-        status: "Success",
-      },
-      {
-        amount: "-NGN 256,000",
-        beforeBal: "500,000.00",
-        afterBal: "234,567.00",
-        details: "Byakuya Kuchiki",
-        date: "01/01/2025 20:40",
-        status: "Success",
-      },
-      {
-        amount: "-NGN 256,000",
-        beforeBal: "500,000.00",
-        afterBal: "234,567.00",
-        details: "Byakuya Kuchiki",
-        date: "01/01/2025 20:40",
-        status: "Success",
-      },
-    ],
-    []
-  );
+  // const transactions = useMemo(
+  //   () => [
+  //     {
+  //       amount: "-NGN 256,000",
+  //       beforeBal: "500,000.00",
+  //       afterBal: "234,567.00",
+  //       details: "Byakuya Kuchiki",
+  //       date: "01/01/2025 20:40",
+  //       status: "Success",
+  //     },
+  //     {
+  //       amount: "-NGN 256,000",
+  //       beforeBal: "500,000.00",
+  //       afterBal: "234,567.00",
+  //       details: "Byakuya Kuchiki",
+  //       date: "01/01/2025 20:40",
+  //       status: "Success",
+  //     },
+  //     {
+  //       amount: "-NGN 256,000",
+  //       beforeBal: "500,000.00",
+  //       afterBal: "234,567.00",
+  //       details: "Byakuya Kuchiki",
+  //       date: "01/01/2025 20:40",
+  //       status: "Success",
+  //     },
+  //     {
+  //       amount: "-NGN 256,000",
+  //       beforeBal: "500,000.00",
+  //       afterBal: "234,567.00",
+  //       details: "Byakuya Kuchiki",
+  //       date: "01/01/2025 20:40",
+  //       status: "Success",
+  //     },
+  //     {
+  //       amount: "-NGN 256,000",
+  //       beforeBal: "500,000.00",
+  //       afterBal: "234,567.00",
+  //       details: "Byakuya Kuchiki",
+  //       date: "01/01/2025 20:40",
+  //       status: "Success",
+  //     },
+  //     {
+  //       amount: "-NGN 256,000",
+  //       beforeBal: "500,000.00",
+  //       afterBal: "234,567.00",
+  //       details: "Byakuya Kuchiki",
+  //       date: "01/01/2025 20:40",
+  //       status: "Success",
+  //     },
+  //   ],
+  //   []
+  // );
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Pending":
+      case "pending":
         return "bg-[#fdf4e2] text-[#513f1a]";
-      case "Processing":
+      case "processing":
         return "bg-[#d9f0ff] text-[#0c2d61]";
-      case "Failed":
+      case "failed":
         return "bg-[#ffdddd] text-[#b3261e]";
-      case "Success":
+      case "completed":
         return "bg-[#cdf4e4] text-[#0c614e]";
       default:
         return "bg-[#e5e5e5] text-[#49454f]";
@@ -505,78 +533,90 @@ const WalletUI = () => {
             </div>
           </div>
 
-          <div className="overflow-x-auto rounded-t-[8px]">
-            <table className="w-full min-w-max">
-              <thead>
-                <tr className="border-b border-[#CAC4D0] bg-[#F4F4F3]">
-                  <th className="px-2 lg:px-[16px] py-3 lg:py-[16px] text-left">
-                    <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      Amount
-                    </p>
-                  </th>
-                  <th className="px-[5px] py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    Balance Before
-                  </th>
-                  <th className="px-[5px] py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    Balance After
-                  </th>
-                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    Details
-                  </th>
-                  <th className="px-[5px] py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    Date
-                  </th>
-                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((tx, idx) => (
-                  <tr
-                    key={idx}
-                    className="border-b border-[#E0E0E0] hover:bg-[#f8f8f8]"
-                  >
-                    <td className="px-2 lg:px-[16px] py-3 lg:py-[16px]">
-                      <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#FF5F57]">
-                        {tx.amount}
+          {transactions?.data.length === 0 ? (
+            <div className="w-full flex justify-center">
+              {ECHOPAY_SVG().emptyIcon({
+                className: "w-[180px] h-[176.5px]",
+              })}
+            </div>
+          ) : (
+            <div className="overflow-x-auto rounded-t-[8px]">
+              <table className="w-full min-w-max">
+                <thead>
+                  <tr className="border-b border-[#CAC4D0] bg-[#F4F4F3]">
+                    <th className="px-2 lg:px-[16px] py-3 lg:py-[16px] text-left">
+                      <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                        Reference
                       </p>
-                    </td>
-                    <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      {tx.beforeBal}
-                    </td>
-                    <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      {tx.afterBal}
-                    </td>
-                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      {tx.details}
-                    </td>
-                    <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      {tx.date}
-                    </td>
-                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px]">
-                      <span
-                        className={`inline-block px-2 lg:px-3 py-1 rounded-full text-[10px] lg:text-xs font-medium ${getStatusColor(
-                          tx.status
-                        )}`}
-                      >
-                        {tx.status}
-                      </span>
-                    </td>
+                    </th>
+                    <th className="px-[5px] py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      Amount
+                    </th>
+                    <th className="px-[5px] py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      Type
+                    </th>
+                    <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      Status
+                    </th>
+                    <th className="px-[5px] py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      Description
+                    </th>
+                    <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      Date
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-4 lg:mt-6 mb-2 text-center">
-            <Link
-              href="#"
-              className="text-[#0046a7] hover:underline text-xs lg:text-sm font-medium leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle"
-            >
-              View All Balance
-            </Link>
-          </div>
+                </thead>
+                <tbody>
+                  {transactions?.data.map((tx, idx) => (
+                    <tr
+                      key={idx}
+                      className="border-b border-[#E0E0E0] hover:bg-[#f8f8f8]"
+                    >
+                      <td className="px-2 lg:px-[16px] py-3 lg:py-[16px]">
+                        <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                          {tx.reference.length > 8
+                            ? `${tx.reference.slice(
+                                0,
+                                4
+                              )}...${tx.reference.slice(-4)}`
+                            : tx.reference}
+                        </p>
+                      </td>
+                      <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                        {activeWallet.currency_symbol.toUpperCase()}
+                        {""}
+                        {tx.amount}
+                      </td>
+                      <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                        {tx.transaction_type}
+                      </td>
+                      <td className="px-2 lg:px-[5px] py-3 lg:py-[16px]">
+                        <span
+                          className={`inline-block px-2 lg:px-3 py-1 rounded-full text-[10px] lg:text-xs font-medium ${getStatusColor(
+                            tx.transaction_status
+                          )}`}
+                        >
+                          {tx.transaction_status}
+                        </span>
+                      </td>
+                      <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                        {tx.narration}
+                      </td>
+                      <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                        {format(new Date(tx.initiated_at), "dd/MM/yyyy HH:mm")}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+        <div className="mt-4 lg:mt-6 mb-2 w-full flex justify-center md:justify-end lg:justify-end">
+          <PaginationWrapper
+            pagination={transactions?.pagination ?? pagination}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
       <WalletFundModal

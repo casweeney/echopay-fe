@@ -8,6 +8,7 @@ export const selectGlobalLoading = (state: RootState) => {
     state.bvn.loading ||
     state.apiKey.loading ||
     state.webhook.loading ||
+    state.transaction.loading ||
     false
   );
 };
