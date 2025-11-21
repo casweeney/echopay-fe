@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { ReusableModal } from "@/components/ReusableModal";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { fetchVirtualAccount } from "@/redux/features/account/accountSlice";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+import { fetchTransactions } from "@/redux/features/transaction/transactionSlice";
 
 interface FundWalletModalProps {
   isOpen: boolean;
@@ -21,6 +23,11 @@ export function WalletFundModal({
   const dispatch = useDispatch<AppDispatch>();
   const { virtualAccount } = useSelector((state: RootState) => state.account);
   const { business } = useSelector((state: RootState) => state.business);
+  const { wallets } = useSelector((state: RootState) => state.wallet);
+  const [activeWalletId] = useState<string | null>(() => {
+    const saved = localStorage.getItem("activeWalletId");
+    return saved || null;
+  });
 
   const [expandedAccount, setExpandedAccount] = useState(
     virtualAccount?.account_number
@@ -42,9 +49,21 @@ export function WalletFundModal({
     navigator.clipboard.writeText(text);
   };
 
-  const handleSubmit = () => {
-    onSubmit?.();
+  const activeWallet = useMemo(() => {
+    return (
+      wallets.find((wallet) => wallet.id === activeWalletId) ||
+      wallets[0] ||
+      null
+    );
+  }, [wallets, activeWalletId]);
+
+  const handleSubmit = async () => {
     onClose();
+    if (business?.id) {
+      await dispatch(fetchWallets(business?.id));
+    }
+    await dispatch(fetchTransactions(activeWallet.id));
+    onSubmit?.();
   };
 
   return (
