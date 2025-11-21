@@ -14,6 +14,13 @@ import { useRouter } from "next/navigation";
 
 import { toast } from "react-toastify";
 import { fetchUser } from "@/redux/features/user/userSlice";
+import {
+  fetchBusinesses,
+  fetchBusinessVerificationStatus,
+  fetchCurrentBusiness,
+} from "@/redux/features/business/businessSlice";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
@@ -50,7 +57,12 @@ export default function LoginUI() {
         if (response.status === "success") {
           toast("Login successful!", { type: "success" });
           await dispatch(fetchUser());
+          const res = await dispatch(fetchCurrentBusiness()).unwrap();
+          await dispatch(fetchBusinesses());
           router.push("/analytics");
+          await dispatch(fetchWallets(res.data.id));
+          await dispatch(fetchBvnStatus());
+          await dispatch(fetchBusinessVerificationStatus(res.data.id));
         }
       } catch (err: unknown) {
         console.error("Login error:", err);

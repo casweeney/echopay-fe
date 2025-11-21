@@ -9,6 +9,7 @@ import {
 interface WebhookState {
   fetchedData: Webhook | null;
   data: CreateWebhookUrlResponse | null;
+  isCreateUrlLodading: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -16,6 +17,7 @@ interface WebhookState {
 const initialState: WebhookState = {
   fetchedData: null,
   data: null,
+  isCreateUrlLodading: false,
   loading: false,
   error: null,
 };
@@ -59,15 +61,15 @@ const webhookSlice = createSlice({
     // Create Key
     builder
       .addCase(createURL.pending, (state) => {
-        state.loading = true;
+        state.isCreateUrlLodading = true;
         state.error = null;
       })
       .addCase(createURL.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isCreateUrlLodading = false;
         state.data = action.payload;
       })
       .addCase(createURL.rejected, (state, action) => {
-        state.loading = false;
+        state.isCreateUrlLodading = false;
         state.error = action.error as string;
       })
       .addCase(fetchURL.pending, (state) => {

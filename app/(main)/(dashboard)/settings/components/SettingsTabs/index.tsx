@@ -7,7 +7,7 @@ interface Tab {
 
 const tabs: Tab[] = [
   { id: "business", label: "Business" },
-  { id: "profile", label: "Profile" },
+  // { id: "profile", label: "Profile" },
   { id: "notification", label: "Notification" },
   { id: "security", label: "Security" },
   { id: "api-keys", label: "API Keys" },

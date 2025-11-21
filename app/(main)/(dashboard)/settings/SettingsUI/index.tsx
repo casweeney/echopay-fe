@@ -6,7 +6,7 @@ import { SettingsTabs } from "../components/SettingsTabs";
 import { ApiKeyCard } from "../components/ApiKeyCard";
 import { WebhookSettings } from "../components/Webhook";
 import { BusinessSettings } from "../components/Business";
-import { ProfileSettings } from "../components/Profile";
+// import { ProfileSettings } from "../components/Profile";
 import { NotificationSettings } from "../components/Notification";
 import { SecuritySettings } from "../components/Security";
 import { CreateApiKeyDialog } from "../components/CreateApiKeyModal";
@@ -83,7 +83,7 @@ const SettingsUI = () => {
       <main className="max-w-7xl mx-auto p-6">
         {activeTab === "business" && <BusinessSettings />}
 
-        {activeTab === "profile" && <ProfileSettings />}
+        {/* {activeTab === "profile" && <ProfileSettings />} */}
 
         {activeTab === "notification" && <NotificationSettings />}
 

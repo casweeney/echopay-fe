@@ -15,6 +15,7 @@ import accountReducer from "./features/account/accountSlice";
 import bankReducer from "./features/bank/bankSlice";
 import payoutReducer from "./features/disbursement/disbursementSlice";
 import bvnReducer from "./features/bvn/bvnSlice";
+import transactionReducer from "./features/transaction/transactionSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -30,21 +31,23 @@ const rootReducer = combineReducers({
   bank: bankReducer,
   payout: payoutReducer,
   bvn: bvnReducer,
+  transaction: transactionReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
   whitelist: [
-    // "user",
-    // "business",
+    "user",
+    "business",
     // "apiKey",
     // "webhook",
     // "region",
-    // "wallet",
+    "wallet",
     // "currency",
     // "account",
     // "bank",
+    "bvn",
   ], // State slices to persist
 };
 

@@ -29,6 +29,7 @@ interface BusinessState {
   businessCategories: BusinessCategory[];
   verifyData: VerifyBusinessResponse | null;
   verificationStatus: BusinessVerificationStatusResponse | null;
+  isSwitchLoading: boolean;
   loading: boolean;
   error: string | null;
   count: number;
@@ -43,6 +44,7 @@ const initialState: BusinessState = {
   businessCategories: [],
   verifyData: null,
   verificationStatus: null,
+  isSwitchLoading: false,
   loading: false,
   error: null,
   count: 0,
@@ -210,14 +212,14 @@ const businessSlice = createSlice({
         state.error = action.error as string;
       })
       .addCase(switchBusiness.pending, (state) => {
-        state.loading = true;
+        state.isSwitchLoading = true;
       })
       .addCase(switchBusiness.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isSwitchLoading = false;
         state.message = action.payload.message;
       })
       .addCase(switchBusiness.rejected, (state, action) => {
-        state.loading = false;
+        state.isSwitchLoading = false;
         state.error = action.payload as string;
       })
       .addCase(fetchBusinessCategories.pending, (state) => {

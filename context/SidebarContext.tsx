@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
+import type React from "react";
 
 type SidebarContextType = {
   isOpen: boolean;
@@ -16,8 +17,8 @@ export const SidebarProvider = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar = () => setIsOpen((prev) => !prev);
-  const closeSidebar = () => setIsOpen(false);
+  const toggleSidebar = useCallback(() => setIsOpen((prev) => !prev), []);
+  const closeSidebar = useCallback(() => setIsOpen(false), []);
 
   return (
     <SidebarContext.Provider value={{ isOpen, toggleSidebar, closeSidebar }}>
