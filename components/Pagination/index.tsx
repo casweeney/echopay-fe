@@ -14,7 +14,7 @@ const PaginationWrapper = ({ pagination, onPageChange }: PaginationProps) => {
     const pages: number[] = [];
     const maxPagesToShow = 5; // adjust for how many numbers to show around current
     let start = Math.max(current_page - 2, 1);
-    let end = Math.min(start + maxPagesToShow - 1, total_pages);
+    const end = Math.min(start + maxPagesToShow - 1, total_pages);
 
     if (end - start < maxPagesToShow - 1) {
       start = Math.max(end - maxPagesToShow + 1, 1);
