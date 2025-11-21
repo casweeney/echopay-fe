@@ -15,7 +15,9 @@ import { toast } from "react-toastify";
 
 const VerifyEmailUI = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const { isVerifyEmailLoading } = useSelector(
+    (state: RootState) => state.auth
+  );
   const route = useRouter();
 
   const [codes, setCodes] = useState(["", "", "", "", "", ""]);
@@ -259,10 +261,10 @@ const VerifyEmailUI = () => {
 
             <Button
               type="submit"
-              disabled={loading}
+              disabled={isVerifyEmailLoading}
               className="w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? (
+              {isVerifyEmailLoading ? (
                 <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
               ) : (
                 "Continue"

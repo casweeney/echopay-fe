@@ -31,7 +31,11 @@ const WalletUI = () => {
 
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(true);
-  const [activeWalletId, setActiveWalletId] = useState<string | null>(null);
+  const [activeWalletId, setActiveWalletId] = useState<string | null>(() => {
+    // Try to get from localStorage
+    const saved = localStorage.getItem("activeWalletId");
+    return saved || null; // fallback handled after wallets are fetched
+  });
   const [isFundWalletDialogOpen, setIsFundWalletDialogOpen] = useState(false);
 
   const fetchWalletsData = useCallback(async () => {
@@ -59,6 +63,18 @@ const WalletUI = () => {
     fetchVerification();
   }, [fetchVerification]);
 
+  useEffect(() => {
+    if (!wallets || wallets.length === 0) return;
+
+    // If user hasn't selected any wallet yet
+    if (!activeWalletId) {
+      const ngnWallet = wallets.find(
+        (w) => w.currency_symbol.toUpperCase() === "NGN"
+      );
+      setActiveWalletId(ngnWallet?.id || wallets[0].id);
+    }
+  }, [wallets, activeWalletId]);
+
   const activeWallet = useMemo(() => {
     return (
       wallets.find((wallet) => wallet.id === activeWalletId) ||
@@ -79,6 +95,7 @@ const WalletUI = () => {
 
   const handleSelectWallet = useCallback((id: string) => {
     setActiveWalletId(id);
+    localStorage.setItem("activeWalletId", id); // persist selection
   }, []);
 
   const currentStatus = useMemo(
