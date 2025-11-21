@@ -120,6 +120,15 @@ const WalletUI = () => {
     [activeWallet]
   );
 
+  const capitalizeFirst = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+  const formatNarration = (str: string) =>
+    str
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+
   const handleSelectWallet = useCallback((id: string) => {
     setActiveWalletId(id);
     localStorage.setItem("activeWalletId", id); // persist selection
@@ -533,7 +542,7 @@ const WalletUI = () => {
           </div>
 
           {transactions?.data.length === 0 ? (
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center mb-4">
               {ECHOPAY_SVG().emptyIcon({
                 className: "w-[180px] h-[176.5px]",
               })}
@@ -577,17 +586,16 @@ const WalletUI = () => {
                             ? `${tx.reference.slice(
                                 0,
                                 4
-                              )}...${tx.reference.slice(-4)}`
-                            : tx.reference}
+                              )}...${tx.reference.slice(-4)}`.toUpperCase()
+                            : tx.reference.toUpperCase()}
                         </p>
                       </td>
                       <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
                         {activeWallet.currency_symbol.toUpperCase()}
-                        {""}
-                        {tx.amount}
+                        {capitalizeFirst(String(tx.amount))}
                       </td>
                       <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                        {tx.transaction_type}
+                        {capitalizeFirst(tx.transaction_type)}
                       </td>
                       <td className="px-2 lg:px-[5px] py-3 lg:py-[16px]">
                         <span
@@ -595,11 +603,11 @@ const WalletUI = () => {
                             tx.transaction_status
                           )}`}
                         >
-                          {tx.transaction_status}
+                          {capitalizeFirst(tx.transaction_status)}
                         </span>
                       </td>
                       <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                        {tx.narration}
+                        {formatNarration(tx.narration)}
                       </td>
                       <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
                         {format(new Date(tx.initiated_at), "dd/MM/yyyy HH:mm")}
@@ -611,12 +619,14 @@ const WalletUI = () => {
             </div>
           )}
         </div>
-        <div className="mt-4 lg:mt-6 mb-2 w-full flex justify-center md:justify-end lg:justify-end">
-          <PaginationWrapper
-            pagination={transactions?.pagination ?? pagination}
-            onPageChange={handlePageChange}
-          />
-        </div>
+        {transactions?.data.length !== 0 && (
+          <div className="mt-4 lg:mt-6 mb-2 w-full flex justify-center md:justify-end lg:justify-end">
+            <PaginationWrapper
+              pagination={transactions?.pagination ?? pagination}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
       <WalletFundModal
         isOpen={isFundWalletDialogOpen}

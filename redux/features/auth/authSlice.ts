@@ -100,6 +100,7 @@ const authSlice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       localStorage.removeItem("persist:root");
+      localStorage.removeItem("activeWalletId");
     },
     resetAuthState: (state) => {
       state.loading = false;
