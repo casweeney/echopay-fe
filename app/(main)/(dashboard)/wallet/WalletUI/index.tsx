@@ -2,7 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import { CheckCircle, ChevronDown, Info, XCircle } from "lucide-react";
+import {
+  CheckCircle,
+  ChevronDown,
+  Info,
+  RefreshCw,
+  XCircle,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -23,6 +29,7 @@ import { fetchTransactions } from "@/redux/features/transaction/transactionSlice
 import { format } from "date-fns";
 import { Pagination } from "@/types/transaction";
 import PaginationWrapper from "@/components/Pagination";
+import { fetchVirtualAccount } from "@/redux/features/account/accountSlice";
 
 const WalletUI = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -53,9 +60,19 @@ const WalletUI = () => {
   const handlePageChange = (page: number) => {
     setPagination((prev) => ({ ...prev, current_page: page }));
     if (activeWalletId) {
-      dispatch(fetchTransactions(activeWalletId));
+      dispatch(fetchTransactions({ id: activeWalletId, page }));
     }
   };
+
+  const handleFetchVirtualAccount = useCallback(async () => {
+    if (business?.id) {
+      await dispatch(fetchVirtualAccount(business.id));
+    }
+  }, [dispatch, business]);
+
+  useEffect(() => {
+    handleFetchVirtualAccount();
+  }, [handleFetchVirtualAccount]);
 
   const fetchWalletsData = useCallback(async () => {
     if (!business?.id) return;
@@ -85,7 +102,9 @@ const WalletUI = () => {
   useEffect(() => {
     const handleTnx = async () => {
       if (!activeWalletId) return;
-      await dispatch(fetchTransactions(activeWalletId));
+      await dispatch(
+        fetchTransactions({ id: activeWalletId, page: pagination.current_page })
+      );
     };
     handleTnx();
   }, [dispatch, activeWalletId]);
@@ -207,60 +226,6 @@ const WalletUI = () => {
     router.push("/verify-business");
   }, [router]);
 
-  // const transactions = useMemo(
-  //   () => [
-  //     {
-  //       amount: "-NGN 256,000",
-  //       beforeBal: "500,000.00",
-  //       afterBal: "234,567.00",
-  //       details: "Byakuya Kuchiki",
-  //       date: "01/01/2025 20:40",
-  //       status: "Success",
-  //     },
-  //     {
-  //       amount: "-NGN 256,000",
-  //       beforeBal: "500,000.00",
-  //       afterBal: "234,567.00",
-  //       details: "Byakuya Kuchiki",
-  //       date: "01/01/2025 20:40",
-  //       status: "Success",
-  //     },
-  //     {
-  //       amount: "-NGN 256,000",
-  //       beforeBal: "500,000.00",
-  //       afterBal: "234,567.00",
-  //       details: "Byakuya Kuchiki",
-  //       date: "01/01/2025 20:40",
-  //       status: "Success",
-  //     },
-  //     {
-  //       amount: "-NGN 256,000",
-  //       beforeBal: "500,000.00",
-  //       afterBal: "234,567.00",
-  //       details: "Byakuya Kuchiki",
-  //       date: "01/01/2025 20:40",
-  //       status: "Success",
-  //     },
-  //     {
-  //       amount: "-NGN 256,000",
-  //       beforeBal: "500,000.00",
-  //       afterBal: "234,567.00",
-  //       details: "Byakuya Kuchiki",
-  //       date: "01/01/2025 20:40",
-  //       status: "Success",
-  //     },
-  //     {
-  //       amount: "-NGN 256,000",
-  //       beforeBal: "500,000.00",
-  //       afterBal: "234,567.00",
-  //       details: "Byakuya Kuchiki",
-  //       date: "01/01/2025 20:40",
-  //       status: "Success",
-  //     },
-  //   ],
-  //   []
-  // );
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
@@ -374,7 +339,7 @@ const WalletUI = () => {
 
         <div className="flex flex-col lg:flex-row gap-4 mb-6 items-start">
           <div className="w-full border border-[#E0E0E0] rounded-[8px] lg:rounded-[12px] p-3 lg:p-[16px] flex-1">
-            <div className="mb-4">
+            <div className="mb-4 flex gap-[6px] items-center">
               <p className="font-normal text-sm lg:text-[16px] leading-[20px] lg:leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
                 {currencyName} BALANCE
               </p>
@@ -620,7 +585,7 @@ const WalletUI = () => {
           )}
         </div>
         {transactions?.data.length !== 0 && (
-          <div className="mt-4 lg:mt-6 mb-2 w-full flex justify-center md:justify-end lg:justify-end">
+          <div className="mb-2 w-full flex justify-center md:justify-end lg:justify-end">
             <PaginationWrapper
               pagination={transactions?.pagination ?? pagination}
               onPageChange={handlePageChange}

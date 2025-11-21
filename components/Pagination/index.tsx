@@ -43,7 +43,7 @@ const PaginationWrapper = ({ pagination, onPageChange }: PaginationProps) => {
         <>
           <button
             onClick={() => onPageChange(1)}
-            className={`px-3 py-2 rounded-[8px] text-base tracking-[0.5px] ${
+            className={`px-3 py-2 rounded-[8px] text-base tracking-[0.5px] hidden md:block lg:block ${
               current_page === 1 ? "bg-[#0046A7] text-[#F5F5F5]" : ""
             }`}
           >
@@ -57,7 +57,7 @@ const PaginationWrapper = ({ pagination, onPageChange }: PaginationProps) => {
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`px-3 py-2 rounded-[8px] text-base tracking-[0.5px] ${
+          className={`px-3 py-2 rounded-[8px] text-base tracking-[0.5px] hidden md:block lg:block ${
             page === current_page ? "bg-[#0046A7] text-[#F5F5F5]" : ""
           }`}
         >
@@ -70,7 +70,7 @@ const PaginationWrapper = ({ pagination, onPageChange }: PaginationProps) => {
           {end < total_pages - 1 && <span className="px-1">...</span>}
           <button
             onClick={() => onPageChange(total_pages)}
-            className={`px-3 py-2 rounded-[8px] text-base tracking-[0.5px] ${
+            className={`px-3 py-2 rounded-[8px] text-base tracking-[0.5px] hidden md:block lg:block ${
               current_page === total_pages ? "bg-[#0046A7] text-[#F5F5F5]" : ""
             }`}
           >

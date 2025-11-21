@@ -16,15 +16,21 @@ const initialState: ApiKeysState = {
   success: null,
 };
 
-export const fetchTransactions = createAsyncThunk(
+export const fetchTransactions = createAsyncThunk<
+  GetTransactionsResponse,
+  { id: string; page: number },
+  { rejectValue: string }
+>(
   "transaction/fetchTransactions",
-  async (id: string, { rejectWithValue }) => {
+  async ({ id, page }: { id: string; page: number }, { rejectWithValue }) => {
     try {
-      const response = await getTransactions(id);
+      const response = await getTransactions(id, page);
       console.log(response);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.response.data.message);
+      return rejectWithValue(
+        error?.response?.data?.message ?? "An error occurred"
+      );
     }
   }
 );
