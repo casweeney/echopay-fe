@@ -42,10 +42,8 @@ const Sidebar = () => {
   }, [business?.id, businesses?.length, dispatch]);
 
   useEffect(() => {
-    if (isOpen) {
-      closeSidebar();
-    }
-  }, [pathname, isOpen, closeSidebar]);
+    closeSidebar();
+  }, [pathname, closeSidebar]);
 
   const handleSwitchBusiness = useCallback(
     async (value: string) => {
@@ -208,7 +206,7 @@ const Sidebar = () => {
         <div className="mb-8">
           <Select
             name="business"
-            defaultValue={bizId || business?.id}
+            value={bizId || business?.id}
             onValueChange={handleSwitchBusiness}
           >
             <SelectTrigger className="w-[168px] border rounded-[4px] p-[8px] border-[#D9D9D9] focus:ring-0 focus:outline-0 ">

@@ -11,11 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getInitials } from "@/utils/nameInitial";
 import { redirect, useRouter } from "next/navigation";
-// import { fetchUser } from "@/redux/features/user/userSlice";
-// import {
-//   fetchBusinesses,
-//   fetchCurrentBusiness,
-// } from "@/redux/features/business/businessSlice";
 import SessionExpiredModal from "@/components/SessionExpiredModal";
 
 const Header = () => {
@@ -66,12 +61,6 @@ const Header = () => {
       setOpen(false);
     }
   }, []);
-
-  // useEffect(() => {
-  //   dispatch(fetchUser());
-  //   dispatch(fetchBusinesses());
-  //   dispatch(fetchCurrentBusiness());
-  // }, [dispatch]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
