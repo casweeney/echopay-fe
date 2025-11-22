@@ -16,6 +16,7 @@ import bankReducer from "./features/bank/bankSlice";
 import payoutReducer from "./features/disbursement/disbursementSlice";
 import bvnReducer from "./features/bvn/bvnSlice";
 import transactionReducer from "./features/transaction/transactionSlice";
+import analyticsReducer from "./features/analytics/analyticsSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   payout: payoutReducer,
   bvn: bvnReducer,
   transaction: transactionReducer,
+  analytics: analyticsReducer,
 });
 
 const persistConfig = {

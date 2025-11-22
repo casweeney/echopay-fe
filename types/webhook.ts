@@ -35,3 +35,11 @@ export interface GetWebhookUrlResposne {
   data: Webhook;
   status: string;
 }
+
+export interface RegeneratUrlSecretResponse {
+  data: {
+    secret: string;
+  };
+  message: string;
+  status: string;
+}

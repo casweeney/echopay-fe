@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { createURL, fetchURL } from "@/redux/features/webhookURL/webhookSlice";
+import {
+  createURL,
+  fetchURL,
+  regenerateUrl,
+} from "@/redux/features/webhookURL/webhookSlice";
 import { toast } from "react-toastify";
 import { formatDate } from "@/utils/formatDate";
 
@@ -73,7 +77,42 @@ export const WebhookSettings = () => {
 
   const handleTestWebhook = () => {};
 
-  const handleRegenerateSecret = () => {};
+  const handleRegenerateSecret = async () => {
+    try {
+      const response = await dispatch(
+        regenerateUrl(fetchedData?.webhook.id ?? "")
+      ).unwrap();
+
+      const business_id = business?.id;
+
+      if (response.status === "success") {
+        toast(response.message, { type: "success" });
+        await dispatch(fetchURL(business_id ?? ""));
+      }
+    } catch (error: unknown) {
+      console.error("Regenerate secret error:", error);
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === "string"
+          ? error
+          : JSON.stringify(error) || "An unexpected error occurred";
+
+      toast(message, { type: "error" });
+
+      if (typeof error === "object" && error !== null && "message" in error) {
+        const errMessage = String((error as { message: string }).message);
+
+        if (
+          errMessage === "Cannot read properties of undefined (reading 'data')"
+        ) {
+          toast("Check your internet connection", { type: "error" });
+          return;
+        }
+      }
+    }
+  };
 
   return (
     <div className="border border-[#E0E0E0] rounded-[12px] p-[16px]">
