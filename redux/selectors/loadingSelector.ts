@@ -9,6 +9,7 @@ export const selectGlobalLoading = (state: RootState) => {
     state.apiKey.loading ||
     state.webhook.loading ||
     state.transaction.loading ||
+    state.analytics.loading ||
     false
   );
 };

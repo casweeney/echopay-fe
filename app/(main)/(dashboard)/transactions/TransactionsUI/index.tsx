@@ -19,7 +19,9 @@ import PaginationWrapper from "@/components/Pagination";
 
 const TransactionsUI = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { business } = useSelector((state: RootState) => state.business);
+  const { verificationStatus, business } = useSelector(
+    (state: RootState) => state.business
+  );
   const { businessTransactions } = useSelector(
     (state: RootState) => state.transaction
   );
@@ -190,12 +192,15 @@ const TransactionsUI = () => {
               })}
             </p>
           </button>
-          <button className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px]">
+          <button
+            disabled={verificationStatus?.data.status !== "verified"}
+            className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px] disabled:opacity-60 disabled:cursor-not-allowed"
+          >
             <p className="font-medium text-[12px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.1px] align-middle text-[#FFFFFF]">
-              Create Payment Link
+              Create Disbursement
             </p>
             <p>
-              {ECHOPAY_SVG().addIcon({
+              {ECHOPAY_SVG().sendIcon({
                 className: "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
               })}
             </p>
@@ -284,7 +289,7 @@ const TransactionsUI = () => {
                     <td className="px-2 lg:px-[16px] pt-5 lg:py-[19px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721] flex items-center gap-2">
                       <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
                         {tx.id.length > 8
-                          ? `${tx.reference.slice(0, 4)}...${tx.reference.slice(
+                          ? `${tx.id.slice(0, 4)}...${tx.id.slice(
                               -4
                             )}`.toUpperCase()
                           : tx.id.toUpperCase()}
