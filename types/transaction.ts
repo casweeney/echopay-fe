@@ -4,6 +4,7 @@ export interface Transaction {
   wallet_id: string;
   merchant_reference: string;
   amount: number;
+  currency: string;
   transaction_type: string;
   transaction_status: string;
   narration: string;
@@ -24,6 +25,7 @@ export interface BusinessTransaction {
   business_id: string;
   merchant_reference: string;
   amount: number;
+  currency: string;
   transaction_type: string;
   transaction_status: string;
   narration: string;

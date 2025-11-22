@@ -550,7 +550,7 @@ const WalletUI = () => {
                         </p>
                       </td>
                       <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                        {/* {activeWallet.currency_symbol.toUpperCase()} */}
+                        {tx.currency.toUpperCase()}
                         {capitalizeFirst(String(tx.amount))}
                       </td>
                       <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">

@@ -25,6 +25,7 @@ const TransactionsUI = () => {
   );
 
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
 
   const [pagination, setPagination] = useState<Pagination>({
     current_page: 1,
@@ -43,6 +44,7 @@ const TransactionsUI = () => {
             id: business.id,
             page: pagination.current_page,
             status: statusFilter,
+            type: typeFilter,
           })
         );
         if (businessTransactions?.pagination) {
@@ -62,6 +64,7 @@ const TransactionsUI = () => {
           id: business.id,
           page,
           status: statusFilter,
+          type: typeFilter,
         })
       );
     }
@@ -69,24 +72,40 @@ const TransactionsUI = () => {
 
   const handleStatusChange = (v: string): void => {
     setStatusFilter(v);
+    setTypeFilter("all");
     setPagination((p) => ({
       ...p,
-      current_page:
-        businessTransactions?.pagination.current_page ??
-        pagination.current_page,
+      current_page: 1,
     }));
     if (business?.id) {
       dispatch(
         fetchBusinessTransactions({
           id: business.id,
-          page:
-            businessTransactions?.pagination.current_page ??
-            pagination.current_page,
+          page: 1,
           status: v,
+          type: "all",
         })
       );
     }
-    console.log(v);
+  };
+
+  const handleTypeChange = (v: string): void => {
+    setTypeFilter(v);
+    setStatusFilter("all");
+    setPagination((p) => ({
+      ...p,
+      current_page: 1,
+    }));
+    if (business?.id) {
+      dispatch(
+        fetchBusinessTransactions({
+          id: business.id,
+          page: 1,
+          status: "all",
+          type: v,
+        })
+      );
+    }
   };
 
   const capitalizeFirst = (str: string) =>
@@ -198,42 +217,22 @@ const TransactionsUI = () => {
                 <SelectGroup>
                   {statuses.map((status) => (
                     <SelectItem key={status.value} value={status.value}>
-                      <div className="flex items-center space-x-2">
-                        <div>
-                          {ECHOPAY_SVG().clockIcon({
-                            className:
-                              "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                          })}
-                        </div>
-                        <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
-                          {status.item}
-                        </span>
-                      </div>
+                      {status.item}
                     </SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
 
-            <Select defaultValue="myBusiness">
+            <Select value={typeFilter} onValueChange={handleTypeChange}>
               <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:ring-offset-0 text-xs lg:text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="myBusiness">
-                    <div className="flex items-center space-x-2">
-                      <div>
-                        {ECHOPAY_SVG().calendarIcon({
-                          className:
-                            "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                        })}
-                      </div>
-                      <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
-                        Last 7 Days
-                      </span>
-                    </div>
-                  </SelectItem>
+                  <SelectItem value="all">All Type</SelectItem>
+                  <SelectItem value="credit">Credit</SelectItem>
+                  <SelectItem value="debit">Debit</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -263,7 +262,7 @@ const TransactionsUI = () => {
                     Amount
                   </th>
                   <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    Method
+                    Type
                   </th>
                   <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
                     Date
@@ -295,6 +294,7 @@ const TransactionsUI = () => {
                       {formatNarration(tx.narration)}
                     </td>
                     <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      {tx.currency.toUpperCase()}
                       {capitalizeFirst(String(tx.amount))}
                     </td>
                     <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">

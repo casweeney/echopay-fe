@@ -17,13 +17,21 @@ export const getTransactions = async (
 export const getBusinessTransactions = async (
   id: string,
   page: number,
-  status: string
+  status?: string,
+  type?: string
 ): Promise<BusinessTransactionResponse> => {
-  const url =
-    status === "all"
-      ? `/api/v1/businesses/transactions/${id}?page=${page}&limit=10`
-      : `/api/v1/businesses/transactions/${id}/status/${status}?page=${page}&limit=10`;
+  // Build the URL based on type or status
+  let url = "";
 
+  if (type === "credit" || type === "debit") {
+    url = `/api/v1/businesses/transactions/${id}/type/${type}?page=${page}&limit=10`;
+  } else if (status === "all") {
+    url = `/api/v1/businesses/transactions/${id}?page=${page}&limit=10`;
+  } else {
+    url = `/api/v1/businesses/transactions/${id}/status/${status}?page=${page}&limit=10`;
+  }
+
+  // Fetch the data
   const { data } = await axiosClient.get<BusinessTransactionResponse>(url);
   return data;
 };
