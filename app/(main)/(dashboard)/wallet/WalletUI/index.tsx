@@ -2,13 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import {
-  CheckCircle,
-  ChevronDown,
-  Info,
-  RefreshCw,
-  XCircle,
-} from "lucide-react";
+import { CheckCircle, ChevronDown, Info, XCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -556,7 +550,7 @@ const WalletUI = () => {
                         </p>
                       </td>
                       <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                        {activeWallet.currency_symbol.toUpperCase()}
+                        {/* {activeWallet.currency_symbol.toUpperCase()} */}
                         {capitalizeFirst(String(tx.amount))}
                       </td>
                       <td className="px-[5px] py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">

@@ -1,3 +1,5 @@
+"use client";
+
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import {
   Select,
@@ -7,110 +9,87 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "@/redux/store";
+import { useEffect, useState } from "react";
+import { fetchBusinessTransactions } from "@/redux/features/transaction/transactionSlice";
+import { Pagination } from "@/types/transaction";
+import { formatDate } from "date-fns";
+import PaginationWrapper from "@/components/Pagination";
 
 const TransactionsUI = () => {
-  const transactions = [
-    {
-      id: "DSB-2025-001",
-      customer: "Kurosaki Ishinn",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Pending",
-      reference: "INV-2025-001",
-    },
-    {
-      id: "DSB-2025-002",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Transfer",
-      date: "01/01/2025 20:40",
-      status: "Processing",
-      reference: "INV-2025-002",
-    },
-    {
-      id: "DSB-2025-003",
-      customer: "Asta Clover",
-      amount: "234,567.00",
-      method: "Transfer",
-      date: "01/01/2025 20:40",
-      status: "Failed",
-      reference: "INV-2025-003",
-    },
-    {
-      id: "DSB-2025-005",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Success",
-      reference: "INV-2025-005",
-    },
-    {
-      id: "DSB-2025-005",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Success",
-      reference: "INV-2025-005",
-    },
-    {
-      id: "DSB-2025-005",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Success",
-      reference: "INV-2025-005",
-    },
-    {
-      id: "DSB-2025-005",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Success",
-      reference: "INV-2025-005",
-    },
-    {
-      id: "DSB-2025-005",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Success",
-      reference: "INV-2025-005",
-    },
-    {
-      id: "DSB-2025-005",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Success",
-      reference: "INV-2025-005",
-    },
-    {
-      id: "DSB-2025-005",
-      customer: "Byakuya Kuchiki",
-      amount: "234,567.00",
-      method: "Card",
-      date: "01/01/2025 20:40",
-      status: "Success",
-      reference: "INV-2025-005",
-    },
-  ];
+  const dispatch = useDispatch<AppDispatch>();
+  const { business } = useSelector((state: RootState) => state.business);
+  const { businessTransactions } = useSelector(
+    (state: RootState) => state.transaction
+  );
+
+  console.log(businessTransactions);
+  const [pagination, setPagination] = useState<Pagination>({
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 1,
+    has_next: false,
+    has_previous: false,
+  });
+
+  useEffect(() => {
+    const handleBusinessTnx = async () => {
+      if (business?.id) {
+        await dispatch(
+          fetchBusinessTransactions({
+            id: business.id,
+            page: pagination.current_page,
+          })
+        );
+        if (businessTransactions?.pagination) {
+          setPagination(businessTransactions.pagination);
+        }
+      }
+    };
+
+    handleBusinessTnx();
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setPagination((prev) => ({ ...prev, current_page: page }));
+    if (business?.id) {
+      dispatch(fetchBusinessTransactions({ id: business.id, page }));
+    }
+  };
+
+  const capitalizeFirst = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+  const formatNarration = (str: string) =>
+    str
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+
+  const getShowingText = () => {
+    const currentPage =
+      businessTransactions?.pagination?.current_page ?? pagination.current_page;
+    const perPage =
+      businessTransactions?.pagination?.per_page ?? pagination.per_page;
+    const totalItems =
+      businessTransactions?.pagination?.total_items ?? pagination.total_items;
+
+    const shown = Math.min(currentPage * perPage, totalItems);
+
+    return `Shown ${shown} out of ${totalItems} results`;
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Pending":
+      case "pending":
         return "bg-[#fdf4e2] text-[#513f1a]";
-      case "Processing":
+      case "processing":
         return "bg-[#d9f0ff] text-[#0c2d61]";
-      case "Failed":
+      case "failed":
         return "bg-[#ffdddd] text-[#b3261e]";
-      case "Success":
+      case "completed":
         return "bg-[#cdf4e4] text-[#0c614e]";
       default:
         return "bg-[#e5e5e5] text-[#49454f]";
@@ -155,7 +134,7 @@ const TransactionsUI = () => {
       <div className="p-3 lg:p-6 rounded-lg border border-[#e0e0e0] overflow-hidden">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-4 gap-2">
           <p className="font-normal text-xs lg:text-[16px] leading-[16px] lg:leading-[24px] tracking-[0.5px] align-middle text-[#010721]">
-            Showing 10 out of 25 results
+            {getShowingText()}
           </p>
           <div className="flex gap-2 lg:gap-4 w-full lg:w-auto">
             <Select defaultValue="myBusiness">
@@ -205,85 +184,105 @@ const TransactionsUI = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-t-[8px]">
-          <table className="w-full min-w-max">
-            <thead>
-              <tr className="border-b border-[#CAC4D0] bg-[#F4F4F3]">
-                <th className="px-2 lg:px-[16px] py-3 lg:py-[16px] text-left flex items-center gap-2">
-                  <div className="w-3 h-3 lg:w-4 lg:h-4 border lg:border-2 border-[#49454F] rounded-[2px]"></div>
-                  <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    Transaction id
-                  </p>
-                </th>
-                <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                  Customer
-                </th>
-                <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                  Amount
-                </th>
-                <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                  Method
-                </th>
-                <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                  Date
-                </th>
-                <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                  Status
-                </th>
-                <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                  Reference
-                </th>
-                <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map((tx, idx) => (
-                <tr
-                  key={idx}
-                  className="border-b border-[#E0E0E0] hover:bg-[#f8f8f8]"
-                >
-                  <td className="px-2 lg:px-[16px] pt-5 lg:py-[19px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721] flex items-center gap-2">
+        {businessTransactions?.data.length === 0 ? (
+          <div className="w-full flex justify-center mb-4">
+            {ECHOPAY_SVG().emptyIcon({
+              className: "w-[180px] h-[176.5px]",
+            })}
+          </div>
+        ) : (
+          <div className="overflow-x-auto rounded-t-[8px]">
+            <table className="w-full min-w-max">
+              <thead>
+                <tr className="border-b border-[#CAC4D0] bg-[#F4F4F3]">
+                  <th className="px-2 lg:px-[16px] py-3 lg:py-[16px] text-left flex items-center gap-2">
                     <div className="w-3 h-3 lg:w-4 lg:h-4 border lg:border-2 border-[#49454F] rounded-[2px]"></div>
                     <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      {tx.id}
+                      Transaction id
                     </p>
-                  </td>
-                  <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    {tx.customer}
-                  </td>
-                  <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    {tx.amount}
-                  </td>
-                  <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    {tx.method}
-                  </td>
-                  <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    {tx.date}
-                  </td>
-                  <td className="px-2 lg:px-[5px] py-3 lg:py-[16px]">
-                    <span
-                      className={`inline-block px-2 lg:px-3 py-1 rounded-full text-[10px] lg:text-xs font-medium ${getStatusColor(
-                        tx.status
-                      )}`}
-                    >
-                      {tx.status}
-                    </span>
-                  </td>
-                  <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                    {tx.reference}
-                  </td>
-                  <td className="px-[16px] py-[16px] text-center">
-                    <button className="text-[#49454f] hover:text-[#010721]">
-                      {ECHOPAY_SVG().moreIcon({
-                        className: "w-[12px] h-[12px] lg:w-[16px] lg:h-[16px]",
-                      })}
-                    </button>
-                  </td>
+                  </th>
+                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                    Descripton
+                  </th>
+                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                    Amount
+                  </th>
+                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                    Method
+                  </th>
+                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                    Date
+                  </th>
+                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                    Status
+                  </th>
+                  <th className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-left text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                    Reference
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {businessTransactions?.data.map((tx, idx) => (
+                  <tr
+                    key={idx}
+                    className="border-b border-[#E0E0E0] hover:bg-[#f8f8f8]"
+                  >
+                    <td className="px-2 lg:px-[16px] pt-5 lg:py-[19px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721] flex items-center gap-2">
+                      <div className="w-3 h-3 lg:w-4 lg:h-4 border lg:border-2 border-[#49454F] rounded-[2px]"></div>
+                      <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                        {tx.id.length > 8
+                          ? `${tx.reference.slice(0, 4)}...${tx.reference.slice(
+                              -4
+                            )}`.toUpperCase()
+                          : tx.id.toUpperCase()}
+                      </p>
+                    </td>
+                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      {formatNarration(tx.narration)}
+                    </td>
+                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      {capitalizeFirst(String(tx.amount))}
+                    </td>
+                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      {capitalizeFirst(tx.transaction_type)}
+                    </td>
+                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      {formatDate(
+                        new Date(tx.initiated_at),
+                        "dd/MM/yyyy HH:mm"
+                      )}
+                    </td>
+                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px]">
+                      <span
+                        className={`inline-block px-2 lg:px-3 py-1 rounded-full text-[10px] lg:text-xs font-medium ${getStatusColor(
+                          tx.transaction_status
+                        )}`}
+                      >
+                        {capitalizeFirst(tx.transaction_status)}
+                      </span>
+                    </td>
+                    <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
+                      {tx.reference.length > 8
+                        ? `${tx.reference.slice(0, 4)}...${tx.reference.slice(
+                            -4
+                          )}`.toUpperCase()
+                        : tx.reference.toUpperCase()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {businessTransactions?.data.length !== 0 && (
+          <div className="mb-2 w-full flex justify-center md:justify-end lg:justify-end">
+            <PaginationWrapper
+              pagination={businessTransactions?.pagination ?? pagination}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
