@@ -14,10 +14,12 @@ import { RootState, AppDispatch } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { fetchBusinessTransactions } from "@/redux/features/transaction/transactionSlice";
 import { Pagination } from "@/types/transaction";
-import { formatDate } from "date-fns";
 import PaginationWrapper from "@/components/Pagination";
+import { timeAgo } from "@/utils/timeAgo";
+import { useRouter } from "next/navigation";
 
 const TransactionsUI = () => {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { verificationStatus, business } = useSelector(
     (state: RootState) => state.business
@@ -193,6 +195,7 @@ const TransactionsUI = () => {
             </p>
           </button>
           <button
+            onClick={() => router.push("/create-disbursement")}
             disabled={verificationStatus?.data.status !== "verified"}
             className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px] disabled:opacity-60 disabled:cursor-not-allowed"
           >
@@ -306,10 +309,7 @@ const TransactionsUI = () => {
                       {capitalizeFirst(tx.transaction_type)}
                     </td>
                     <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      {formatDate(
-                        new Date(tx.initiated_at),
-                        "dd/MM/yyyy HH:mm"
-                      )}
+                      {timeAgo(tx.initiated_at)}
                     </td>
                     <td className="px-2 lg:px-[5px] py-3 lg:py-[16px]">
                       <span

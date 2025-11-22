@@ -9,8 +9,11 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useEffect } from "react";
 import { fetchAnalytics } from "@/redux/features/analytics/analyticsSlice";
 import { formatDate } from "date-fns";
+import { useRouter } from "next/navigation";
+import { timeAgo } from "@/utils/timeAgo";
 
 const AnalyticsUI = () => {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { verificationStatus, business } = useSelector(
     (state: RootState) => state.business
@@ -70,6 +73,7 @@ const AnalyticsUI = () => {
             </p>
           </button>
           <button
+            onClick={() => router.push("/create-disbursement")}
             disabled={verificationStatus?.data.status !== "verified"}
             className="bg-[#0046A7] h-10 lg:h-[56px] px-3 lg:px-[26px] flex items-center justify-center gap-2 border border-[#D9D9D9] rounded-[8px] lg:rounded-[12px] disabled:opacity-60 disabled:cursor-not-allowed"
           >
@@ -271,7 +275,7 @@ const AnalyticsUI = () => {
                     </td>
 
                     <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                      {formatDate(new Date(tx.date), "dd/MM/yyyy HH:mm")}
+                      {timeAgo(tx.date)}
                     </td>
                     <td className="px-2 lg:px-[5px] py-3 lg:py-[16px]">
                       <span

@@ -24,6 +24,7 @@ import { format } from "date-fns";
 import { Pagination } from "@/types/transaction";
 import PaginationWrapper from "@/components/Pagination";
 import { fetchVirtualAccount } from "@/redux/features/account/accountSlice";
+import { timeAgo } from "@/utils/timeAgo";
 
 const WalletUI = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -569,7 +570,7 @@ const WalletUI = () => {
                         {formatNarration(tx.narration)}
                       </td>
                       <td className="px-2 lg:px-[5px] py-3 lg:py-[16px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
-                        {format(new Date(tx.initiated_at), "dd/MM/yyyy HH:mm")}
+                        {timeAgo(tx.initiated_at)}
                       </td>
                     </tr>
                   ))}
