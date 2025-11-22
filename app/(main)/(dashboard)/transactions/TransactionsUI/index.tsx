@@ -24,7 +24,8 @@ const TransactionsUI = () => {
     (state: RootState) => state.transaction
   );
 
-  console.log(businessTransactions);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+
   const [pagination, setPagination] = useState<Pagination>({
     current_page: 1,
     per_page: 10,
@@ -41,6 +42,7 @@ const TransactionsUI = () => {
           fetchBusinessTransactions({
             id: business.id,
             page: pagination.current_page,
+            status: statusFilter,
           })
         );
         if (businessTransactions?.pagination) {
@@ -55,8 +57,36 @@ const TransactionsUI = () => {
   const handlePageChange = (page: number) => {
     setPagination((prev) => ({ ...prev, current_page: page }));
     if (business?.id) {
-      dispatch(fetchBusinessTransactions({ id: business.id, page }));
+      dispatch(
+        fetchBusinessTransactions({
+          id: business.id,
+          page,
+          status: statusFilter,
+        })
+      );
     }
+  };
+
+  const handleStatusChange = (v: string): void => {
+    setStatusFilter(v);
+    setPagination((p) => ({
+      ...p,
+      current_page:
+        businessTransactions?.pagination.current_page ??
+        pagination.current_page,
+    }));
+    if (business?.id) {
+      dispatch(
+        fetchBusinessTransactions({
+          id: business.id,
+          page:
+            businessTransactions?.pagination.current_page ??
+            pagination.current_page,
+          status: v,
+        })
+      );
+    }
+    console.log(v);
   };
 
   const capitalizeFirst = (str: string) =>
@@ -95,6 +125,29 @@ const TransactionsUI = () => {
         return "bg-[#e5e5e5] text-[#49454f]";
     }
   };
+
+  const statuses = [
+    {
+      value: "all",
+      item: "All Status",
+    },
+    {
+      value: "pending",
+      item: "Pending",
+    },
+    {
+      value: "processing",
+      item: "Processing",
+    },
+    {
+      value: "failed",
+      item: "Failed",
+    },
+    {
+      value: "completed",
+      item: "Completed",
+    },
+  ];
 
   return (
     <div className="p-3 lg:p-[24px]">
@@ -137,30 +190,33 @@ const TransactionsUI = () => {
             {getShowingText()}
           </p>
           <div className="flex gap-2 lg:gap-4 w-full lg:w-auto">
-            <Select defaultValue="myBusiness">
-              <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
-                <SelectValue />
+            <Select value={statusFilter} onValueChange={handleStatusChange}>
+              <SelectTrigger className="w-full lg:w-[168px] rounded-[32px] border p-2 focus:ring-0 focus:ring-offset-0">
+                <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="myBusiness">
-                    <div className="flex items-center space-x-2">
-                      <div>
-                        {ECHOPAY_SVG().clockIcon({
-                          className:
-                            "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
-                        })}
+                  {statuses.map((status) => (
+                    <SelectItem key={status.value} value={status.value}>
+                      <div className="flex items-center space-x-2">
+                        <div>
+                          {ECHOPAY_SVG().clockIcon({
+                            className:
+                              "w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]",
+                          })}
+                        </div>
+                        <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
+                          {status.item}
+                        </span>
                       </div>
-                      <span className="text-[12px] lg:text-[14px] font-[400] leading-[16px] lg:leading-[20px] tracking-[0.25px] text-[#010721]">
-                        All Status
-                      </span>
-                    </div>
-                  </SelectItem>
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
+
             <Select defaultValue="myBusiness">
-              <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
+              <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:ring-offset-0 text-xs lg:text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -196,7 +252,6 @@ const TransactionsUI = () => {
               <thead>
                 <tr className="border-b border-[#CAC4D0] bg-[#F4F4F3]">
                   <th className="px-2 lg:px-[16px] py-3 lg:py-[16px] text-left flex items-center gap-2">
-                    <div className="w-3 h-3 lg:w-4 lg:h-4 border lg:border-2 border-[#49454F] rounded-[2px]"></div>
                     <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
                       Transaction id
                     </p>
@@ -228,7 +283,6 @@ const TransactionsUI = () => {
                     className="border-b border-[#E0E0E0] hover:bg-[#f8f8f8]"
                   >
                     <td className="px-2 lg:px-[16px] pt-5 lg:py-[19px] text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721] flex items-center gap-2">
-                      <div className="w-3 h-3 lg:w-4 lg:h-4 border lg:border-2 border-[#49454F] rounded-[2px]"></div>
                       <p className="text-[11px] lg:text-[14px] leading-[16px] lg:leading-[20px] tracking-[0.25px] align-middle font-normal text-[#010721]">
                         {tx.id.length > 8
                           ? `${tx.reference.slice(0, 4)}...${tx.reference.slice(

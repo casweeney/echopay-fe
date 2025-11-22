@@ -454,7 +454,7 @@ const WalletUI = () => {
             </p>
             <div className="flex gap-2 lg:gap-4 w-full lg:w-auto">
               <Select defaultValue="allStatus">
-                <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
+                <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:ring-offset-0 text-xs lg:text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -476,7 +476,7 @@ const WalletUI = () => {
                 </SelectContent>
               </Select>
               <Select defaultValue="7Days">
-                <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:outline-0 text-xs lg:text-sm">
+                <SelectTrigger className="w-full lg:w-[168px] border rounded-[32px] p-[8px] border-[#E0E0E0] focus:ring-0 focus:ring-offset-0 text-xs lg:text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

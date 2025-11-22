@@ -16,10 +16,14 @@ export const getTransactions = async (
 
 export const getBusinessTransactions = async (
   id: string,
-  page: number
+  page: number,
+  status: string
 ): Promise<BusinessTransactionResponse> => {
-  const { data } = await axiosClient.get<BusinessTransactionResponse>(
-    `/api/v1/businesses/transactions/${id}?page=${page}&limit=10`
-  );
+  const url =
+    status === "all"
+      ? `/api/v1/businesses/transactions/${id}?page=${page}&limit=10`
+      : `/api/v1/businesses/transactions/${id}/status/${status}?page=${page}&limit=10`;
+
+  const { data } = await axiosClient.get<BusinessTransactionResponse>(url);
   return data;
 };
