@@ -65,7 +65,7 @@ const Header = () => {
     const nowInSeconds = Math.floor(Date.now() / 1000);
 
     const secondsLeft = expiryTimestamp - nowInSeconds;
-    console.log("Token expires in:", secondsLeft, "seconds");
+    // console.log("Token expires in:", secondsLeft, "seconds");
 
     const myTimeout = setTimeout(() => {
       isExpiredToken();

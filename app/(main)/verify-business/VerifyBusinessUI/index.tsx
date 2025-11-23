@@ -134,13 +134,13 @@ const VerifyBusinessUI = () => {
               })
             ).unwrap();
 
-            console.log("Form submitted:", response);
+            // console.log("Form submitted:", response);
             if (response.status === "success") {
               toast(response.message, { type: "success" });
               router.push("/wallet");
             }
           } catch (err: unknown) {
-            console.error("Business Error:", err);
+            // console.error("Business Error:", err);
             
             if (typeof err === "object" && err !== null && "message" in err) {
               const message = String((err as { message: string }).message);

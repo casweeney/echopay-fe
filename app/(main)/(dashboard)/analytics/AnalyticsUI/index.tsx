@@ -116,7 +116,7 @@ const AnalyticsUI = () => {
                       : "text-[#B3261E] bg-[#FFDDDD]"
                   }`}
                 >
-                  {Number(bal.percentage_change.toFixed(1))}
+                  {`${Number(bal.percentage_change.toFixed(1))}%`}
                 </span>
               </div>
               <p className="text-[10px] lg:text-[12px] leading-[14px] lg:leading-[16px] tracking-[0.4px] align-middle text-[#010721]">
@@ -145,7 +145,7 @@ const AnalyticsUI = () => {
                         : "text-[#B3261E] bg-[#FFDDDD]"
                     }`}
                   >
-                    {Number(disbursed.percentage_change.toFixed(1))}
+                    {`${Number(disbursed.percentage_change.toFixed(1))}%`}
                   </span>
                 </div>
                 <p className="text-[10px] lg:text-[12px] leading-[14px] lg:leading-[16px] tracking-[0.4px] align-middle text-[#010721]">
@@ -170,11 +170,11 @@ const AnalyticsUI = () => {
                     : "text-[#B3261E] bg-[#FFDDDD]"
                 }`}
               >
-                {Number(
+                {`${Number(
                   analytics?.quick_insights.total_transactions.percentage_change.toFixed(
                     1
                   )
-                )}
+                )}%`}
               </span>
             </div>
             <p className="text-[10px] lg:text-[12px] leading-[14px] lg:leading-[16px] tracking-[0.4px] align-middle text-[#010721]">
@@ -197,11 +197,11 @@ const AnalyticsUI = () => {
                     : "text-[#B3261E] bg-[#FFDDDD]"
                 }`}
               >
-                {Number(
+                {`${Number(
                   analytics?.quick_insights.total_customers.percentage_change.toFixed(
                     1
                   )
-                )}
+                )}%`}
               </span>
             </div>
             <p className="text-[10px] lg:text-[12px] leading-[14px] lg:leading-[16px] tracking-[0.4px] align-middle text-[#010721]">

@@ -51,7 +51,7 @@ const Sidebar = () => {
 
       if (response.status === "success") {
         const res = await dispatch(fetchCurrentBusiness()).unwrap();
-        console.log("Switched business to:", res.data.id);
+        // console.log("Switched business to:", res.data.id);
         setBizId(res.data.id);
         await dispatch(fetchWallets(res.data.id));
       }
