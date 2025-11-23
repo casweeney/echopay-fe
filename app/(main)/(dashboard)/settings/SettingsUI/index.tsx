@@ -6,12 +6,12 @@ import { SettingsTabs } from "../components/SettingsTabs";
 import { ApiKeyCard } from "../components/ApiKeyCard";
 import { WebhookSettings } from "../components/Webhook";
 import { BusinessSettings } from "../components/Business";
-// import { ProfileSettings } from "../components/Profile";
+// import { ProfileSettings } from "../components/Profile" };
 import { NotificationSettings } from "../components/Notification";
 import { SecuritySettings } from "../components/Security";
 import { CreateApiKeyDialog } from "../components/CreateApiKeyModal";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
+import type { AppDispatch, RootState } from "@/redux/store";
 import {
   createKey,
   deleteKey,
@@ -80,7 +80,7 @@ const SettingsUI = () => {
     <div className="min-h-screen bg-background">
       <SettingsTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-      <main className="max-w-7xl mx-auto p-6">
+      <main className="max-w-7xl mx-auto p-3 sm:p-4 md:p-6">
         {activeTab === "business" && <BusinessSettings />}
 
         {/* {activeTab === "profile" && <ProfileSettings />} */}
@@ -90,19 +90,21 @@ const SettingsUI = () => {
         {activeTab === "security" && <SecuritySettings />}
 
         {activeTab === "api-keys" && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* API Keys Section */}
-            <div className="p-[16px] border border-[#E0E0E0] rounded-[12px]">
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="text-base tracking-[0.5px] font-normal text-[#010721]">
+            <div className="p-3 sm:p-[16px] border border-[#E0E0E0] rounded-[12px]">
+              <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3">
+                <h1 className="text-sm sm:text-base tracking-[0.5px] font-normal text-[#010721]">
                   API KEYS
                 </h1>
                 <button
-                  className="flex items-center justify-center border border-[#0046A7] rounded-[12px] w-[167px] h-[56px] text-[14px] font-medium leading-[20px] tracking-[0.1px] align-middle text-[#0046A7]"
+                  className="flex items-center justify-center border border-[#0046A7] rounded-[12px] px-4 sm:px-6 h-[48px] sm:h-[56px] text-xs sm:text-[14px] font-medium leading-[20px] tracking-[0.1px] align-middle text-[#0046A7] w-auto whitespace-nowrap"
                   onClick={() => setIsCreateKeyDialogOpen(true)}
                 >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create New Key
+                  <Plus className="h-4 w-4 mr-0 md:mr-2 lg:mr-2 flex-shrink-0" />
+                  <span className="hidden md:block lg:block">
+                    Create New Key
+                  </span>
                 </button>
               </div>
 
@@ -113,11 +115,11 @@ const SettingsUI = () => {
               />
 
               {keys.length === 0 ? (
-                <div className="text-center">
+                <div className="text-center text-sm text-muted-foreground">
                   Nothing Yet. Create your first key
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {keys.map((key) => (
                     <ApiKeyCard
                       key={key.id}

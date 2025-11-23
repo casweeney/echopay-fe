@@ -115,7 +115,7 @@ const VerifyEmailUI = () => {
           route.push("/verification-success");
         }
       } catch (err: unknown) {
-        console.error("Email error:", err);
+        // console.error("Email error:", err);
 
         if (typeof err === "object" && err !== null && "message" in err) {
           const message = String((err as { message: string }).message);

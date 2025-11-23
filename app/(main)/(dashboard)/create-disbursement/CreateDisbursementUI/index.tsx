@@ -29,7 +29,6 @@ const CreateDisbursementUI = () => {
   const { banks } = useSelector((state: RootState) => state.bank);
   const { keys } = useSelector((state: RootState) => state.apiKey);
   const { currencies } = useSelector((state: RootState) => state.currency);
-  console.log(currencies);
   const { business } = useSelector((state: RootState) => state.business);
   const { loading } = useSelector((state: RootState) => state.payout);
   const [tnxRef, setTnxRef] = useState("");
@@ -56,9 +55,7 @@ const CreateDisbursementUI = () => {
   useEffect(() => {
     const handleApiKeys = async () => {
       if (business?.id) {
-        const res = await dispatch(fetchApiKeys(business.id)).unwrap();
-
-        console.log(res);
+        await dispatch(fetchApiKeys(business.id)).unwrap();
       }
     };
     dispatch(fetchCurrencies());
@@ -139,13 +136,12 @@ const CreateDisbursementUI = () => {
             initiateDisbursement({ ...payload, apiKey: keys[0].secret_key })
           ).unwrap();
 
-          console.log("Form submitted:", response);
           if (response.status === "success") {
             setTnxRef(response.data.reference);
             setShowSuccessDialog(true);
           }
         } catch (err: unknown) {
-          console.error("Payout error:", err);
+          // console.error("Payout error:", err);
 
           if (typeof err === "object" && err !== null && "message" in err) {
             const message = String((err as { message: string }).message);
@@ -162,6 +158,11 @@ const CreateDisbursementUI = () => {
             toast("Failed to Disburse. Please try again later", {
               type: "error",
             });
+          } else if (
+            err ===
+            "Insufficient funds. Required: ₦115 (Transfer: ₦100 + Fee: ₦15)"
+          ) {
+            toast("Insuficient funds", { type: "error" });
           } else {
             const message =
               err instanceof Error
@@ -267,7 +268,7 @@ const CreateDisbursementUI = () => {
                       <Input
                         id="amount"
                         name="amount"
-                        type="text"
+                        type="number"
                         placeholder="Enter the amount you want to send"
                         value={formData.amount}
                         onChange={handleInputChange}
@@ -350,7 +351,7 @@ const CreateDisbursementUI = () => {
                       <Input
                         id="account_number"
                         name="account_number"
-                        type="text"
+                        type="number"
                         placeholder="Enter account number"
                         value={formData.account_number}
                         onChange={handleInputChange}
@@ -446,7 +447,7 @@ const CreateDisbursementUI = () => {
                     <span className="text-sm text-[#4D4D4D]">
                       Merchant Reference
                     </span>
-                    <span className="text-sm font-medium text-foreground">
+                    <span className="text-sm font-medium text-foreground text-right">
                       {formData.merchant_reference}
                     </span>
                   </div>

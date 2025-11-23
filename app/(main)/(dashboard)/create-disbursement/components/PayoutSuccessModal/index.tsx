@@ -31,7 +31,7 @@ const DisbursementSuccessDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] p-6 font-instrument">
+      <DialogContent className="sm:max-w-[600px] p-6 font-instrument overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold text-foreground text-left">
             Disbursement Successful!
@@ -84,7 +84,7 @@ const DisbursementSuccessDialog = ({
           </Button>
           <Button
             onClick={onViewAll}
-            className="flex-1 h-12 bg-[#0046A7] hover:[#0046A7] text-white"
+            className="flex-1 h-12 bg-[#0046A7] hover:bg-[#0046A7] text-white"
           >
             View All Disbursement
           </Button>

@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 
 interface Tab {
@@ -20,18 +22,19 @@ interface SettingsTabsProps {
 
 export const SettingsTabs = ({ activeTab, onTabChange }: SettingsTabsProps) => {
   return (
-    <div className="border-b border-border bg-card">
-      <nav className="flex gap-1 px-6" aria-label="Settings navigation">
+    <div className="px-4 sm:px-6 md:px-6 lg:px-6">
+      <nav
+        className="flex gap-2 sm:px-6 border border-[#E0E0E0] rounded-[8px] overflow-x-auto mt-6 py-2 px-3 w-full sm:w-[400px]"
+        aria-label="Settings navigation"
+      >
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={cn(
-              "px-4 py-3 text-sm font-medium transition-colors relative",
-              "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              activeTab === tab.id
-                ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
-                : "text-muted-foreground"
+              "rounded-[4px] text-[#010721] px-2 py-1 text-xs sm:text-sm font-medium relative whitespace-nowrap flex-shrink-0 sm:flex-shrink transition-all",
+              "hover:ring-1 hover:ring-[#E0E0E0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              activeTab === tab.id && "ring-1 ring-[#E0E0E0]"
             )}
           >
             {tab.label}

@@ -155,7 +155,7 @@ export default function RegisterUI() {
               route.push("/verify-email");
             }
           } catch (err: unknown) {
-            console.error("Registration error:", err);
+            // console.error("Registration error:", err);
             if (typeof err === "object" && err !== null && "message" in err) {
               const message = String((err as { message: string }).message);
 

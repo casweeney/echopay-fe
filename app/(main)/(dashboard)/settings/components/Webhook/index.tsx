@@ -5,7 +5,7 @@ import { Eye, EyeOff, Copy, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
+import type { AppDispatch, RootState } from "@/redux/store";
 import {
   createURL,
   fetchURL,
@@ -115,13 +115,13 @@ export const WebhookSettings = () => {
   };
 
   return (
-    <div className="border border-[#E0E0E0] rounded-[12px] p-[16px]">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-base tracking-[0.5px] font-normal text-[#010721]">
+    <div className="border border-[#E0E0E0] rounded-[12px] p-3 sm:p-[16px]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3">
+        <h1 className="text-sm sm:text-base tracking-[0.5px] font-normal text-[#010721]">
           WEBHOOK SETTINGS
         </h1>
         <Button
-          className="rounded-[8px] py-[6px] px-[16px] text-[14px] font-normal leading-[20px] tracking-[0.25px] align-middle text-[#FFFFFF] bg-[#0046A7] hover:bg-[#0046A7] h-[48px]"
+          className="rounded-[8px] py-[6px] px-[16px] text-xs sm:text-[14px] font-normal leading-[20px] tracking-[0.25px] align-middle text-[#FFFFFF] bg-[#0046A7] hover:bg-[#0046A7] h-[48px] sm:h-[48px] w-full sm:w-auto"
           onClick={handleSaveWebhook}
         >
           {isCreateUrlLodading ? (
@@ -132,10 +132,10 @@ export const WebhookSettings = () => {
         </Button>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <div>
           <fieldset className="group border border-[#828783] rounded-lg px-2 py-0 focus-within:ring-[1.5px] hover:border-[#3b3b3b] focus-within:ring-[#0046A7] transition-all">
-            <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#031300] px-1 text-[12px] leading-[100%] font-instrument">
+            <legend className="group-focus-within:text-[#0046A7] font-[400] bg-[#f8f8f8] text-[#031300] px-1 text-[10px] sm:text-[12px] leading-[100%] font-instrument">
               Webhook URL
             </legend>
             <Input
@@ -145,47 +145,49 @@ export const WebhookSettings = () => {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://yourdomain.com/webhooks/payments"
-              className="w-full font-instrument border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
+              className="w-full font-instrument border-0 px-2 pb-3 sm:pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-sm sm:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
             />
           </fieldset>
         </div>
 
         <div>
-          <div className="text-base tracking-[0.5px] font-normal text-[#010721] mb-2 align-middle">
+          <div className="text-sm sm:text-base tracking-[0.5px] font-normal text-[#010721] mb-2 align-middle">
             Secret Key
           </div>
-          <div className="flex items-center gap-2">
-            <div className="font-mono h-[40px] flex items-center text-sm tracking-[0.25px] align-middle text-[#010721] bg-[#F2F2F2] px-[8px] py-[6px] rounded-[8px]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <div className="font-mono h-[40px] flex items-center text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] bg-[#F2F2F2] px-[8px] py-[6px] rounded-[8px] w-full sm:w-auto overflow-x-auto">
               {!isSecretVisible ? fetchedData?.webhook.secret : "•".repeat(19)}
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsSecretVisible(!isSecretVisible)}
-              aria-label={
-                isSecretVisible ? "Hide secret key" : "Show secret key"
-              }
-              className="w-8 h-8"
-            >
-              {isSecretVisible ? (
-                <EyeOff className="h-[24px] w-[24px]" />
-              ) : (
-                <Eye className="h-[24px] w-[24px]" />
-              )}
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleCopySecret}
-              aria-label="Copy secret key"
-              className="w-8 h-8"
-            >
-              <Copy className="h-[24px] w-[24px]" />
-            </Button>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSecretVisible(!isSecretVisible)}
+                aria-label={
+                  isSecretVisible ? "Hide secret key" : "Show secret key"
+                }
+                className="w-8 h-8 flex-shrink-0"
+              >
+                {isSecretVisible ? (
+                  <EyeOff className="h-[24px] w-[24px]" />
+                ) : (
+                  <Eye className="h-[24px] w-[24px]" />
+                )}
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleCopySecret}
+                aria-label="Copy secret key"
+                className="w-8 h-8 flex-shrink-0"
+              >
+                <Copy className="h-[24px] w-[24px]" />
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="flex w-1/2 justify-between items-center gap-2">
+        <div className="flex w-full md:w-1/2 lg:w-1/2 justify-between items-center gap-2 px-2">
           <div>
             <div className="text-sm font-normal text-foreground mb-2">
               Last Triggered
@@ -203,19 +205,26 @@ export const WebhookSettings = () => {
           </Button>
         </div>
 
-        <div className="flex items-center gap-4 pt-4">
-          <Button variant="outline" className="w-full">
+        <div className="flex flex-row items-stretch sm:items-center gap-2 sm:gap-4 pt-2 sm:pt-4">
+          <Button
+            variant="outline"
+            className="w-full text-xs sm:text-sm bg-transparent"
+          >
             Disable
           </Button>
           <Button
             variant="outline"
-            className="w-full"
+            className="w-full text-xs sm:text-sm bg-transparent"
             onClick={handleTestWebhook}
           >
             Test Webhook
           </Button>
-          <Button variant="ghost" size="icon" className="hover:bg-transparent">
-            <MoreVertical className="h-5 w-5" />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-transparent flex-shrink-0 h-10 w-10 sm:h-8 sm:w-8"
+          >
+            <MoreVertical className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
         </div>
       </div>

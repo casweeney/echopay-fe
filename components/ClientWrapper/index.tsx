@@ -14,9 +14,9 @@ export default function ClientDashboardWrapper({
   const mainRef = useRef<HTMLDivElement>(null!);
 
   return (
-    <div className="flex h-screen items-baseline overflow-hidden bg-[#F8F8F8] p-4 lg:p-6 font-instrument gap-2">
+    <div className="flex h-screen items-baseline overflow-hidden bg-[#F8F8F8] p-0 lg:p-6 font-instrument gap-2">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden border border-[#CAC4D0] bg-white rounded-[12px] h-full">
+      <div className="flex-1 flex flex-col overflow-hidden border lg:border-[#CAC4D0] bg-white rounded-[12px] h-full">
         <Header />
 
         <main ref={mainRef} className="flex-1 overflow-auto relative">

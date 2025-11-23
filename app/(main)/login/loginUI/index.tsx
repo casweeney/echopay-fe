@@ -52,7 +52,7 @@ export default function LoginUI() {
       try {
         const response = await dispatch(login(formData)).unwrap();
 
-        console.log("Login response:", response);
+        // console.log("Login response:", response);
 
         if (response.status === "success") {
           toast("Login successful!", { type: "success" });

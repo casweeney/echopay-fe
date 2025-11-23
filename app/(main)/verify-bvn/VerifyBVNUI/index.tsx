@@ -72,7 +72,7 @@ const VerifyBVNUI = () => {
           router.push("/wallet");
         }
       } catch (err: unknown) {
-        console.error(err);
+        // console.error(err);
 
         if (typeof err === "object" && err !== null && "message" in err) {
           const message = String((err as { message: string }).message);
