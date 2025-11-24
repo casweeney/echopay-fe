@@ -2,7 +2,7 @@
 
 import React, { useEffect, useCallback, useMemo, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { MENUTABS, SETTINGTABS } from "@/constants";
 import {
@@ -14,16 +14,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSidebar } from "@/context/SidebarContext";
-import { X } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import {
+  fetchBusinessVerificationStatus,
   fetchCurrentBusiness,
   switchBusiness,
 } from "@/redux/features/business/businessSlice";
 import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+import { logout } from "@/redux/features/auth/authSlice";
 
 const Sidebar = () => {
+  const router = useRouter();
   const pathname = usePathname() || "/";
   const { isOpen, closeSidebar } = useSidebar();
   const dispatch = useDispatch<AppDispatch>();
@@ -45,13 +48,19 @@ const Sidebar = () => {
     closeSidebar();
   }, [pathname, closeSidebar]);
 
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    router.push("/login");
+  }, [dispatch]);
+
   const handleSwitchBusiness = useCallback(
     async (value: string) => {
       const response = await dispatch(switchBusiness(value)).unwrap();
 
       if (response.status === "success") {
+        router.push("/analytics");
         const res = await dispatch(fetchCurrentBusiness()).unwrap();
-        // console.log("Switched business to:", res.data.id);
+        await dispatch(fetchBusinessVerificationStatus(res.data.id));
         setBizId(res.data.id);
         await dispatch(fetchWallets(res.data.id));
       }
@@ -241,7 +250,18 @@ const Sidebar = () => {
             <p className="text-[10px] lg:text-[11px] font-medium text-[#010721] leading-[16px] tracking-[0.5px] mb-2 align-middle">
               SYSTEM
             </p>
-            <nav className="flex flex-col gap-1">{settingLinks}</nav>
+            <nav className="flex flex-col gap-1">
+              {settingLinks}
+              <button
+                onClick={handleLogout}
+                className="w-[168px] flex items-center gap-3 p-[8px] rounded-[4px] cursor-pointer hover:bg-[#D9F0FF] transition-all"
+              >
+                <LogOut className="h-[16px] w-[16px] " />
+                <span className="text-[14px] font-[400] leading-[20px] tracking-[0.25px] text-[#010721]">
+                  Sign Out
+                </span>
+              </button>
+            </nav>
           </div>
         </div>
       </div>

@@ -24,8 +24,6 @@ const SettingsUI = () => {
   const { keys } = useSelector((state: RootState) => state.apiKey);
   const { business } = useSelector((state: RootState) => state.business);
 
-  console.log(keys);
-
   const [activeTab, setActiveTab] = useState("business");
   const [isCreateKeyDialogOpen, setIsCreateKeyDialogOpen] = useState(false);
 

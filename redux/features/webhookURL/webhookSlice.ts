@@ -58,12 +58,16 @@ export const fetchURL = createAsyncThunk(
 
 export const regenerateUrl = createAsyncThunk(
   "webhookURL/regenerateUrl",
-  async (id: string, { rejectWithValue }) => {
+  async (
+    { business_id, webhook_id }: { business_id: string; webhook_id: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await regenerateWebhookUrl(id);
+      const response = await regenerateWebhookUrl(business_id, webhook_id);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error?.response.data.message);
+      console.log(error);
+      return rejectWithValue(error?.response?.data?.message);
     }
   }
 );

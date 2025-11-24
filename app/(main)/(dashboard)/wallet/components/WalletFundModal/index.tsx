@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Copy } from "lucide-react";
+import { ChevronDown, ChevronUp, Copy, X } from "lucide-react";
 import { ReusableModal } from "@/components/ReusableModal";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
@@ -37,11 +37,28 @@ export function WalletFundModal({
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      title="Fund Your NGN Wallet"
-      description="Fund your NGN wallet by making a transfer to any of the account numbers below through your preferred bank app, NIBSS Instant Payment (NIP) on your internet banking platforms."
       buttonText="I Have Paid"
       showButton={true}
     >
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-[22px] leading-[28px] align-middle tracking-[0px] font-medium text-[#010721]">
+          Fund Your NGN Wallet
+        </h2>
+        <button
+          onClick={onClose}
+          className="text-[#131313] transition-colors"
+          aria-label="Close modal"
+        >
+          <X size={28} />
+        </button>
+      </div>
+
+      {/* Description */}
+      <p className="text-[#404040] text-base tracking-[0.5px] mb-6">
+        Fund your NGN wallet by making a transfer to any of the account numbers
+        below through your preferred bank app, NIBSS Instant Payment (NIP) on
+        your internet banking platforms.
+      </p>
       {/* Maximum Transfer Amount Section */}
       <div className="bg-[#E9F6FF] rounded-lg p-6 mb-6">
         <p className="text-base tracking-[0.5px] font-normal text-[#404040] mb-2">
