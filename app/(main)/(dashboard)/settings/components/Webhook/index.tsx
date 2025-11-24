@@ -20,21 +20,21 @@ export const WebhookSettings = () => {
     (state: RootState) => state.webhook
   );
   const { business } = useSelector((state: RootState) => state.business);
-  const [url, setUrl] = useState(fetchedData?.webhook.url);
+  const [url, setUrl] = useState(fetchedData?.webhook?.url ?? "");
   const [isSecretVisible, setIsSecretVisible] = useState(true);
 
   useEffect(() => {
     const handleFetchURL = async () => {
       if (business?.id) {
         const response = await dispatch(fetchURL(business.id)).unwrap();
-        setUrl(response.data.webhook.url);
+        setUrl(response.data.webhook?.url ?? "");
       }
     };
     handleFetchURL();
   }, [business?.id, dispatch]);
 
   const handleCopySecret = () => {
-    const secret = fetchedData?.webhook.secret ?? "";
+    const secret = fetchedData?.webhook?.secret ?? "";
     navigator.clipboard.writeText(secret);
 
     toast("Secret key copied");
@@ -57,7 +57,7 @@ export const WebhookSettings = () => {
         }
       }
     } catch (err) {
-      console.error("webhook err:", err);
+      // console.error("webhook err:", err);
       if (err === "Invalid URL format") {
         toast("Invalid URL", { type: "error" });
       }
@@ -79,18 +79,21 @@ export const WebhookSettings = () => {
 
   const handleRegenerateSecret = async () => {
     try {
-      const response = await dispatch(
-        regenerateUrl(fetchedData?.webhook.id ?? "")
-      ).unwrap();
-
       const business_id = business?.id;
+
+      const response = await dispatch(
+        regenerateUrl({
+          business_id: business_id ?? "",
+          webhook_id: fetchedData?.webhook?.id ?? "",
+        })
+      ).unwrap();
 
       if (response.status === "success") {
         toast(response.message, { type: "success" });
         await dispatch(fetchURL(business_id ?? ""));
       }
     } catch (error: unknown) {
-      console.error("Regenerate secret error:", error);
+      // console.error("Regenerate secret error:", error);
 
       const message =
         error instanceof Error
@@ -142,7 +145,7 @@ export const WebhookSettings = () => {
               name="webhook-url"
               id="webhook-url"
               type="url"
-              value={url}
+              value={url ?? ""}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://yourdomain.com/webhooks/payments"
               className="w-full font-instrument border-0 px-2 pb-3 sm:pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-sm sm:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument"
@@ -156,7 +159,7 @@ export const WebhookSettings = () => {
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <div className="font-mono h-[40px] flex items-center text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] bg-[#F2F2F2] px-[8px] py-[6px] rounded-[8px] w-full sm:w-auto overflow-x-auto">
-              {!isSecretVisible ? fetchedData?.webhook.secret : "•".repeat(19)}
+              {!isSecretVisible ? fetchedData?.webhook?.secret : "•".repeat(19)}
             </div>
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <Button
@@ -193,10 +196,11 @@ export const WebhookSettings = () => {
               Last Triggered
             </div>
             <div className="text-sm tracking-[0.25px] align-middle text-[#828783]">
-              {formatDate(fetchedData?.webhook.updated_at || "")}
+              {formatDate(fetchedData?.webhook?.updated_at ?? "")}
             </div>
           </div>
           <Button
+            disabled={!fetchedData?.webhook?.id}
             variant="link"
             className="text-[#0046A7] text-sm tracking-[0.25px] p-0 h-auto font-normal"
             onClick={handleRegenerateSecret}

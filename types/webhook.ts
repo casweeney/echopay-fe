@@ -9,8 +9,8 @@ export interface WebHookData {
     business_id: string;
     created_at: string;
     id: string;
-    updated_at: string;
-    url: string;
+    updated_at: string | null;
+    url: string | null;
   };
 }
 
@@ -25,9 +25,9 @@ export interface Webhook {
     business_id: string;
     created_at: string;
     id: string;
-    secret: string;
-    updated_at: string;
-    url: string;
+    secret: string | null;
+    updated_at: string | null;
+    url: string | null;
   };
 }
 

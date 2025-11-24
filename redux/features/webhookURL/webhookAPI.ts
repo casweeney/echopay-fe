@@ -26,10 +26,11 @@ export const getWebhookURL = async (
 };
 
 export const regenerateWebhookUrl = async (
-  id: string
+  business_id: string,
+  webhook_id: string
 ): Promise<RegeneratUrlSecretResponse> => {
   const { data } = await axiosClient.post<RegeneratUrlSecretResponse>(
-    `/webhooks/${id}/regenerate-secret`
+    `/webhooks/${business_id}/regenerate-secret/${webhook_id}`
   );
   return data;
 };
