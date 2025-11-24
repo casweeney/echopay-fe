@@ -273,6 +273,18 @@ const CreateDisbursementUI = () => {
                         value={formData.amount}
                         onChange={handleInputChange}
                         className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
+                        min={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e") {
+                            e.preventDefault();
+                          }
+                        }}
+                        onPaste={(e) => {
+                          const paste = e.clipboardData.getData("text");
+                          if (paste.includes("-")) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </fieldset>
                   </div>
@@ -356,6 +368,18 @@ const CreateDisbursementUI = () => {
                         value={formData.account_number}
                         onChange={handleInputChange}
                         className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
+                        min={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e") {
+                            e.preventDefault();
+                          }
+                        }}
+                        onPaste={(e) => {
+                          const paste = e.clipboardData.getData("text");
+                          if (paste.includes("-")) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </fieldset>
                   </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Copy, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Copy, CopyCheck, X } from "lucide-react";
 import { ReusableModal } from "@/components/ReusableModal";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
@@ -22,9 +22,26 @@ export function WalletFundModal({
   const [expandedAccount, setExpandedAccount] = useState(
     virtualAccount?.account_number
   );
+  const [copyAccNum, setCopyAccNum] = useState(false);
 
-  const handleCopy = (text: string) => {
+  const [copyAccName, setCopyAccName] = useState(false);
+
+  const handleCopyAccNum = (text: string) => {
     navigator.clipboard.writeText(text);
+    setCopyAccNum(true);
+
+    setTimeout(() => {
+      setCopyAccNum(false);
+    }, 1500);
+  };
+
+  const handleCopyAccName = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopyAccName(true);
+
+    setTimeout(() => {
+      setCopyAccName(false);
+    }, 1500);
   };
 
   const handleSubmit = async () => {
@@ -125,14 +142,19 @@ export function WalletFundModal({
                   <p className="text-base tracking-[0.5px] text-[#010721] font-normal">
                     {virtualAccount?.account_number}
                   </p>
+
                   <button
                     onClick={() =>
-                      handleCopy(virtualAccount?.account_number ?? "")
+                      handleCopyAccNum(virtualAccount?.account_number ?? "")
                     }
                     className="text-[#010721] transition-colors"
                     aria-label="Copy account number"
                   >
-                    <Copy size={20} />
+                    {copyAccNum ? (
+                      <CopyCheck size={20} className="text-green-600" />
+                    ) : (
+                      <Copy size={20} />
+                    )}
                   </button>
                 </div>
               </div>
@@ -147,11 +169,17 @@ export function WalletFundModal({
                     {virtualAccount?.bank_name}
                   </p>
                   <button
-                    onClick={() => handleCopy(virtualAccount?.bank_name ?? "")}
+                    onClick={() =>
+                      handleCopyAccName(virtualAccount?.bank_name ?? "")
+                    }
                     className="text-[#010721] transition-colors"
                     aria-label="Copy bank name"
                   >
-                    <Copy size={20} />
+                    {copyAccName ? (
+                      <CopyCheck size={20} className="text-green-600" />
+                    ) : (
+                      <Copy size={20} />
+                    )}
                   </button>
                 </div>
               </div>
