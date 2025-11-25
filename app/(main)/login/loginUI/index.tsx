@@ -55,7 +55,7 @@ export default function LoginUI() {
         // console.log("Login response:", response);
 
         if (response.status === "success") {
-          toast("Login successful!", { type: "success" });
+          // toast("Login successful!", { type: "success" });
           await dispatch(fetchUser());
           const res = await dispatch(fetchCurrentBusiness()).unwrap();
           await dispatch(fetchBusinesses());
@@ -205,11 +205,7 @@ export default function LoginUI() {
               disabled={isButtonDisabled || loading}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? (
-                <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
-              ) : (
-                "Continue"
-              )}
+              {loading ? "Logging In...." : "Continue"}
             </Button>
 
             <p className="text-center text-[#828783] text-[16px] font-instrument">
