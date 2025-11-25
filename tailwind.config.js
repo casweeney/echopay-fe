@@ -16,6 +16,7 @@ module.exports = {
         roboto: ["var(--font-roboto)", "sans-serif"],
         londrina: ["Londrina Solid", "sans-serif"],
         instrument: ["var(--font-instrument-sans)", "sans-serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

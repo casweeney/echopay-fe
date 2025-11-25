@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ArrowRight, Menu } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import Link from "next/link";
 import Image from "next/image";
+import { TABS } from "@/constants";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,60 +24,51 @@ export function Navbar() {
 
   return (
     <nav
-      className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-sm" : "bg-[#FFFFFF1A]"
-      }`}
+      className={`w-full h-[96px] fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-inter bg-[#FFFDFA80] backdrop-blur-sm`}
     >
-      <div className="max-w-[85rem] mx-auto px-4 sm:px-3 lg:px-2">
+      <div className="max-w-[79rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
-          <div className="flex items-center gap-4">
-            {/* Logo */}
-            <Link
-              href="#"
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-            >
-              <Image
-                src="/logo.svg"
-                width={20}
-                height={20}
-                alt="logo"
-                className="w-28 h-28"
-              />
-            </Link>
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
+            <Image
+              src="/logo.svg"
+              width={20}
+              height={20}
+              alt="logo"
+              className="w-28 h-28"
+            />
+          </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+          <div className="flex gap-8 items-center">
+            {TABS.map((tab, key) => (
               <Link
-                href="#"
-                className="text-sm text-[#0D0714] font-[500] hover:text-gray-600 transition-colors"
+                key={key}
+                href={tab.link}
+                className="text-[#010721] font-medium text-sm tracking-[-0.6%] align-middle"
               >
-                How we work
+                {tab.name}
               </Link>
-              <Link
-                href="#"
-                className="text-sm text-[#0D0714] font-[500] hover:text-gray-600 transition-colors"
-              >
-                About Us
-              </Link>
-            </div>
-          </div>
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-6">
-            <Button
-              asChild
-              className="bg-[#F4F4F5] text-[#18181B] border border-[#F2F3F6] hover:bg-[#F4F4F5] rounded-[8px] py-6 px-6"
+            ))}
+            <Link
+              href="/login"
+              className="text-[#0046A7] font-semibold text-sm tracking-[-0.6%] align-middle"
             >
-              <Link href="/login">Log In</Link>
-            </Button>
-            <Button
-              asChild
-              className="bg-[#F48210] text-[#18181B] hover:bg-[#F48210] rounded-[8px] py-6 px-6"
+              Sign In
+            </Link>
+            <Link
+              href="/register"
+              className="bg-[#0046A7] h-[56px] rounded-[12px] py-[10px] px-[24px] flex gap-[12px] items-center text-white font-medium text-sm tracking-[-0.15px]"
             >
-              <Link href="/register">Create a free Account</Link>
-            </Button>
+              Get Started
+              <ArrowRight className="w-[16px] h-[16px]" />
+            </Link>
           </div>
+
           {/* Mobile Menu */}
-          <Sheet>
+          {/* <Sheet>
             <SheetTrigger asChild>
               <button
                 className="md:hidden p-2 text-[#0D0714] hover:bg-gray-100 rounded-lg transition-colors"
@@ -127,7 +119,7 @@ export function Navbar() {
                 </div>
               </div>
             </SheetContent>
-          </Sheet>
+          </Sheet> */}
         </div>
       </div>
     </nav>
