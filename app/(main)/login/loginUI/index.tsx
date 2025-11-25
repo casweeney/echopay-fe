@@ -28,6 +28,7 @@ export default function LoginUI() {
 
   const { loading } = useSelector((state: RootState) => state.auth);
 
+  const [redirecting, setRedirecting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -55,14 +56,15 @@ export default function LoginUI() {
         // console.log("Login response:", response);
 
         if (response.status === "success") {
+          setRedirecting(true);
           // toast("Login successful!", { type: "success" });
-          await dispatch(fetchUser());
+          dispatch(fetchUser());
           const res = await dispatch(fetchCurrentBusiness()).unwrap();
-          await dispatch(fetchBusinesses());
           router.push("/analytics");
-          await dispatch(fetchWallets(res.data.id));
-          await dispatch(fetchBvnStatus());
-          await dispatch(fetchBusinessVerificationStatus(res.data.id));
+          dispatch(fetchBusinesses());
+          dispatch(fetchWallets(res.data.id));
+          dispatch(fetchBvnStatus());
+          dispatch(fetchBusinessVerificationStatus(res.data.id));
         }
       } catch (err: unknown) {
         console.error("Login error:", err);
@@ -202,10 +204,10 @@ export default function LoginUI() {
 
             <Button
               type="submit"
-              disabled={isButtonDisabled || loading}
+              disabled={isButtonDisabled || loading || redirecting}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Logging In...." : "Continue"}
+              {loading || redirecting ? "Continue..." : "Continue"}
             </Button>
 
             <p className="text-center text-[#828783] text-[16px] font-instrument">
