@@ -19,8 +19,8 @@ import {
   fetchBusinessVerificationStatus,
   fetchCurrentBusiness,
 } from "@/redux/features/business/businessSlice";
-import { fetchWallets } from "@/redux/features/wallet/walletSlice";
-import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
+// import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+// import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
@@ -62,9 +62,9 @@ export default function LoginUI() {
           const res = await dispatch(fetchCurrentBusiness()).unwrap();
           router.push("/analytics");
           dispatch(fetchBusinesses());
-          dispatch(fetchWallets(res.data.id));
-          dispatch(fetchBvnStatus());
           dispatch(fetchBusinessVerificationStatus(res.data.id));
+          // dispatch(fetchWallets(res.data.id));
+          // dispatch(fetchBvnStatus());
         }
       } catch (err: unknown) {
         console.error("Login error:", err);
