@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Roboto, Instrument_Sans } from "next/font/google";
+import { DM_Sans, Roboto, Instrument_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Slide, ToastContainer } from "react-toastify";
@@ -30,6 +30,13 @@ const instrumentSans = Instrument_Sans({
   display: "swap",
 });
 
+const inter = Inter({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${roboto.variable} ${instrumentSans.variable}`}
+      className={`${dmSans.variable} ${roboto.variable} ${instrumentSans.variable} ${inter.variable}`}
     >
       <body>
         <Providers>

@@ -3,12 +3,24 @@ import { TabsProps, SideTabsProps } from "@/lib/types";
 
 export const TABS: TabsProps[] = [
   {
-    name: "How we work",
-    link: "/how-we-work",
+    name: "Products",
+    link: "#",
   },
   {
     name: "About Us",
-    link: "/about",
+    link: "#",
+  },
+  {
+    name: "Developers",
+    link: "#",
+  },
+  {
+    name: "Pricing",
+    link: "#",
+  },
+  {
+    name: "Company",
+    link: "#",
   },
 ];
 

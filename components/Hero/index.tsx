@@ -1,65 +1,81 @@
 import { Button } from "@/components/ui/button";
+import { ArrowRight, FileText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Separator } from "../ui/separator";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[70vh] bg-white">
+    <section className="relative bg-[url(/hero_img.svg)] h-screen w-full bg-cover pt-28 flex items-center justify-center font-inter">
       {/* Background Pattern Overlay */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        <Image
-          width={20}
-          height={20}
-          src="/pattern.svg"
-          alt="background pattern"
-          className="w-full h-full object-cover opacity-40"
-          style={{ mixBlendMode: "multiply" }}
-        />
-      </div>
-
-      <div className="relative z-10 max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-4 pt-24 sm:pt-4">
-        <div className="grid lg:grid-cols-2 gap-12 sm:gap-0 items-center min-h-[calc(100vh-4rem)]">
-          {/* Left Section - Text Content */}
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <h1 className="text-4xl lg:text-4xl xl:text-5xl font-[500] text-[#0D0714] leading-tight">
-                <span className="block">Powering the Next</span>
-                <span className="block">Generation of Payments</span>
-              </h1>
-
-              <p className="text-lg text-[#636377] font-[500] leading-relaxed max-w-lg">
-                From API integrations, to banking integrations, we provide
-                everything you need to collect and disburse payments across
-                multiple entities.
-              </p>
-            </div>
-
-            <div className="pt-4">
-              <Button
-                className="bg-[#F48210] text-[#18181B] hover:bg-[#F48210] rounded-[8px] px-8 py-6 text-base font-[500] transition-colors"
-                size="lg"
-              >
-                <Link href="/register">Create a free Account</Link>
-              </Button>
-            </div>
+      <div className="flex flex-col gap-4 items-center">
+        <div className="w-[265px] h-[56px] rounded-[32px] p-[8px] bg-gradient-to-br from-[#CDEBFF33] to-[#D3D8FF2B] border border-[#f5fbff]">
+          <div className="w-[249px] h-[40px] rounded-[32px] py-[8px] px-[16px] bg-[#d2edffcc]">
+            <p className="font-normal text-base tracking-[-0.31px] text-[#010721]">
+              Unified Disbursement System
+            </p>
           </div>
-
-          {/* Right Section - Video */}
-          <div className="relative">
-            <div className="overflow-hidden flex items-center justify-center">
-              <div className="relative w-full bg-[#e2e6f1]  h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
-                <video
-                  className="w-full h-full object-cover rotate-[28deg] scale-122"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                >
-                  <source src="hero_vid.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </div>
+        </div>
+        <div className="flex flex-col gap-4 mb-[1.25rem]">
+          <h1 className="font-medium text-6xl leading-[60px] tracking-[-1.24px] text-[#010721] text-center">
+            <div className="mb-4">Simplify Disbursements.</div>
+            <span className="bg-gradient-to-b bg-clip-text from-[#0046A7] via-[#117ED1] to-[#00BBFF] text-transparent">
+              Power Your Payouts.
+            </span>
+          </h1>
+          <p className="font-400 text-xl tracking-[-0.45px] text-[#6B7280] max-w-[550px] mx-auto text-center">
+            Echopay helps you disburse funds, so you can send money faster,
+            easier, and without failed transfers.
+          </p>
+        </div>
+        <div className="flex gap-4 items-center mb-7">
+          <Link
+            href="#"
+            className="rounded-[12px] py-[10px] px-[24px] w-[249px] h-[56px] flex gap-[12px] items-center justify-center font-medium text-sm tracking-[-0.15px] text-white bg-[#0046A7] "
+          >
+            Create Merchant Account
+            <ArrowRight className="w-[16px] h-[16px]" />
+          </Link>
+          <Link
+            href="#"
+            className="rounded-[12px] border-2 border-[#E0E0E0] py-[10px] px-[24px] w-[249px] h-[56px] flex gap-[12px] items-center justify-center font-medium text-sm tracking-[-0.15px] text-[#010721] bg-white "
+          >
+            <FileText className="w-[16px] h-[16px]" />
+            View API Docs
+          </Link>
+        </div>
+        <div className="flex items-center gap-10">
+          <div>
+            <p className="font-normal text-2xl tracking-[0.07px] text-[#010721] mb-[0.5px]">
+              99.9%
+            </p>
+            <p className="font-normal text-sm tracking-[-0.15px] text-[#6B7280]">
+              Uptime
+            </p>
+          </div>
+          <Separator
+            orientation="vertical"
+            className="hidden lg:block border-l border-[#E0E0E0] h-[55px]"
+          />
+          <div>
+            <p className="font-normal text-2xl tracking-[0.07px] text-[#010721] mb-[0.5px]">
+              50K+
+            </p>
+            <p className="font-normal text-sm tracking-[-0.15px] text-[#6B7280]">
+              Transactions
+            </p>
+          </div>
+          <Separator
+            orientation="vertical"
+            className="hidden lg:block border-l border-[#E0E0E0] h-[55px]"
+          />
+          <div>
+            <p className="font-normal text-2xl tracking-[0.07px] text-[#010721] mb-[0.5px]">
+              {"<2s"}
+            </p>
+            <p className="font-normal text-sm tracking-[-0.15px] text-[#6B7280]">
+              Response Time
+            </p>
           </div>
         </div>
       </div>

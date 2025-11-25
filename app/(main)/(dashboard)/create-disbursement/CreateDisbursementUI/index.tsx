@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrencies } from "@/redux/features/currency/currencySlice";
-import { fetchBanks } from "@/redux/features/bank/bankSlice";
+import { fetchBankDetails, fetchBanks } from "@/redux/features/bank/bankSlice";
 import { SelectGroup } from "@radix-ui/react-select";
 import Link from "next/link";
 import { initiateDisbursement } from "@/redux/features/disbursement/disbursementSlice";
@@ -26,13 +26,17 @@ import { fetchApiKeys } from "@/redux/features/apiKey/apiKeySlice";
 
 const CreateDisbursementUI = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { banks } = useSelector((state: RootState) => state.bank);
+  const { banks, bankDetails, fetchingDetails, error } = useSelector(
+    (state: RootState) => state.bank
+  );
   const { keys } = useSelector((state: RootState) => state.apiKey);
   const { currencies } = useSelector((state: RootState) => state.currency);
   const { business } = useSelector((state: RootState) => state.business);
   const { loading } = useSelector((state: RootState) => state.payout);
   const [tnxRef, setTnxRef] = useState("");
   const router = useRouter();
+
+  console.log(bankDetails);
 
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -45,6 +49,23 @@ const CreateDisbursementUI = () => {
     merchant_reference: `MERCH-REF-${new Date().toISOString()}`,
     biz_number: business?.biz_number || "",
   });
+
+  const isValidAccountNumber = (value: string) => /^\d{10}$/.test(value);
+
+  useEffect(() => {
+    const handleBankDetails = async () => {
+      if (isValidAccountNumber(formData.account_number) && formData.bank_code) {
+        await dispatch(
+          fetchBankDetails({
+            account_number: formData?.account_number,
+            bank_code: formData?.bank_code,
+          })
+        );
+      }
+    };
+
+    handleBankDetails();
+  }, [dispatch, formData?.account_number, formData?.bank_code]);
 
   useEffect(() => {
     if (business?.biz_number) {
@@ -382,6 +403,61 @@ const CreateDisbursementUI = () => {
                         }}
                       />
                     </fieldset>
+                    {/* Account Name Verification Status */}
+                    {isValidAccountNumber(formData.account_number) &&
+                      formData.bank_code && (
+                        <div className="mt-2 px-3 py-2.5 rounded-lg border bg-gradient-to-r from-[#E9F6FF] to-[#F0F9FF] border-[#CDDBEF] flex items-center justify-between animate-in fade-in duration-300">
+                          {fetchingDetails ? (
+                            <div className="flex items-center gap-2.5">
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#0046A7] border-t-transparent"></div>
+                              <span className="text-[13px] text-[#404040] font-instrument font-medium">
+                                Verifying account...
+                              </span>
+                            </div>
+                          ) : bankDetails !== null ? (
+                            <div className="flex items-center gap-3 w-full">
+                              <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#CDF4E4] flex-shrink-0">
+                                <svg
+                                  className="w-3 h-3 text-[#0C614E]"
+                                  fill="none"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2.5"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path d="M5 13l4 4L19 7"></path>
+                                </svg>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[14px] text-[#010721] font-semibold font-instrument truncate">
+                                  {bankDetails?.data?.account_name}
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-2.5">
+                              <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#ffafaf] flex-shrink-0">
+                                <svg
+                                  className="w-3 h-3 text-[#B3261E]"
+                                  fill="none"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2.5"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                              </div>
+                              <span className="text-[13px] text-[#B3261E] font-instrument font-medium">
+                                Unable to verify account. Please check details
+                                or Internet connection
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
                   </div>
 
                   {/* Merchant Reference */}
@@ -414,7 +490,12 @@ const CreateDisbursementUI = () => {
                   </Button>
                   <Button
                     type="submit"
-                    disabled={currentStep === 1 && !isStepValid}
+                    disabled={
+                      (currentStep === 1 && !isStepValid) ||
+                      (currentStep === 1 &&
+                        !isValidAccountNumber(formData.account_number)) ||
+                      (currentStep === 1 && bankDetails === null)
+                    }
                     className="w-1/2 h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-[12px] lg:text-base font-medium font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Continue
@@ -463,6 +544,13 @@ const CreateDisbursementUI = () => {
                     </span>
                     <span className="text-sm font-medium text-foreground">
                       {formData.account_number}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between py-4 border-b border-border">
+                    <span className="text-sm text-[#4D4D4D]">Account Name</span>
+                    <span className="text-sm font-medium text-foreground">
+                      {bankDetails?.data.account_name}
                     </span>
                   </div>
 
