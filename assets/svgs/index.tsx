@@ -981,5 +981,83 @@ export const ECHOPAY_SVG = () => {
         </svg>
       );
     },
+    tag: (props?: SvgProps) => {
+      return (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <path
+            d="M12 10.6666L14.6667 7.99992L12 5.33325"
+            stroke="white"
+            strokeWidth="1.33333"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M4 5.33325L1.33334 7.99992L4 10.6666"
+            stroke="white"
+            strokeWidth="1.33333"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M9.66667 2.66675L6.33334 13.3334"
+            stroke="white"
+            strokeWidth="1.33333"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    },
+    doubleCheck: (props?: SvgProps) => {
+      return (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <path
+            d="M0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z"
+            fill="url(#paint0_linear_816_4763)"
+          />
+          <path
+            d="M16 8L8.66667 15.3333L5.33334 12"
+            stroke="white"
+            strokeWidth="1.33333"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M18.6667 10.6667L13.6667 15.6667L12.6667 14.6667"
+            stroke="white"
+            strokeWidth="1.33333"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_816_4763"
+              x1="12"
+              y1="0"
+              x2="12"
+              y2="24"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#0046A7" />
+              <stop offset="1" stopColor="#00BBFF" />
+            </linearGradient>
+          </defs>
+        </svg>
+      );
+    },
   };
 };

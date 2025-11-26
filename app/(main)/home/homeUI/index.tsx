@@ -1,10 +1,10 @@
 "use client";
 import { Hero } from "@/components/Hero";
-import FeaturesSection from "@/components/FeaturesSection";
-import CTASection from "@/components/CTASection";
+import CTA from "@/components/CTASection";
 import React, { useEffect, useRef } from "react";
 import Steps from "@/components/Steps";
 import EchopayWay from "@/components/EchopayWay";
+import Developers from "@/components/ForDevelopers";
 
 const HomeUI = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -27,8 +27,9 @@ const HomeUI = () => {
       </div>
       <Steps />
       <EchopayWay />
+      <Developers />
+      <CTA />
       {/* <FeaturesSection /> */}
-      {/* <CTASection /> */}
     </div>
   );
 };

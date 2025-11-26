@@ -37,7 +37,7 @@ const EchopayWay = () => {
     },
   ];
   return (
-    <div className="max-w-[73rem] mx-auto pb-32 pt-10 px-4 font-inter">
+    <div className="max-w-[73rem] mx-auto pb-32 pt-20 px-4 font-inter">
       <div className="flex flex-col gap-4 items-center text-center mb-14">
         <h2 className="font-normal text-5xl leading-[48px] tracking-[0.35px] text-[#010721] ">
           The Echopay Way
