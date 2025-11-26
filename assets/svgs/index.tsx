@@ -633,5 +633,126 @@ export const ECHOPAY_SVG = () => {
         </svg>
       );
     },
+    stepOne: (props?: SvgProps) => {
+      return (
+        <svg
+          width="56"
+          height="56"
+          viewBox="0 0 56 56"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <path
+            d="M0 16C0 7.16344 7.16344 0 16 0H40C48.8366 0 56 7.16344 56 16V40C56 48.8366 48.8366 56 40 56H16C7.16344 56 0 48.8366 0 40V16Z"
+            fill="#D9F0FF"
+          />
+          <path
+            d="M28 39.6666V33.8333"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M24.5 23.3333V16.3333"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M31.5 23.3333V16.3333"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M35 23.3333V29.1666C35 30.4043 34.5083 31.5912 33.6332 32.4664C32.758 33.3416 31.571 33.8333 30.3333 33.8333H25.6667C24.429 33.8333 23.242 33.3416 22.3668 32.4664C21.4917 31.5912 21 30.4043 21 29.1666V23.3333H35Z"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    },
+    stepTwo: (props?: SvgProps) => {
+      return (
+        <svg
+          width="56"
+          height="56"
+          viewBox="0 0 56 56"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <path
+            d="M0 16C0 7.16344 7.16344 0 16 0H40C48.8366 0 56 7.16344 56 16V40C56 48.8366 48.8366 56 40 56H16C7.16344 56 0 48.8366 0 40V16Z"
+            fill="#D9F0FF"
+          />
+          <path
+            d="M30.9587 39.3005C31.003 39.4109 31.08 39.5052 31.1795 39.5706C31.2789 39.636 31.396 39.6694 31.515 39.6664C31.634 39.6633 31.7492 39.624 31.8451 39.5536C31.9411 39.4831 32.0132 39.3851 32.0518 39.2725L39.6352 17.1058C39.6725 17.0024 39.6796 16.8906 39.6557 16.7833C39.6318 16.676 39.5778 16.5778 39.5001 16.5001C39.4224 16.4223 39.3241 16.3684 39.2169 16.3444C39.1096 16.3205 38.9977 16.3276 38.8943 16.365L16.7277 23.9483C16.6151 23.9869 16.517 24.0591 16.4466 24.155C16.3762 24.251 16.3368 24.3662 16.3337 24.4852C16.3307 24.6042 16.3641 24.7212 16.4295 24.8207C16.4949 24.9201 16.5892 24.9972 16.6997 25.0415L25.9513 28.7515C26.2438 28.8686 26.5095 29.0437 26.7325 29.2662C26.9555 29.4888 27.131 29.7542 27.2487 30.0465L30.9587 39.3005Z"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M39.4964 16.5049L26.733 29.267"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    },
+    stepThree: (props?: SvgProps) => {
+      return (
+        <svg
+          width="56"
+          height="56"
+          viewBox="0 0 56 56"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <path
+            d="M0 16C0 7.16344 7.16344 0 16 0H40C48.8366 0 56 7.16344 56 16V40C56 48.8366 48.8366 56 40 56H16C7.16344 56 0 48.8366 0 40V16Z"
+            fill="#D9F0FF"
+          />
+          <path
+            d="M17.5 17.5V36.1667C17.5 36.7855 17.7458 37.379 18.1834 37.8166C18.621 38.2542 19.2145 38.5 19.8333 38.5H38.5"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M35 33.8333V24.5"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M29.1667 33.8333V19.8333"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M23.3333 33.8333V30.3333"
+            stroke="#0046A7"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    },
   };
 };
