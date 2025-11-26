@@ -4,6 +4,7 @@ import FeaturesSection from "@/components/FeaturesSection";
 import CTASection from "@/components/CTASection";
 import React, { useEffect, useRef } from "react";
 import Steps from "@/components/Steps";
+import EchopayWay from "@/components/EchopayWay";
 
 const HomeUI = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -25,6 +26,7 @@ const HomeUI = () => {
         />
       </div>
       <Steps />
+      <EchopayWay />
       {/* <FeaturesSection /> */}
       {/* <CTASection /> */}
     </div>

@@ -754,5 +754,232 @@ export const ECHOPAY_SVG = () => {
         </svg>
       );
     },
+    wayOne: (props?: SvgProps) => {
+      return (
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <rect
+            width="48"
+            height="48"
+            rx="24"
+            fill="url(#paint0_linear_791_327)"
+          />
+          <path
+            d="M21 29H19C17.6739 29 16.4021 28.4732 15.4645 27.5355C14.5268 26.5979 14 25.3261 14 24C14 22.6739 14.5268 21.4021 15.4645 20.4645C16.4021 19.5268 17.6739 19 19 19H21"
+            stroke="#0F7000"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M27 19H29C30.3261 19 31.5979 19.5268 32.5355 20.4645C33.4732 21.4021 34 22.6739 34 24C34 25.3261 33.4732 26.5979 32.5355 27.5355C31.5979 28.4732 30.3261 29 29 29H27"
+            stroke="#0F7000"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M20 24H28"
+            stroke="#0F7000"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_791_327"
+              x1="24"
+              y1="0"
+              x2="24"
+              y2="48"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#BAFFDC" />
+              <stop offset="1" stopColor="#90FFC0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      );
+    },
+    wayTwo: (props?: SvgProps) => {
+      return (
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <rect
+            width="48"
+            height="48"
+            rx="24"
+            fill="url(#paint0_linear_791_341)"
+          />
+          <path
+            d="M32 25C32 30 28.5 32.5 24.34 33.95C24.1222 34.0238 23.8855 34.0202 23.67 33.94C19.5 32.5 16 30 16 25V18C16 17.7347 16.1054 17.4804 16.2929 17.2929C16.4804 17.1053 16.7348 17 17 17C19 17 21.5 15.8 23.24 14.28C23.4519 14.099 23.7214 13.9995 24 13.9995C24.2786 13.9995 24.5481 14.099 24.76 14.28C26.51 15.81 29 17 31 17C31.2652 17 31.5196 17.1053 31.7071 17.2929C31.8946 17.4804 32 17.7347 32 18V25Z"
+            stroke="#0080FF"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M21 24L23 26L27 22"
+            stroke="#0080FF"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_791_341"
+              x1="24"
+              y1="0"
+              x2="24"
+              y2="48"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#C7F0FF" />
+              <stop offset="1" stopColor="#A2DAFF" />
+            </linearGradient>
+          </defs>
+        </svg>
+      );
+    },
+    wayThree: (props?: SvgProps) => {
+      return (
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <rect
+            width="48"
+            height="48"
+            rx="24"
+            fill="url(#paint0_linear_791_346)"
+          />
+          <path
+            d="M34 24H31.52C31.083 23.9991 30.6577 24.1413 30.3091 24.405C29.9606 24.6686 29.708 25.0392 29.59 25.46L27.24 33.82C27.2249 33.8719 27.1933 33.9175 27.15 33.95C27.1067 33.9825 27.0541 34 27 34C26.9459 34 26.8933 33.9825 26.85 33.95C26.8067 33.9175 26.7751 33.8719 26.76 33.82L21.24 14.18C21.2249 14.1281 21.1933 14.0825 21.15 14.05C21.1067 14.0175 21.0541 14 21 14C20.9459 14 20.8933 14.0175 20.85 14.05C20.8067 14.0825 20.7751 14.1281 20.76 14.18L18.41 22.54C18.2925 22.9592 18.0414 23.3285 17.6949 23.592C17.3483 23.8555 16.9253 23.9988 16.49 24H14"
+            stroke="#C2004A"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_791_346"
+              x1="24"
+              y1="0"
+              x2="24"
+              y2="48"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#FFC2E1" />
+              <stop offset="1" stopColor="#FF85C0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      );
+    },
+    wayFour: (props?: SvgProps) => {
+      return (
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <rect
+            width="48"
+            height="48"
+            rx="24"
+            fill="url(#paint0_linear_791_350)"
+          />
+          <path
+            d="M24 34C29.5228 34 34 29.5228 34 24C34 18.4772 29.5228 14 24 14C18.4772 14 14 18.4772 14 24C14 29.5228 18.4772 34 24 34Z"
+            stroke="#0046A7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M24 14C21.4322 16.6962 20 20.2767 20 24C20 27.7233 21.4322 31.3038 24 34C26.5678 31.3038 28 27.7233 28 24C28 20.2767 26.5678 16.6962 24 14Z"
+            stroke="#0046A7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M14 24H34"
+            stroke="#0046A7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_791_350"
+              x1="24"
+              y1="0"
+              x2="24"
+              y2="48"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#BFE0FF" />
+              <stop offset="1" stopColor="#C5DAFF" />
+            </linearGradient>
+          </defs>
+        </svg>
+      );
+    },
+    wayFive: (props?: SvgProps) => {
+      return (
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+        >
+          <rect
+            width="48"
+            height="48"
+            rx="24"
+            fill="url(#paint0_linear_839_4299)"
+          />
+          <path
+            d="M28.25 26.5C28.0511 26.5 27.8604 26.579 27.7197 26.7197C27.579 26.8603 27.5 27.0511 27.5 27.25C27.5 27.4489 27.579 27.6397 27.7197 27.7803C27.8604 27.921 28.0511 28 28.25 28H31.75C31.9489 28 32.1397 27.921 32.2804 27.7803C32.421 27.6397 32.5 27.4489 32.5 27.25C32.5 27.0511 32.421 26.8603 32.2804 26.7197C32.1397 26.579 31.9489 26.5 31.75 26.5H28.25ZM12.004 18.75C12.004 17.7554 12.3991 16.8016 13.1024 16.0983C13.8056 15.3951 14.7595 15 15.754 15H32.25C33.2446 15 34.1984 15.3951 34.9017 16.0983C35.6049 16.8016 36 17.7554 36 18.75V29.25C36 30.2446 35.6049 31.1984 34.9017 31.9017C34.1984 32.6049 33.2446 33 32.25 33H15.755C14.7605 33 13.8066 32.6049 13.1034 31.9017C12.4001 31.1984 12.005 30.2446 12.005 29.25L12.004 18.75ZM15.754 16.5C15.1573 16.5 14.585 16.7371 14.163 17.159C13.7411 17.581 13.504 18.1533 13.504 18.75V19.5H34.5V18.75C34.5 18.1533 34.263 17.581 33.841 17.159C33.4191 16.7371 32.8468 16.5 32.25 16.5H15.754ZM13.504 29.25C13.504 29.8467 13.7411 30.419 14.163 30.841C14.585 31.2629 15.1573 31.5 15.754 31.5H32.25C32.8468 31.5 33.4191 31.2629 33.841 30.841C34.263 30.419 34.5 29.8467 34.5 29.25V21H13.505L13.504 29.25Z"
+            fill="#7500A7"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_839_4299"
+              x1="24"
+              y1="0"
+              x2="24"
+              y2="48"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#EDD9FF" />
+              <stop offset="1" stopColor="#C992FD" />
+            </linearGradient>
+          </defs>
+        </svg>
+      );
+    },
   };
 };

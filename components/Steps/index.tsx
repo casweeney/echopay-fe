@@ -8,14 +8,16 @@ const Steps = () => {
       icon: ECHOPAY_SVG().stepOne(),
       title: "Create Your Merchant Account",
       desc: "Set up your merchant account in less than 90 seconds. It is free!",
-      border: "",
+      border:
+        "absolute h-[2px] w-[32px] top-[146px] left-[283.66px] bg-gradient-to-r from-[#0046A74D] to-[#00BBFF4D]",
     },
     {
       number: 2,
       icon: ECHOPAY_SVG().stepTwo(),
       title: "Disburse Payouts Seamlessly",
       desc: "Send money across multiple channels with intelligent routing. Automatic failover ensures zero downtime.",
-      border: "",
+      border:
+        "absolute h-[2px] w-[32px] top-[146px] left-[283.66px] bg-gradient-to-r from-[#0046A74D] to-[#00BBFF4D]",
     },
     {
       number: 3,
@@ -26,7 +28,7 @@ const Steps = () => {
     },
   ];
   return (
-    <div className="max-w-[75rem] mx-auto pb-32 px-4 font-inter">
+    <div className="max-w-[73rem] mx-auto pb-32 px-4 font-inter">
       <div className="flex flex-col gap-4 items-center text-center mb-16">
         <h2 className="font-normal text-5xl leading-[48px] tracking-[0.35px] text-[#010721] ">
           Powering Every Payout
@@ -38,7 +40,10 @@ const Steps = () => {
 
       <div className="flex justify-center items-stretch gap-8">
         {steps.map((step) => (
-          <div className="w-[300.6px] shadow-[0px_1px_4px_0px_rgba(163,163,163,0.49)] bg-[#FFFFFD] rounded-[16px] border border-[#E0E0E0] relative px-8 py-12 flex flex-col">
+          <div
+            key={step.number}
+            className="w-[300.6px] shadow-[0px_2px_5px_0px_rgba(163,163,163,0.49)] bg-[#FFFFFD] rounded-[16px] border border-[#E0E0E0] relative px-8 py-12 flex flex-col"
+          >
             <div className="w-[48px] h-[48px] bg-gradient-to-b from-[#006BFF] to-[#001B41] rounded-[16777200px] absolute top-[-16px] left-[-16px] flex items-center justify-center font-normal text-base tracking-[-0.31px] text-white shadow-[0px_2px_7px_-1px_rgba(54,54,54,0.89)]">
               {step.number}
             </div>
@@ -49,6 +54,7 @@ const Steps = () => {
             <p className="font-normal text-base tracking-[-0.31px] text-[#6B7280] flex-1">
               {step.desc}
             </p>
+            <div className={step.border}></div>
           </div>
         ))}
       </div>

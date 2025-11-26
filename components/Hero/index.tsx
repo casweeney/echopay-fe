@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section className="relative bg-[url(/hero_img.svg)] h-[140vh] w-full bg-cover pt-28 flex items-center justify-center font-inter">
       {/* Background Pattern Overlay */}
-      <div className="max-w-[75rem] mx-auto px-4 flex flex-col gap-4 items-center">
+      <div className="max-w-[73rem] mx-auto px-4 flex flex-col gap-4 items-center">
         <div className="w-[265px] h-[56px] rounded-[32px] p-[8px] bg-gradient-to-br from-[#CDEBFF33] to-[#D3D8FF2B] border border-[#f5fbff]">
           <div className="w-[249px] h-[40px] rounded-[32px] py-[8px] px-[16px] bg-[#d2edffcc]">
             <p className="font-normal text-base tracking-[-0.31px] text-[#010721]">
