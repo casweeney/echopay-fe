@@ -20,7 +20,7 @@ const Developers = () => {
     <div className="pb-16 md:pb-32 pt-8 md:pt-20 font-inter">
       <div className="max-w-[73rem] mx-auto px-4 flex flex-col gap-2 md:gap-4 items-center text-center mb-8 md:mb-14">
         <h2 className="font-normal text-3xl md:text-4xl lg:text-5xl leading-[32px] md:leading-[40px] lg:leading-[48px] tracking-[0.35px] text-[#010721]">
-          Echopay - For Developers
+          Resolva - For Developers
         </h2>
         <p className="font-normal text-sm md:text-base lg:text-lg tracking-[-0.44px] text-[#6B7280]">
           Adaptive, fast API for your projects.

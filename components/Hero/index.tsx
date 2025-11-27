@@ -39,7 +39,7 @@ export function Hero() {
             </span>
           </h1>
           <p className="font-400 text-sm md:text-base lg:text-xl tracking-[-0.22px] md:tracking-[-0.35px] lg:tracking-[-0.45px] text-[#6B7280] max-w-[550px] mx-auto text-center">
-            Echopay helps you disburse funds, so you can send money faster,
+            Resolva Core helps you disburse funds, so you can send money faster,
             easier, and without failed transfers.
           </p>
         </div>

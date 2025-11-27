@@ -90,12 +90,12 @@ export default function LoginUI() {
   return (
     <div className="min-h-screen flex mx-auto">
       {/* Left Side - Dark Navy */}
-      <div className="hidden z-50 relative lg:flex bg-[url('/bg-4.svg')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 relative lg:flex bg-[#001936] bg-[url('/bg-4.svg')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">
             <div className="mb-[4.5rem]">
-              <img src="/logo_2.png" alt="logo" className="w-[170px]" />
+              <img src="/logo_2.svg" alt="logo" className="w-[170px]" />
             </div>
           </Link>
 
@@ -110,7 +110,7 @@ export default function LoginUI() {
 
             <div className="mb-10 rounded-2xl overflow-hidden">
               <img
-                src="/pill2.png"
+                src="/pill2.svg"
                 alt="Crystal spheres with light rays"
                 className="w-full h-auto object-cover"
               />

@@ -1,3 +1,4 @@
+import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Twitter, Linkedin, Github } from "lucide-react";
 
 const Footer = () => {
@@ -56,9 +57,7 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-8 mb-8 md:mb-12">
           {/* Logo and Social Section */}
           <div className="lg:col-span-1 col-span-2 md:col-span-1">
-            <div className="mb-3 md:mb-4">
-              <img src="/logo_2.png" alt="logo" className="w-24 md:w-[117px]" />
-            </div>
+            <div className="mb-3 md:mb-4">{ECHOPAY_SVG().resolvaTwo()}</div>
             <p className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF] mb-4 md:mb-6 line-clamp-3">
               Simplifying disbursements for modern businesses
             </p>

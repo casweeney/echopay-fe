@@ -26,7 +26,7 @@ import { fetchApiKeys } from "@/redux/features/apiKey/apiKeySlice";
 
 const CreateDisbursementUI = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { banks, bankDetails, fetchingDetails, error } = useSelector(
+  const { banks, bankDetails, fetchingDetails } = useSelector(
     (state: RootState) => state.bank
   );
   const { keys } = useSelector((state: RootState) => state.apiKey);
@@ -295,6 +295,7 @@ const CreateDisbursementUI = () => {
                         onChange={handleInputChange}
                         className="font-instrument text-[#1D1B20] border-0 px-2 pb-4 pt-2 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 text-[12px] lg:text-[15px] bg-transparent placeholder:text-[#828783] placeholder:font-instrument placeholder:text-[12px] lg:placeholder:text-[15px]"
                         min={0}
+                        step="any"
                         onKeyDown={(e) => {
                           if (e.key === "-" || e.key === "e") {
                             e.preventDefault();
@@ -491,6 +492,7 @@ const CreateDisbursementUI = () => {
                   <Button
                     type="submit"
                     disabled={
+                      (currentStep === 1 && fetchingDetails) ||
                       (currentStep === 1 && !isStepValid) ||
                       (currentStep === 1 &&
                         !isValidAccountNumber(formData.account_number)) ||
