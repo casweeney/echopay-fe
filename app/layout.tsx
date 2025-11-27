@@ -7,13 +7,6 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
   title: "Resolva - Core",
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
-    apple: "/apple-touch-icon.png",
-  },
 };
 
 const dmSans = DM_Sans({
@@ -54,6 +47,11 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${roboto.variable} ${instrumentSans.variable} ${inter.variable}`}
     >
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      </head>
       <body>
         <Providers>
           <ProtectedRoute>{children}</ProtectedRoute>
