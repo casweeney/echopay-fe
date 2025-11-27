@@ -195,7 +195,7 @@ export default function RegisterUI() {
   return (
     <div className="flex min-h-screen">
       {/* Left Side - Branding */}
-      <div className="hidden z-50 lg:w-1/2 relative lg:flex bg-[url('/bg-4.png')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 lg:w-1/2 relative lg:flex bg-[url('/bg-4.svg')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">
