@@ -206,7 +206,7 @@ export default function LoginUI() {
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading || redirecting ? (
-                <span className="h-5 w-5 animate-spin-fast-fast border-2 border-white rounded-full border-t-transparent"></span>
+                <span className="h-5 w-5 animate-spin-fast border-2 border-white rounded-full border-t-transparent"></span>
               ) : (
                 "Continue"
               )}
