@@ -89,11 +89,7 @@ const Header = () => {
         {/* Left section */}
         <div className="flex items-end gap-2 lg:gap-0">
           <Link href="/" className="lg:hidden">
-            <img
-              src="/smallLogo.svg"
-              alt="menu"
-              className="w-[22px] h-[22px]"
-            />
+            {ECHOPAY_SVG().resolvaIcon()}
           </Link>
           <div className="text-[13px] lg:text-base">Hello, {firstName}</div>
         </div>

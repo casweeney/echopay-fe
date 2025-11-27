@@ -10,7 +10,7 @@ const FAQ = () => {
   const faqs = [
     {
       id: "1",
-      question: "How fast is Echopay?",
+      question: "How fast is Resolva Core?",
       answer: (
         <>
           Arrow Dynamics is a Framer Component to build interactive animations
@@ -28,18 +28,18 @@ const FAQ = () => {
     },
     {
       id: "2",
-      question: "How fast is Echopay?",
+      question: "How fast is Resolva Core?",
       answer:
         "Lightning-fast processing with bank-grade security. Your transactions are completed in seconds.",
     },
     {
       id: "3",
-      question: "How fast is Echopay?",
+      question: "How fast is Resolva Core?",
       answer: "We process payments instantly with 99.9% uptime guarantee.",
     },
     {
       id: "4",
-      question: "How fast is Echopay?",
+      question: "How fast is Resolva Core?",
       answer: "Real-time transaction tracking with instant notifications.",
     },
   ];
@@ -51,7 +51,8 @@ const FAQ = () => {
             Frequently Asked Questions
           </h2>
           <p className="font-normal text-base md:text-lg lg:text-xl tracking-[-0.45px] bg-gradient-to-r from-[#C3CBCA] to-[#B2C1C0] bg-clip-text text-transparent">
-            Three simple steps to transform your disbursement process
+            Need more clarifications? Reach out to Cas here at
+            cas@resolvalabs.com
           </p>
         </div>
 
@@ -107,10 +108,6 @@ const FAQ = () => {
               </AccordionContent>
             </AccordionItem>
           ))}
-          <button className="flex items-center gap-2 md:gap-3 pb-4 md:pb-8 pt-4 md:pt-8 pl-4 md:pl-8 text-lg md:text-xl lg:text-2xl tracking-[-0.45px] align-middle font-normal text-white group">
-            <ArrowUpRight className="w-5 md:w-6 h-5 md:h-6 text-[#4d5164] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            <span>See More Questions</span>
-          </button>
         </Accordion>
       </div>
     </div>

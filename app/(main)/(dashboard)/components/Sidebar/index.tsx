@@ -129,7 +129,9 @@ const Sidebar = () => {
       {/* 🖥️ Desktop Sidebar */}
       <div className="w-[200px] hidden flex-col lg:flex">
         <div className="mb-6">
-          <Link href="/">{ECHOPAY_SVG().logo({ width: 120, height: 40 })}</Link>
+          <Link href="/">
+            {ECHOPAY_SVG().resolvaOne({ width: 120, height: 40 })}
+          </Link>
         </div>
 
         <div className="mb-8">
@@ -206,7 +208,9 @@ const Sidebar = () => {
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="mb-6 flex justify-between items-center">
-          <Link href="/">{ECHOPAY_SVG().logo({ width: 120, height: 40 })}</Link>
+          <Link href="/">
+            {ECHOPAY_SVG().resolvaOne({ width: 120, height: 40 })}
+          </Link>
           <button onClick={closeSidebar} className="lg:hidden">
             <X size={16} />
           </button>
