@@ -1,7 +1,7 @@
 import React from "react";
 import CustomersUI from "./CustomersUI";
 export const metadata = {
-  title: "Customers - Echopay",
+  title: "Customers - Resolva",
 };
 
 const Customers = () => {

@@ -2,7 +2,7 @@ import React from "react";
 import TransactionsUI from "./TransactionsUI";
 
 export const metadata = {
-  title: "Transactions - Echopay",
+  title: "Transactions - Resolva",
 };
 
 const Transactions = () => {

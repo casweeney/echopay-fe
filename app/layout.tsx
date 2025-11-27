@@ -6,7 +6,7 @@ import { Slide, ToastContainer } from "react-toastify";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
-  title: "Echopay",
+  title: "Resolva - Core",
 };
 
 const dmSans = DM_Sans({

@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import { Providers } from "@/app/providers";
 
 export const metadata = {
-  title: "Verify Business - Echopay",
+  title: "Verify Business - Resolva",
 };
 
 export default function DashboardLayout({

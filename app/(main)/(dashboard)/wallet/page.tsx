@@ -2,7 +2,7 @@ import React from "react";
 import WalletUI from "./WalletUI";
 
 export const metadata = {
-  title: "Wallet - Echopay",
+  title: "Wallet - Resolva",
 };
 
 const Wallet = () => {

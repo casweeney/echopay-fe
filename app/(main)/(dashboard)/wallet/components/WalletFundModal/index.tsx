@@ -87,10 +87,10 @@ export function WalletFundModal({
         <p className="text-base tracking-[0.5px] font-normal text-[#404040]">
           Note: For larger transfers, make multiple payments or send an email to{" "}
           <a
-            href="mailto:info@echopay.com"
+            href="mailto:info@resolva.finance"
             className="text-[#0046A7] hover:underline"
           >
-            info@echopay.com
+            info@resolva.finance
           </a>
         </p>
       </div>

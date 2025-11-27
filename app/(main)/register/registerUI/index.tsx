@@ -206,10 +206,10 @@ export default function RegisterUI() {
           <div className="flex-1 flex flex-col justify-center">
             {currentStep === 1 && (
               <>
-                <h1 className="text-[43px] font-normal leading-[100%] tracking-[0%] mb-3 font-londrina">
+                <h1 className="text-[24px] font-light leading-[100%] tracking-[0%] mb-3 font-londrina">
                   Fast & Secure
                 </h1>
-                <p className="text-[1.2rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
+                <p className="text-[1rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
                   Fast, secure, and reliable.
                 </p>
               </>
@@ -217,10 +217,10 @@ export default function RegisterUI() {
 
             {currentStep === 2 && (
               <>
-                <h1 className="text-[43px] font-normal leading-[100%] tracking-[0%] mb-3 font-londrina">
+                <h1 className="text-[24px] font-light leading-[100%] tracking-[0%] mb-3 font-londrina">
                   For Small Businesses
                 </h1>
-                <p className="text-[1.2rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
+                <p className="text-[1rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
                   No CAC? No problem.
                 </p>
               </>
@@ -230,10 +230,10 @@ export default function RegisterUI() {
           <div className="flex-1 flex flex-col justify-center">
             {currentStep === 3 && (
               <>
-                <h1 className="text-[43px] font-normal leading-[100%] tracking-[0%] mb-3 font-londrina">
+                <h1 className="text-[24px] font-light leading-[100%] tracking-[0%] mb-3 font-londrina">
                   Fast & Secure
                 </h1>
-                <p className="text-[1.2rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
+                <p className="text-[1rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
                   Fast, secure, and reliable.
                 </p>
               </>
@@ -241,17 +241,16 @@ export default function RegisterUI() {
 
             {currentStep === 4 && (
               <>
-                <h1 className="text-[43px] font-normal leading-[100%] tracking-[0%] mb-3 font-londrina">
+                <h1 className="text-[24px] font-light leading-[100%] tracking-[0%] mb-3 font-londrina">
                   For Small Businesses
                 </h1>
-                <p className="text-[1.2rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
+                <p className="text-[1rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
                   No CAC? No problem.
                 </p>
               </>
             )}
 
-            {/* Hero Image */}
-            <div className="mb-10 rounded-2xl overflow-hidden">
+            {/* <div className="mb-10 rounded-2xl overflow-hidden">
               {currentStep === 1 && (
                 <img
                   src="/pill2.svg"
@@ -280,7 +279,7 @@ export default function RegisterUI() {
                   className="w-full h-auto object-cover"
                 />
               )}
-            </div>
+            </div> */}
 
             {/* Feature Cards */}
             <div className="space-y-6">
@@ -317,7 +316,7 @@ export default function RegisterUI() {
           {/* Mobile Logo - Only visible on small screens */}
           <Link href="/home">
             <div className="lg:hidden mb-[5rem] flex justify-center">
-              <img src="/logo.svg" alt="logo" className="w-[120px]" />
+              {ECHOPAY_SVG().resolvaOne()}
             </div>
           </Link>
           {/* Progress Steps */}
@@ -355,7 +354,7 @@ export default function RegisterUI() {
 
           {/* Form Header */}
           <div className="mb-8">
-            <h2 className="text-[28px] md:text-[34px] lg:text-[34px] font-medium text-[#010721] mb-2 font-roboto">
+            <h2 className="text-[22px] md:text-[28px] lg:text-[28px] font-medium text-[#010721] mb-2 font-roboto">
               Create Your Account
             </h2>
             <p className="text-[#010721] text-[14px] font-instrument font-normal">

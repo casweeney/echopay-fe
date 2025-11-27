@@ -2,7 +2,7 @@ import React from "react";
 import AnalyticsUI from "./AnalyticsUI";
 
 export const metadata = {
-  title: "Analytics - Echopay",
+  title: "Analytics - Resolva",
 };
 
 const Analytics = () => {

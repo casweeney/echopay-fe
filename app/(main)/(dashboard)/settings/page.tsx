@@ -2,7 +2,7 @@ import React from "react";
 import SettingsUI from "./SettingsUI";
 
 export const metadata = {
-  title: "Settings - Echopay",
+  title: "Settings - Resolva",
 };
 
 const Settings = () => {
