@@ -200,7 +200,7 @@ export default function RegisterUI() {
           {/* Logo */}
           <Link href="/home">
             <div className="mb-[4.5rem]">
-              <img src="/logo_2.png" alt="logo" className="w-[170px]" />
+              <img src="/logo_2.svg" alt="logo" className="w-[170px]" />
             </div>
           </Link>
 
@@ -256,28 +256,28 @@ export default function RegisterUI() {
             <div className="mb-10 rounded-2xl overflow-hidden">
               {currentStep === 1 && (
                 <img
-                  src="/pill2.png"
+                  src="/pill2.svg"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
                 />
               )}
               {currentStep === 2 && (
                 <img
-                  src="/pill3.png"
+                  src="/pill3.svg"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
                 />
               )}
               {currentStep === 3 && (
                 <img
-                  src="/pill2.png"
+                  src="/pill2.svg"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
                 />
               )}
               {currentStep === 4 && (
                 <img
-                  src="/pill3.png"
+                  src="/pill3.svg"
                   alt="Crystal spheres with light rays"
                   className="w-full h-auto object-cover"
                 />

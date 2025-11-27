@@ -41,10 +41,10 @@ const EchopayWay = () => {
     <div className="max-w-[73rem] mx-auto pb-16 md:pb-32 pt-8 md:pt-20 px-4 font-inter">
       <div className="flex flex-col gap-2 md:gap-4 items-center text-center mb-8 md:mb-14">
         <h2 className="font-normal text-3xl md:text-4xl lg:text-5xl leading-[32px] md:leading-[40px] lg:leading-[48px] tracking-[0.35px] text-[#010721]">
-          The Echopay Way
+          The Resolva Way
         </h2>
         <p className="font-normal text-sm md:text-base lg:text-lg tracking-[-0.44px] text-[#6B7280]">
-          Three simple steps to transform your disbursement process
+          Easy, fast and reliable
         </p>
       </div>
 
@@ -52,7 +52,7 @@ const EchopayWay = () => {
         {ways.map((way, index) => (
           <div
             key={index}
-            className={`${way.span} shadow-[0px_2px_5px_0px_rgba(163,163,163,0.49)] bg-[#FFFFFD] border border-[#E0E0E0] rounded-[16px] pl-8 py-10 flex gap-4`}
+            className={`${way.span} h-[246px] shadow-[0px_2px_5px_0px_rgba(163,163,163,0.49)] bg-[#FFFFFD] border border-[#E0E0E0] rounded-[16px] pl-8 py-10 flex gap-4`}
           >
             <div className="self-center">
               <div className="mb-4 lg:mb-6">{way.icon}</div>

@@ -5,6 +5,7 @@ import { ArrowRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { TABS } from "@/constants";
+import { ECHOPAY_SVG } from "@/assets/svgs";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,13 +37,7 @@ export function Navbar() {
             href="/"
             className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0"
           >
-            <Image
-              src="/logo.svg"
-              width={20}
-              height={20}
-              alt="logo"
-              className="w-28 h-28"
-            />
+            {ECHOPAY_SVG().resolvaOne()}
           </Link>
 
           {/* Desktop Navigation */}
