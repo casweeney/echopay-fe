@@ -25,7 +25,9 @@ export function Navbar() {
 
   return (
     <nav
-      className={`w-full h-[96px] md:h-[96px] sm:h-20 fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-inter bg-[#FFFDFA80] backdrop-blur-sm`}
+      className={`w-full h-[96px] md:h-[96px] sm:h-20 ${
+        isScrolled ? "fixed" : "relative"
+      } top-0 left-0 right-0 z-50 transition-all duration-300 font-inter bg-[#FFFDFA80] backdrop-blur-sm`}
     >
       <div className="max-w-[79rem] mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex items-center justify-between h-full">

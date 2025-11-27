@@ -1,10 +1,27 @@
+"use client";
+
 import { ArrowRight, FileText } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
+import { useEffect, useState } from "react";
 
 export function Hero() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
-    <section className="relative bg-[url(/hero_img.svg)] min-h-[105vh] md:h-[100vh] w-full bg-cover pt-28 flex items-center justify-center font-inter px-4">
+    <section
+      className={`relative bg-[url(/hero_img.svg)] w-full bg-cover ${
+        isScrolled ? "pt-36" : "pt-20"
+      } pb-20 flex items-center justify-center font-inter px-4`}
+    >
       {/* Background Pattern Overlay */}
       <div className="max-w-[73rem] mx-auto flex flex-col gap-4 items-center">
         <div className="w-[265px] h-[56px] rounded-[32px] p-[8px] bg-gradient-to-br from-[#CDEBFF33] to-[#D3D8FF2B] border border-[#f5fbff]">
