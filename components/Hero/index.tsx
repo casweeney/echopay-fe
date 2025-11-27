@@ -20,7 +20,7 @@ export function Hero() {
     <section
       className={`relative bg-[url(/hero_img.svg)] w-full bg-cover ${
         isScrolled ? "pt-36" : "pt-20"
-      } pb-20 flex items-center justify-center font-inter px-4`}
+      } pb-36 flex items-center justify-center font-inter px-4`}
     >
       {/* Background Pattern Overlay */}
       <div className="max-w-[73rem] mx-auto flex flex-col gap-4 items-center">
