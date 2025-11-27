@@ -5,6 +5,7 @@ import React, { useEffect, useRef } from "react";
 import Steps from "@/components/Steps";
 import EchopayWay from "@/components/EchopayWay";
 import Developers from "@/components/ForDevelopers";
+import FAQ from "@/components/FAQ";
 
 const HomeUI = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -29,7 +30,7 @@ const HomeUI = () => {
       <EchopayWay />
       <Developers />
       <CTA />
-      {/* <FeaturesSection /> */}
+      <FAQ />
     </div>
   );
 };

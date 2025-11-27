@@ -35,7 +35,7 @@ const Developers = () => {
               <div className="w-[173px] h-[52px] p-[8px] bg-gradient-to-r from-[#CDEBFF33] to-[#D3D8FF2B] rounded-[32px] border-[0.5px] border-x-0 border-[#cae1ff]">
                 <div className="w-[157px] h-[36px] py-[8px] px-[16px] bg-[#D2EDFF33] rounded-[32px] border-[0.5px] border-x-0 border-[#cae1ff]">
                   <p className="font-normal text-sm tracking-[-0.15px] text-[#FFFFFF] flex items-center justify-center gap-2">
-                    <div>{ECHOPAY_SVG().tag()}</div>
+                    {ECHOPAY_SVG().tag()}
                     Developer-First
                   </p>
                 </div>
@@ -80,11 +80,7 @@ const Developers = () => {
             </div>
             <div className="w-full">
               <div className="rounded-[16px]">
-                <img
-                  src="/devImg.png"
-                  className="w-[463.5px]"
-                  alt=""
-                />
+                <img src="/devImg.png" className="w-[463.5px]" alt="" />
               </div>
             </div>
           </div>
