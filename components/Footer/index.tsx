@@ -1,106 +1,136 @@
-import Link from "next/link";
-import Image from "next/image";
+import React from "react";
+import { Twitter, Linkedin, Github } from "lucide-react";
 
 const Footer = () => {
+  const footerSections = [
+    {
+      title: "Product",
+      links: [
+        { label: "Get Started", href: "#" },
+        { label: "Features", href: "#" },
+        { label: "Pricing", href: "#" },
+        { label: "Integrations", href: "#" },
+      ],
+    },
+    {
+      title: "Developers",
+      links: [
+        { label: "API Documentation", href: "#" },
+        { label: "SDKs", href: "#" },
+        { label: "Webhooks", href: "#" },
+        { label: "Status", href: "#" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { label: "About Us", href: "#" },
+        { label: "Blog", href: "#" },
+        { label: "Careers", href: "#" },
+        { label: "Contact", href: "#" },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { label: "Privacy Policy", href: "#" },
+        { label: "Terms of Service", href: "#" },
+        { label: "Cookie Policy", href: "#" },
+        { label: "Compliance", href: "#" },
+      ],
+    },
+    {
+      title: "Support",
+      links: [
+        { label: "Help Center", href: "#" },
+        { label: "Community", href: "#" },
+        { label: "Contact Support", href: "#" },
+        { label: "System Status", href: "#" },
+      ],
+    },
+  ];
+
   return (
-    <footer className="bg-[#0F1217] py-[20px] sm:py-[30px] lg:py-[40px]">
-      <div className="max-w-[85rem] mx-auto px-[20px] sm:px-[35px]">
-        {/* Top Section */}
-        <div className="flex flex-col lg:flex-row justify-between gap-10">
-          <div className="flex flex-col gap-[16px] lg:gap-[24px] w-full lg:w-auto">
-            <div className="font-minecraft font-[500] text-[28px] sm:text-[40px] lg:text-[45px] leading-[90%] text-[#575B61]">
-              GET STARTED
+    <footer className="bg-[#010721] text-gray-400 py-16 px-6 font-inter border-t-2 border-black">
+      <div className="max-w-7xl mx-auto">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-12">
+          {/* Logo and Social Section */}
+          <div className="lg:col-span-1">
+            <div className="mb-4">
+              <img src="/logo_2.png" alt="logo" className="w-[117px]" />
             </div>
-            <div className="flex items-center gap-[20px] sm:gap-[32px] flex-wrap">
-              <Link href="/">
-                <Image
-                  src="/x.svg"
-                  alt="logo"
-                  className="w-[30px] h-[30px]"
-                  width={20}
-                  height={20}
-                />
-              </Link>
-              <Link href="/">
-                <Image
-                  src="/github.svg"
-                  alt="logo"
-                  className="w-[30px] h-[30px]"
-                  width={20}
-                  height={20}
-                />
-              </Link>
-              <Link href="/">
-                <Image
-                  src="/linkedin.svg"
-                  alt="logo"
-                  className="w-[30px] h-[30px]"
-                  width={20}
-                  height={20}
-                />
-              </Link>
+            <p className="text-sm tracking-[-0.15px] font-normal text-[#99A1AF] mb-6">
+              Simplifying disbursements for modern businesses
+            </p>
+            <div className="flex gap-3">
+              <a
+                href="#"
+                className="w-[36px] h-[36px] bg-[#FFFFFF1A] rounded-[12px] flex items-center justify-center hover:bg-[#252A3A] transition-colors"
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="w-[36px] h-[36px] bg-[#FFFFFF1A] rounded-[12px] flex items-center justify-center hover:bg-[#252A3A] transition-colors"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="w-[36px] h-[36px] bg-[#FFFFFF1A] rounded-[12px] flex items-center justify-center hover:bg-[#252A3A] transition-colors"
+              >
+                <Github className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
-          {/* Links Section */}
-          <div className="flex flex-col sm:flex-row gap-[40px] sm:gap-[60px] lg:gap-[100px] w-full lg:w-[45%] pt-[1rem]">
-            <div className="flex flex-col gap-[20px]">
-              <p className="font-[600] text-[16px] text-[#FBFCFE]">Company</p>
-              <div className="flex flex-col gap-[12px]">
-                <Link
-                  className="font-[500] text-[15px] text-[#575B61]"
-                  href="#">
-                  How it works
-                </Link>
-                <Link
-                  className="font-[500] text-[15px] text-[#575B61]"
-                  href="#">
-                  About us
-                </Link>
-              </div>
+          {/* Footer Links Sections */}
+          {footerSections.map((section) => (
+            <div key={section.title}>
+              <h3 className="text-white font-normal text-base tracking-[-0.31px] mb-4">
+                {section.title}
+              </h3>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="tracking-[-0.15px] font-normal text-[#99A1AF] text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="flex flex-col gap-[20px]">
-              <p className="font-[600] text-[16px] text-[#FBFCFE]">Misc</p>
-              <div className="flex flex-col gap-[12px]">
-                <Link
-                  className="font-[500] text-[15px] text-[#575B61]"
-                  href="#">
-                  Send us a mail
-                </Link>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Bottom Section */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-10 mt-[40px] lg:mt-[80px]">
-          <div className="flex flex-col gap-[16px] w-full lg:w-auto">
-            <p className="font-[600] text-[16px] text-[#FBFCFE]">
-              Subscribe to our Newsletter
-            </p>
-            <form className="flex flex-col sm:flex-row items-stretch sm:items-center bg-white rounded-[8px] w-full sm:w-[400px] p-[6px] gap-3 sm:gap-0">
-              <input
-                type="email"
-                placeholder="Yourmail@mail.com"
-                className="w-full px-3 py-2 text-sm text-gray-600 placeholder-[#9CA7BD] placeholder:text-[14px] placeholder:font-grotesk placeholder:font-[500] focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="bg-[#002EE9] w-full sm:w-[120px] text-white px-[14px] py-[10px] text-[14px] font-[500] rounded-[8px]">
-                Submit
-              </button>
-            </form>
-          </div>
-          <div className="flex flex-col items-start lg:items-end gap-[5px]">
-            <p className="font-[500] text-[14px] text-[#575B61] font-display">
-              <Image
-                src="/footer-logo.svg"
-                alt="logo"
-                className="w-full h-full"
-                width={20}
-                height={20}
-              />
-            </p>
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-[#FFFFFF1A] flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm tracking-[-0.15px] font-normal text-[#99A1AF]">
+            © {new Date().getFullYear()} Echopay. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <a
+              href="#"
+              className="text-sm tracking-[-0.15px] font-normal text-[#99A1AF]"
+            >
+              Privacy
+            </a>
+            <a
+              href="#"
+              className="text-sm tracking-[-0.15px] font-normal text-[#99A1AF]"
+            >
+              Terms
+            </a>
+            <a
+              href="#"
+              className="text-sm tracking-[-0.15px] font-normal text-[#99A1AF]"
+            >
+              Cookies
+            </a>
           </div>
         </div>
       </div>

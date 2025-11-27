@@ -6,6 +6,7 @@ import Steps from "@/components/Steps";
 import EchopayWay from "@/components/EchopayWay";
 import Developers from "@/components/ForDevelopers";
 import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
 
 const HomeUI = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -31,6 +32,7 @@ const HomeUI = () => {
       <Developers />
       <CTA />
       <FAQ />
+      <Footer />
     </div>
   );
 };
