@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 const CTA = () => {
   return (
-    <div className="max-w-[73rem] mx-auto pb-16 md:pb-32 pt-8 md:pt-16 px-4 font-inter">
+    <div className="max-w-[73rem] mx-auto pb-16 md:pb-32 px-4 font-inter">
       <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0">
         <div className="w-full flex flex-col gap-6">
           <div className="w-[265px] h-[56px] rounded-[32px] p-[8px] bg-gradient-to-br from-[#CDEBFF33] to-[#D3D8FF2B] border border-[#f5fbff]">
