@@ -88,9 +88,9 @@ export default function LoginUI() {
   );
 
   return (
-    <div className="h-full flex mx-auto">
+    <div className="h-screen flex mx-auto">
       {/* Left Side - Dark Navy */}
-      <div className="hidden z-50 relative lg:flex bg-[#001936] bg-[url('/bg-4.svg')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 relative lg:flex bg-[#001936] bg-[url('/bg-4.svg')] w-full min-h-screen bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">
@@ -205,7 +205,11 @@ export default function LoginUI() {
               disabled={isButtonDisabled || loading || redirecting}
               className="w-full bg-[#0046A7] hover:bg-[#003d8f] text-white h-12 text-base rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading || redirecting ? "Continue..." : "Continue"}
+              {loading || redirecting ? (
+                <span className="h-5 w-5 animate-spin-fast-fast border-2 border-white rounded-full border-t-transparent"></span>
+              ) : (
+                "Continue"
+              )}
             </Button>
 
             <p className="text-center text-[#828783] text-[16px] font-instrument">

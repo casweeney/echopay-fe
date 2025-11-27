@@ -410,7 +410,7 @@ const CreateDisbursementUI = () => {
                         <div className="mt-2 px-3 py-2.5 rounded-lg border bg-gradient-to-r from-[#E9F6FF] to-[#F0F9FF] border-[#CDDBEF] flex items-center justify-between animate-in fade-in duration-300">
                           {fetchingDetails ? (
                             <div className="flex items-center gap-2.5">
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#0046A7] border-t-transparent"></div>
+                              <div className="h-4 w-4 animate-spin-fast rounded-full border-2 border-[#0046A7] border-t-transparent"></div>
                               <span className="text-[13px] text-[#404040] font-instrument font-medium">
                                 Verifying account...
                               </span>
@@ -590,7 +590,7 @@ const CreateDisbursementUI = () => {
                     className="w-1/2 h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-[12px] lg:text-base font-medium font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
-                      <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+                      <span className="h-5 w-5 animate-spin-fast border-2 border-white rounded-full border-t-transparent"></span>
                     ) : (
                       "Confirm & Send"
                     )}

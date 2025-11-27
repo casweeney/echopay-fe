@@ -195,7 +195,7 @@ export default function RegisterUI() {
   return (
     <div className="flex min-h-screen">
       {/* Left Side - Branding */}
-      <div className="hidden z-50 lg:w-1/2 relative lg:flex bg-[url('/bg-4.svg')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 lg:w-1/2 relative lg:flex bg-[url('/bg-4.svg')] w-full min-h-screen bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">
@@ -612,7 +612,7 @@ export default function RegisterUI() {
               className="w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
-                <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+                <span className="h-5 w-5 animate-spin-fast-fast border-2 border-white rounded-full border-t-transparent"></span>
               ) : (
                 "Continue"
               )}
