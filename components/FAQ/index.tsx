@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -45,13 +44,13 @@ const FAQ = () => {
     },
   ];
   return (
-    <div className="w-full bg-[url(/faqBg.png)] bg-cover bg-no-repeat bg-center py-[67px] font-inter">
+    <div className="w-full bg-[url(/faqBg.png)] bg-cover bg-no-repeat bg-center py-8 md:py-[67px] font-inter">
       <div className="max-w-[73rem] mx-auto px-4">
-        <div className="flex flex-col gap-4 items-center text-center mb-24">
-          <h2 className="font-medium text-4xl tracking-[0.35px] text-white">
+        <div className="flex flex-col gap-2 md:gap-4 items-center text-center mb-12 md:mb-24">
+          <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl tracking-[0.35px] text-white">
             Frequently Asked Questions
           </h2>
-          <p className="font-normal text-xl tracking-[-0.45px] bg-gradient-to-r from-[#C3CBCA] to-[#B2C1C0] bg-clip-text text-transparent">
+          <p className="font-normal text-base md:text-lg lg:text-xl tracking-[-0.45px] bg-gradient-to-r from-[#C3CBCA] to-[#B2C1C0] bg-clip-text text-transparent">
             Three simple steps to transform your disbursement process
           </p>
         </div>
@@ -68,13 +67,13 @@ const FAQ = () => {
               value={faq.id}
               className="border-b border-[#0E173B] last:border-b-0"
             >
-              <AccordionTrigger className="group py-8 hover:no-underline">
-                <div className="flex items-center gap-3 w-full pl-8">
+              <AccordionTrigger className="group py-4 md:py-8 hover:no-underline">
+                <div className="flex items-center gap-2 md:gap-3 w-full pl-4 md:pl-8">
                   {/* Icons with smooth transition */}
-                  <div className="flex-shrink-0 relative w-7 h-7">
+                  <div className="flex-shrink-0 relative w-6 md:w-7 h-6 md:h-7">
                     <Plus
                       className="
-            absolute inset-0 w-7 h-7 text-[#4d5164] 
+            absolute inset-0 w-6 md:w-7 h-6 md:h-7 text-[#4d5164] 
             transition-transform duration-300 
             group-data-[state=open]:opacity-0
             group-data-[state=open]:scale-75
@@ -82,7 +81,7 @@ const FAQ = () => {
                     />
                     <X
                       className="
-            absolute inset-0 w-7 h-7 text-[#4d5164] 
+            absolute inset-0 w-6 md:w-7 h-6 md:h-7 text-[#4d5164] 
             transition-transform duration-300 opacity-0 scale-75
             group-data-[state=open]:opacity-100
             group-data-[state=open]:scale-100
@@ -90,7 +89,7 @@ const FAQ = () => {
                     />
                   </div>
 
-                  <h3 className="text-2xl tracking-[-0.45px] font-normal text-white">
+                  <h3 className="text-lg md:text-xl lg:text-2xl tracking-[-0.45px] font-normal text-white">
                     {faq.question}
                   </h3>
                 </div>
@@ -99,7 +98,7 @@ const FAQ = () => {
               {/* Smooth accordion open/close animation */}
               <AccordionContent
                 className="
-      pb-8 pt-0 pl-8 text-[#CAD5E2] max-w-3xl text-base
+      pb-4 md:pb-8 pt-0 pl-4 md:pl-8 text-[#CAD5E2] max-w-3xl text-sm md:text-base
       data-[state=open]:animate-accordion-down
       data-[state=closed]:animate-accordion-up
     "
@@ -108,8 +107,8 @@ const FAQ = () => {
               </AccordionContent>
             </AccordionItem>
           ))}
-          <button className="flex items-center gap-3 pb-8 pt-8 pl-8 text-2xl tracking-[-0.45px] align-middle font-normal text-white group">
-            <ArrowUpRight className="w-6 h-6 text-[#4d5164] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <button className="flex items-center gap-2 md:gap-3 pb-4 md:pb-8 pt-4 md:pt-8 pl-4 md:pl-8 text-lg md:text-xl lg:text-2xl tracking-[-0.45px] align-middle font-normal text-white group">
+            <ArrowUpRight className="w-5 md:w-6 h-5 md:h-6 text-[#4d5164] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             <span>See More Questions</span>
           </button>
         </Accordion>
