@@ -19,7 +19,7 @@ const CTA = () => {
             </p>
             <p className="font-normal text-sm md:text-base lg:text-xl tracking-[-0.22px] md:tracking-[-0.35px] lg:tracking-[-0.45px] text-[#010721] max-w-[22rem]">
               Join forward-thinking companies that are transforming their payout
-              processes with Echopay
+              processes with Resolva Core
             </p>
           </div>
 

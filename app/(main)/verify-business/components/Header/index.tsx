@@ -97,7 +97,9 @@ const Header = () => {
       <div className="border-b border-[#E0E0E0] px-4 lg:px-[24px] py-3 lg:py-[16px] flex justify-between items-center gap-2 lg:gap-0">
         {/* Left section */}
         <div className="flex items-center gap-2">
-          <Link href="/">{ECHOPAY_SVG().logo({ width: 120, height: 40 })}</Link>
+          <Link href="/">
+            {ECHOPAY_SVG().resolvaOne({ width: 120, height: 40 })}
+          </Link>
         </div>
 
         {/* Right section */}

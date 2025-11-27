@@ -2,6 +2,77 @@ import { SvgProps } from "@/lib/types";
 
 export const ECHOPAY_SVG = () => {
   return {
+    resolvaIcon: (props?: SvgProps) => {
+      return (
+        <svg
+          width="37"
+          height="24"
+          viewBox="0 0 37 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            opacity="0.8"
+            x="25.6774"
+            y="12.0308"
+            width="8.43939"
+            height="12.0306"
+            rx="0.998458"
+            transform="rotate(-180 25.6774 12.0308)"
+            fill="#5A94E5"
+          />
+          <rect
+            opacity="0.8"
+            x="17.2379"
+            y="17.7764"
+            width="7.54158"
+            height="10.5941"
+            rx="0.998458"
+            transform="rotate(-90 17.2379 17.7764)"
+            fill="#5A94E5"
+          />
+          <path
+            d="M-9.58039e-06 0.998458C-9.55628e-06 0.447025 0.447016 0 0.998449 0L8.25981 0L18.9328 0C19.4843 0 19.9313 0.447025 19.9313 0.998458L19.9313 6.54312C19.9313 7.09456 19.4843 7.54158 18.9328 7.54158L9.25827 7.54158C8.70684 7.54158 8.25981 7.98861 8.25981 8.54004L8.25982 22.7037C8.25982 23.2551 7.81279 23.7021 7.26136 23.7021L0.998448 23.7021C0.447015 23.7021 -8.64591e-06 23.2551 -8.6218e-06 22.7037L-9.8664e-06 7.54158L-9.58039e-06 0.998458Z"
+            fill="#0046A7"
+          />
+          <rect
+            x="11.8511"
+            y="14.7241"
+            width="8.97807"
+            height="8.97807"
+            rx="0.998458"
+            fill="#0046A7"
+          />
+          <line
+            x1="31.4514"
+            y1="4.92978"
+            x2="36.631"
+            y2="4.92978"
+            stroke="#5A94E5"
+            strokeWidth="0.748843"
+            strokeLinecap="round"
+          />
+          <line
+            x1="31.4515"
+            y1="11.17"
+            x2="36.631"
+            y2="11.17"
+            stroke="#5A94E5"
+            strokeWidth="0.748843"
+            strokeLinecap="round"
+          />
+          <line
+            x1="31.4515"
+            y1="17.4107"
+            x2="36.631"
+            y2="17.4107"
+            stroke="#5A94E5"
+            strokeWidth="0.748843"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    },
     resolvaOne: (props?: SvgProps) => {
       return (
         <svg

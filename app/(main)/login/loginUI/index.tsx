@@ -88,15 +88,13 @@ export default function LoginUI() {
   );
 
   return (
-    <div className="min-h-screen flex mx-auto">
+    <div className="h-full flex mx-auto">
       {/* Left Side - Dark Navy */}
       <div className="hidden z-50 relative lg:flex bg-[#001936] bg-[url('/bg-4.svg')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">
-            <div className="mb-[4.5rem]">
-              <img src="/logo_2.svg" alt="logo" className="w-[170px]" />
-            </div>
+            <div className="mb-[4.5rem]">{ECHOPAY_SVG().resolvaTwo()}</div>
           </Link>
 
           {/* Main Content */}
@@ -122,7 +120,7 @@ export default function LoginUI() {
                   {ECHOPAY_SVG().icon1()}
                 </div>
                 <p className="text-[15px] leading-relaxed font-roboto">
-                  Echopay uses top-tier security across every disbursement
+                  Resolva Core uses top-tier security across every disbursement
                   route.
                 </p>
               </div>

@@ -199,9 +199,7 @@ export default function RegisterUI() {
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">
-            <div className="mb-[4.5rem]">
-              <img src="/logo_2.svg" alt="logo" className="w-[170px]" />
-            </div>
+            <div className="mb-[4.5rem]">{ECHOPAY_SVG().resolvaTwo()}</div>
           </Link>
 
           {/* Main Content */}
@@ -292,7 +290,7 @@ export default function RegisterUI() {
                 </div>
                 <p className="text-[15px] leading-relaxed font-roboto">
                   {currentStep === 1 || currentStep === 3
-                    ? "Echopay uses top-tier security across every disbursement route."
+                    ? "Resolva Core uses top-tier security across every disbursement route."
                     : "With just basic KYC, you can start sending payouts instantly."}
                 </p>
               </div>
