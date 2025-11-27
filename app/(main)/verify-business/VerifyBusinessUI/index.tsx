@@ -141,7 +141,7 @@ const VerifyBusinessUI = () => {
             }
           } catch (err: unknown) {
             // console.error("Business Error:", err);
-            
+
             if (typeof err === "object" && err !== null && "message" in err) {
               const message = String((err as { message: string }).message);
 
@@ -418,7 +418,7 @@ const VerifyBusinessUI = () => {
             className="w-full h-14 bg-[#0046A7] text-[#FFFEF8] rounded-lg text-[12px] lg:text-base font-medium mt-8 font-instrument hover:bg-[#0046A7] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
-              <span className="h-5 w-5 animate-spin border-2 border-white rounded-full border-t-transparent"></span>
+              <span className="h-5 w-5 animate-spin-fast border-2 border-white rounded-full border-t-transparent"></span>
             ) : (
               "Continue"
             )}
