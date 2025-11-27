@@ -7,7 +7,7 @@ export const TABS: TabsProps[] = [
     link: "#",
   },
   {
-    name: "About Us",
+    name: "About us",
     link: "#",
   },
   {

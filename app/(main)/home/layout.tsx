@@ -7,7 +7,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
     <>
       <Navbar />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
