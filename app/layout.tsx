@@ -6,7 +6,35 @@ import { Slide, ToastContainer } from "react-toastify";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
-  title: "Resolva - Core",
+  title: "Resolva — Core",
+  description:
+    "Automate and streamline payouts with Resolva. Send money faster, easier, and with fewer failed transfers.",
+  metadataBase: new URL("https://www.resolva.finance"),
+
+  openGraph: {
+    title: "Resolva — Simplify Disbursements & Power Your Payouts",
+    description:
+      "Resolva helps businesses disburse funds faster, easier, and without failed transfers.",
+    url: "https://www.resolva.finance",
+    siteName: "Resolva",
+    type: "website",
+    images: [
+      {
+        url: "https://www.resolva.finance/og-resolva.png",
+        width: 1200,
+        height: 630,
+        alt: "Resolva — Simplify Disbursements & Power Your Payouts",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Resolva — Simplify Disbursements & Power Your Payouts",
+    description:
+      "Automate and streamline payouts with Resolva. Send money faster, easier, and with fewer failed transfers.",
+    images: ["https://www.resolva.finance/og-resolva.png"],
+  },
 };
 
 const dmSans = DM_Sans({
