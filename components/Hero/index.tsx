@@ -28,7 +28,7 @@ export function Hero() {
         </div>
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-center mb-6 md:mb-7 w-full md:w-auto">
           <Link
-            href="#"
+            href="/register"
             className="rounded-[12px] py-[10px] px-[24px] w-[249px] h-[56px] flex gap-[12px] items-center justify-center font-medium text-xs md:text-sm tracking-[-0.15px] text-white bg-[#0046A7]"
           >
             Create Merchant Account
