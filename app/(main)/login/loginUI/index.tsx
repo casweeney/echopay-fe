@@ -90,7 +90,7 @@ export default function LoginUI() {
   return (
     <div className="min-h-screen flex mx-auto">
       {/* Left Side - Dark Navy */}
-      <div className="hidden z-50 relative lg:flex bg-[url('/bg-4.png')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 relative lg:flex bg-[url('/bg-4.svg')] w-full h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">

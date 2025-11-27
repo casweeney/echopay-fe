@@ -73,7 +73,7 @@ const Developers = () => {
                 ))}
               </div>
 
-              <Button className="w-full lg:w-[176px] h-[56px] rounded-[10px] bg-white font-medium text-xs md:text-sm tracking-[-0.15px] text-[#010721]">
+              <Button className="w-full lg:w-[176px] h-[56px] rounded-[10px] bg-white hover:bg-white font-medium text-xs md:text-sm tracking-[-0.15px] text-[#010721]">
                 View API Docs
               </Button>
             </div>
