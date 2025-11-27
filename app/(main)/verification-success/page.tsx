@@ -2,7 +2,7 @@ import React from "react";
 import VerificationSuccessUI from "./VerificationSuccessUI";
 
 export const metadata = {
-  title: "Verification Successful - Echopay",
+  title: "Verification Successful - Resolva",
 };
 
 const VerificationSuccess = () => {

@@ -2,7 +2,7 @@ import React from "react";
 import CreateDisbursementUI from "./CreateDisbursementUI";
 
 export const metadata = {
-  title: "Create Disbursement - Echopay",
+  title: "Create Disbursement - Resolva",
 };
 
 const CreateDisbursement = () => {
