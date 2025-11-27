@@ -4,7 +4,7 @@ import { Separator } from "../ui/separator";
 
 export function Hero() {
   return (
-    <section className="relative bg-[url(/hero_img.svg)] min-h-[105vh] md:h-[140vh] w-full bg-cover pt-28 flex items-center justify-center font-inter px-4">
+    <section className="relative bg-[url(/hero_img.svg)] min-h-[105vh] md:h-[120vh] w-full bg-cover pt-28 flex items-center justify-center font-inter px-4">
       {/* Background Pattern Overlay */}
       <div className="max-w-[73rem] mx-auto flex flex-col gap-4 items-center">
         <div className="w-[265px] h-[56px] rounded-[32px] p-[8px] bg-gradient-to-br from-[#CDEBFF33] to-[#D3D8FF2B] border border-[#f5fbff]">
@@ -42,7 +42,7 @@ export function Hero() {
             View API Docs
           </Link>
         </div>
-        <div className="flex flex-row items-center gap-6 md:gap-10">
+        <div className="flex flex-row items-center gap-6 md:gap-10 mb-4">
           <div className="text-center">
             <p className="font-normal text-lg md:text-2xl tracking-[0.07px] text-[#010721] mb-[0.5px]">
               99.9%

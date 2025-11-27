@@ -24,7 +24,7 @@ const HomeUI = () => {
         <img
           src="/iMac_mockup.svg"
           alt=""
-          className="w-full mt-0 md:mt-[-6rem] max-w-[75rem] mx-auto px-4"
+          className="w-full max-w-[75rem] mx-auto px-4"
         />
       </div>
       <Steps />

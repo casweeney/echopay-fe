@@ -58,7 +58,7 @@ export function Navbar() {
               href="/login"
               className="text-[#0046A7] font-semibold text-xs sm:text-sm lg:text-base tracking-[-0.6%] align-middle hover:opacity-80 transition-opacity"
             >
-              Sign In
+              Sign in
             </Link>
             <Link
               href="/register"
