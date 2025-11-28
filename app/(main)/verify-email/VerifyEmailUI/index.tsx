@@ -162,29 +162,27 @@ const VerifyEmailUI = () => {
   return (
     <div className="min-h-screen flex mx-auto">
       {/* Left Section */}
-      <div className="hidden z-50 w-full lg:w-1/2 relative lg:flex bg-[url('/bg-4.png')] h-full bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 w-full lg:w-1/2 relative lg:flex bg-[url('/bg-4.png')] min-h-screen bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           <Link href="/home">
-            <div className="mb-[4.5rem]">
-              <img src="/logo_2.png" alt="logo" className="w-[170px]" />
-            </div>
+            <div className="mb-[4.5rem]">{ECHOPAY_SVG().resolvaTwo()}</div>
           </Link>
 
           <div className="flex-1 flex flex-col justify-center">
-            <h1 className="text-[43px] font-normal leading-[100%] tracking-[0%] mb-3 font-londrina">
+            <h1 className="text-[24px] font-normal leading-[100%] tracking-[0%] mb-3 font-londrina">
               Fast & Secure
             </h1>
-            <p className="text-[1.2rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
+            <p className="text-[1rem] text-[#FFFEF8] mb-10 font-roboto tracking-[0.05em]">
               Fast, secure, and reliable.
             </p>
 
-            <div className="mb-10 rounded-2xl overflow-hidden">
+            {/* <div className="mb-10 rounded-2xl overflow-hidden">
               <img
                 src="/pill2.png"
                 alt="Crystal spheres with light rays"
                 className="w-full h-auto object-cover"
               />
-            </div>
+            </div> */}
 
             <div className="space-y-6">
               <div className="flex items-center gap-2 bg-[#00193633] rounded-full p-4 backdrop-blur-sm shadow border-[0.5px] border-x-0 border-slate-500">
@@ -216,12 +214,12 @@ const VerifyEmailUI = () => {
         <div className="w-full max-w-md">
           <Link href="/home">
             <div className="lg:hidden mb-[5rem] flex justify-center">
-              <img src="/logo.svg" alt="logo" className="w-[120px]" />
+              {ECHOPAY_SVG().resolvaOne()}
             </div>
           </Link>
 
           <div className="mb-8">
-            <h2 className="text-[28px] md:text-[34px] lg:text-[34px] font-medium text-[#010721] mb-2 font-roboto">
+            <h2 className="text-[22px] md:text-[28px] lg:text-[28px] font-medium text-[#010721] mb-2 font-roboto">
               Verify Your Email
             </h2>
             <p className="text-[#010721] text-[14px] font-instrument font-normal">
