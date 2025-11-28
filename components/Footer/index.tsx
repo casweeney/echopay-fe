@@ -1,5 +1,6 @@
 import { ECHOPAY_SVG } from "@/assets/svgs";
 import { Twitter, Linkedin, Github } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   const footerSections = [
@@ -57,19 +58,21 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-8 mb-8 md:mb-12">
           {/* Logo and Social Section */}
           <div className="lg:col-span-1 col-span-2 md:col-span-1">
-            <div className="mb-3 md:mb-4">{ECHOPAY_SVG().resolvaTwo()}</div>
-            <p className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF] mb-4 md:mb-6 line-clamp-3">
+            <Link href="/">{ECHOPAY_SVG().resolvaTwo()}</Link>
+            <p className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF] mt-3 md:mt-4 mb-4 md:mb-6 line-clamp-3">
               Simplifying disbursements for modern businesses
             </p>
             <div className="flex gap-2 md:gap-3">
               <a
-                href="#"
+                href="https://x.com/resolvahq?s=21"
+                target="_blank"
                 className="w-8 h-8 md:w-[36px] md:h-[36px] bg-[#FFFFFF1A] rounded-lg md:rounded-[12px] flex items-center justify-center hover:bg-[#252A3A] transition-colors flex-shrink-0"
               >
                 <Twitter className="w-3 h-3 md:w-4 md:h-4" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/resolvahq/about/?viewAsMember=true"
+                target="_blank"
                 className="w-8 h-8 md:w-[36px] md:h-[36px] bg-[#FFFFFF1A] rounded-lg md:rounded-[12px] flex items-center justify-center hover:bg-[#252A3A] transition-colors flex-shrink-0"
               >
                 <Linkedin className="w-3 h-3 md:w-4 md:h-4" />
