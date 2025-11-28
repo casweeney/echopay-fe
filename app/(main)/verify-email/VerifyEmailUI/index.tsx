@@ -34,7 +34,33 @@ const VerifyEmailUI = () => {
   }, []);
 
   const handleCodeChange = useCallback((index: number, value: string) => {
-    if (value.length > 1 || !/^\d*$/.test(value)) return;
+    // If the user pastes the full code or multiple digits
+    if (value.length > 1) {
+      const digits = value.replace(/\D/g, "").split("").slice(0, 6);
+
+      if (digits.length > 0) {
+        // Spread the pasted digits across the boxes
+        setCodes((prev) => {
+          const newCodes = [...prev];
+          for (let i = 0; i < digits.length; i++) {
+            if (index + i < 6) newCodes[index + i] = digits[i];
+          }
+          return newCodes;
+        });
+
+        // Move cursor to the last filled box
+        const lastIndex = Math.min(index + digits.length - 1, 5);
+        const nextInput = document.getElementById(`code-${lastIndex}`);
+        nextInput?.focus();
+
+        setCodeError("");
+      }
+
+      return; // stop further handling
+    }
+
+    // Normal typing (one digit)
+    if (!/^\d*$/.test(value)) return;
 
     setCodes((prevCodes) => {
       const newCodes = [...prevCodes];
@@ -58,6 +84,29 @@ const VerifyEmailUI = () => {
       }
     },
     [codes]
+  );
+
+  const handlePaste = useCallback(
+    (index: number, e: React.ClipboardEvent<HTMLInputElement>) => {
+      e.preventDefault();
+
+      const pasted = e.clipboardData.getData("text").replace(/\D/g, "");
+
+      if (!pasted) return;
+
+      setCodes((prev) => {
+        const newCodes = [...prev];
+        for (let i = 0; i < pasted.length && index + i < 6; i++) {
+          newCodes[index + i] = pasted[i];
+        }
+        return newCodes;
+      });
+
+      // move focus to last filled input
+      const last = Math.min(index + pasted.length - 1, 5);
+      document.getElementById(`code-${last}`)?.focus();
+    },
+    []
   );
 
   const handleResendCode = useCallback(async () => {
@@ -150,6 +199,7 @@ const VerifyEmailUI = () => {
         inputMode="numeric"
         maxLength={1}
         value={code}
+        onPaste={(e) => handlePaste(index, e)}
         onChange={(e) => handleCodeChange(index, e.target.value)}
         onKeyDown={(e) => handleKeyDown(index, e)}
         className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-14 lg:h-14 border border-[#8C8C8C] rounded-[8px] text-center text-base font-instrument font-normal ${
@@ -162,7 +212,7 @@ const VerifyEmailUI = () => {
   return (
     <div className="min-h-screen flex mx-auto">
       {/* Left Section */}
-      <div className="hidden z-50 w-full lg:w-1/2 relative lg:flex bg-[url('/bg-4.png')] min-h-screen bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 w-full lg:w-1/2 relative lg:flex bg-[url('/bg-4.svg')] min-h-screen bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           <Link href="/home">
             <div className="mb-[4.5rem]">{ECHOPAY_SVG().resolvaTwo()}</div>
