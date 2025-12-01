@@ -44,7 +44,7 @@ const FAQ = () => {
     },
   ];
   return (
-    <div className="w-full bg-[url(/faqBg.png)] bg-cover bg-no-repeat bg-center py-8 md:py-[67px] font-inter">
+    <div className="w-full bg-[#001936] bg-[url(/faqBg.png)] bg-cover bg-no-repeat bg-center py-8 md:py-[67px] font-inter">
       <div className="max-w-[73rem] mx-auto px-4">
         <div className="flex flex-col gap-2 md:gap-4 items-center text-center mb-12 md:mb-24">
           <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl tracking-[0.35px] text-white">

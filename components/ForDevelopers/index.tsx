@@ -27,7 +27,7 @@ const Developers = () => {
         </p>
       </div>
 
-      <div className="w-full bg-[url(/backgroundWave.svg)] py-8 md:py-[67px]">
+      <div className="w-full bg-[#001936] bg-[url(/backgroundWave.svg)] py-8 md:py-[67px]">
         <div className="max-w-[73rem] mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0">
             <div className="w-full flex flex-col gap-6">

@@ -18,7 +18,7 @@ export default function RegisterUI() {
   const dispatch = useDispatch<AppDispatch>();
   const { loading } = useSelector((state: RootState) => state.auth);
 
-  const route = useRouter();
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [formData, setFormData] = useState({
@@ -152,7 +152,7 @@ export default function RegisterUI() {
                 "verificationEmail",
                 resultAction.data.user.email
               );
-              route.push("/verify-email");
+              router.push("/verify-email");
             }
           } catch (err: unknown) {
             // console.error("Registration error:", err);
@@ -170,7 +170,7 @@ export default function RegisterUI() {
 
             if (err === "User already exists") {
               toast(err, { type: "error" });
-              return;
+              router.push('/login')
             }
           }
         }
@@ -183,7 +183,7 @@ export default function RegisterUI() {
       isStep3Valid,
       formData,
       dispatch,
-      route,
+      router,
     ]
   );
 
@@ -195,7 +195,7 @@ export default function RegisterUI() {
   return (
     <div className="flex min-h-screen">
       {/* Left Side - Branding */}
-      <div className="hidden z-50 lg:w-1/2 relative lg:flex bg-[url('/bg-4.svg')] w-full min-h-screen bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
+      <div className="hidden z-50 lg:w-1/2 relative lg:flex bg-[#001936] bg-[url('/bg-4.svg')] w-full min-h-screen bg-cover bg-no-repeat text-white px-12 py-[10rem] flex-col">
         <div className="max-w-[500px] mx-auto">
           {/* Logo */}
           <Link href="/home">
