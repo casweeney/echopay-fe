@@ -25,7 +25,7 @@ const CTA = () => {
 
           <Link
             href="/register"
-            className="bg-[#0046A7] w-[216px] h-[56px] rounded-[12px] py-[10px] px-[24px] flex gap-[12px] items-center justify-center text-white font-medium text-xs md:text-sm tracking-[-0.15px]"
+            className="bg-[#0046A7] hover:shadow-[0px_2px_7px_2px_rgba(0,84,140,0.75)] transition-all  w-[216px] h-[56px] rounded-[12px] py-[10px] px-[24px] flex gap-[12px] items-center justify-center text-white font-medium text-xs md:text-sm tracking-[-0.15px]"
           >
             Create Your Account
             <ArrowRight className="w-[16px] h-[16px]" />
