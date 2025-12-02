@@ -626,6 +626,7 @@ export default function RegisterUI() {
               variant="ghost"
               onClick={() => setCurrentStep(currentStep - 1)}
               className="w-full mt-4 text-[#010721]"
+              disabled={currentStep === 3 && loading}
             >
               Back
             </Button>
