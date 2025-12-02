@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Menu, X } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { TABS } from "@/constants";
 import { ECHOPAY_SVG } from "@/assets/svgs";
 
@@ -59,7 +58,7 @@ export function Navbar() {
             </Link>
             <Link
               href="/register"
-              className="bg-[#0046A7] h-10 md:h-14 rounded-lg md:rounded-[12px] py-2 md:py-[10px] px-4 md:px-6 lg:px-[24px] flex gap-2 md:gap-[12px] items-center text-white font-medium text-xs sm:text-sm lg:text-base tracking-[-0.15px] hover:opacity-90 transition-opacity flex-shrink-0"
+              className="bg-[#0046A7] hover:shadow-[0px_2px_7px_2px_rgba(0,84,140,0.75)] transition-all h-10 md:h-14 rounded-lg md:rounded-[12px] py-2 md:py-[10px] px-4 md:px-6 lg:px-[24px] flex gap-2 md:gap-[12px] items-center text-white font-medium text-xs sm:text-sm lg:text-base tracking-[-0.15px] flex-shrink-0"
             >
               Get Started
               <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />

@@ -46,14 +46,14 @@ export function Hero() {
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-center mb-6 md:mb-7 w-full md:w-auto">
           <Link
             href="/register"
-            className="rounded-[12px] py-[10px] px-[24px] w-[249px] h-[56px] flex gap-[12px] items-center justify-center font-medium text-xs md:text-sm tracking-[-0.15px] text-white bg-[#0046A7]"
+            className="rounded-[12px] py-[10px] px-[24px] w-[249px] h-[56px] flex gap-[12px] items-center justify-center font-medium text-xs md:text-sm tracking-[-0.15px] text-white bg-[#0046A7] hover:shadow-[0px_2px_7px_2px_rgba(0,84,140,0.75)] transition-all"
           >
             Create Merchant Account
             <ArrowRight className="w-[16px] h-[16px]" />
           </Link>
           <Link
             href="#"
-            className="rounded-[12px] border-2 border-[#E0E0E0] py-[10px] px-[24px] w-[249px] h-[56px] flex gap-[12px] items-center justify-center font-medium text-xs md:text-sm tracking-[-0.15px] text-[#010721] bg-white"
+            className="rounded-[12px] border-2 border-[#E0E0E0] py-[10px] px-[24px] w-[249px] h-[56px] flex gap-[12px] items-center justify-center font-medium text-xs md:text-sm tracking-[-0.15px] text-[#010721] bg-white hover:shadow-[0px_2px_7px_2px_rgba(174,174,174,0.75)] transition-all"
           >
             <FileText className="w-[16px] h-[16px]" />
             View API Docs

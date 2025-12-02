@@ -170,7 +170,7 @@ export default function RegisterUI() {
 
             if (err === "User already exists") {
               toast(err, { type: "error" });
-              router.push('/login')
+              router.push("/login");
             }
           }
         }
