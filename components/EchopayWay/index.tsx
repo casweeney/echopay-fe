@@ -52,7 +52,7 @@ const EchopayWay = () => {
         {ways.map((way, index) => (
           <div
             key={index}
-            className={`${way.span} h-[246px] shadow-[0px_2px_5px_0px_rgba(163,163,163,0.49)] bg-[#FFFFFD] border border-[#E0E0E0] rounded-[16px] pl-8 py-10 flex gap-4`}
+            className={`${way.span} h-[246px] shadow-[0px_2px_5px_0px_rgba(163,163,163,0.49)] bg-[#FFFFFD] border border-[#E0E0E0] rounded-[16px] pl-8 py-10 flex gap-4 justify-between`}
           >
             <div className="self-center">
               <div className="mb-4 lg:mb-6">{way.icon}</div>
