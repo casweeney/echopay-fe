@@ -93,7 +93,7 @@ export const BusinessSettings = () => {
                     Business Website
                   </label>
                   <Link
-                    href={business?.website as Url}
+                    href={(business?.website as Url) ?? "#"}
                     target="_blank"
                     className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words"
                   >
