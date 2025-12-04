@@ -1,15 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Pencil, Headphones, Mail } from "lucide-react";
+import { Pencil, Headphones, Mail, CopyCheck, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import Link from "next/link";
+import { Url } from "next/dist/shared/lib/router/router";
 
 export const BusinessSettings = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [copyBizNum, setCopyBizNum] = useState(false);
   const { business } = useSelector((state: RootState) => state.business);
+
+  const handleCopyBizNum = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopyBizNum(true);
+
+    setTimeout(() => {
+      setCopyBizNum(false);
+    }, 1500);
+  };
 
   return (
     <div className="max-w-5xl space-y-4 sm:space-y-6 px-3 sm:px-0">
@@ -30,77 +42,121 @@ export const BusinessSettings = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-x-12 sm:gap-y-8">
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Business Name
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.name}
-              </p>
+          <div className="grid grid-cols-1 gap-x-12 gap-y-6">
+            <div className="border-b border-[#E0E0E0] pb-6">
+              <div className="grid grid-cols-2 gap-4 sm:gap-x-12 sm:gap-y-8">
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Business Name
+                  </label>
+                  <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
+                    {business?.name}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Business Number
+                  </label>
+                  <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words flex items-center gap-2">
+                    {business?.biz_number}
+                    <button
+                      onClick={() =>
+                        handleCopyBizNum(business?.biz_number ?? "")
+                      }
+                      className="text-[#010721] transition-colors"
+                      aria-label="Copy account number"
+                    >
+                      {copyBizNum ? (
+                        <CopyCheck size={20} className="text-green-600" />
+                      ) : (
+                        <Copy size={20} />
+                      )}
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="border-b border-[#E0E0E0] pb-6">
+              <div className="grid grid-cols-2 gap-4 sm:gap-x-12 sm:gap-y-8">
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Business Category
+                  </label>
+                  <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
+                    {business?.business_category_name}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Business Website
+                  </label>
+                  <Link
+                    href={business?.website as Url}
+                    target="_blank"
+                    className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words"
+                  >
+                    {business?.website}
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="border-b border-[#E0E0E0] pb-6">
+              <div className="grid grid-cols-2 gap-4 sm:gap-x-12 sm:gap-y-8">
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Business Phone Number
+                  </label>
+                  <Link
+                    href={`tel:${business?.phone}`}
+                    className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words"
+                  >
+                    {business?.phone}
+                  </Link>
+                </div>
+
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Address Country
+                  </label>
+                  <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
+                    {business?.country_name}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="border-b border-[#E0E0E0] pb-6">
+              <div className="grid grid-cols-2 gap-4 sm:gap-x-12 sm:gap-y-8">
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Address City/State
+                  </label>
+                  <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
+                    {business?.city}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                    Address Street
+                  </label>
+                  <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
+                    {business?.address}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Business Category
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.business_category_name}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Business Website
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.website}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Business Phone Number
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.phone}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Address Country
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.country_name}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Address City/State
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.city}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Address Street
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.address}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
-                Address Postal Code
-              </label>
-              <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
-                {business?.postal_code}
-              </p>
+            <div className="grid grid-cols-2 gap-4 sm:gap-x-12 sm:gap-y-8">
+              <div>
+                <label className="text-xs tracking-[0.4px] align-middle text-[#605E5E] font-normal mb-1 block">
+                  Address Postal Code
+                </label>
+                <p className="text-xs sm:text-sm tracking-[0.25px] align-middle text-[#010721] font-normal break-words">
+                  {business?.postal_code}
+                </p>
+              </div>
             </div>
           </div>
         </CardContent>
