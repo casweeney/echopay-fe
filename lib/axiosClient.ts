@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuthToken } from "@/utils/token";
 
 const axiosClient = axios.create({
-  baseURL: "http://144.126.204.199:8080",
+  baseURL: "https://resolvalabs.com",
   headers: {
     "Content-Type": "application/json",
   },
