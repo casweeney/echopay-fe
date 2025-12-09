@@ -58,7 +58,14 @@ const TransactionsUI = () => {
     };
 
     handleBusinessTnx();
-  }, [business?.id]);
+  }, [
+    business?.id,
+    dispatch,
+    statusFilter,
+    typeFilter,
+    pagination.current_page,
+    businessTransactions?.pagination,
+  ]);
 
   const handlePageChange = (page: number) => {
     setPagination((prev) => ({ ...prev, current_page: page }));

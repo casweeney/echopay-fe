@@ -17,8 +17,9 @@ const VerificationSuccessUI = () => {
           href={"/login"}
           className="w-[414px] bg-[#0046A7] py-[18px] rounded-[8px] text-[#FFFEF8] text-base font-medium tracking=[0.15px] align-middle flex justify-center items-center"
           onClick={() => {
-            typeof window !== "undefined" &&
+            if (typeof window !== "undefined") {
               localStorage.removeItem("emailVerifiedRecently");
+            }
           }}
         >
           Continue to Login
