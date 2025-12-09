@@ -36,8 +36,6 @@ const CreateDisbursementUI = () => {
   const [tnxRef, setTnxRef] = useState("");
   const router = useRouter();
 
-  console.log(bankDetails);
-
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);

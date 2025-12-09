@@ -19,8 +19,8 @@ import {
   fetchBusinessVerificationStatus,
   fetchCurrentBusiness,
 } from "@/redux/features/business/businessSlice";
-// import { fetchWallets } from "@/redux/features/wallet/walletSlice";
-// import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
+import { fetchWallets } from "@/redux/features/wallet/walletSlice";
+import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
 
 export default function LoginUI() {
   const dispatch = useDispatch<AppDispatch>();
@@ -52,9 +52,6 @@ export default function LoginUI() {
 
       try {
         const response = await dispatch(login(formData)).unwrap();
-
-        // console.log("Login response:", response);
-
         if (response.status === "success") {
           setRedirecting(true);
           // toast("Login successful!", { type: "success" });
@@ -63,11 +60,11 @@ export default function LoginUI() {
           router.push("/analytics");
           dispatch(fetchBusinesses());
           dispatch(fetchBusinessVerificationStatus(res.data.id));
-          // dispatch(fetchWallets(res.data.id));
-          // dispatch(fetchBvnStatus());
+          dispatch(fetchWallets(res.data.id));
+          dispatch(fetchBvnStatus());
         }
       } catch (err: unknown) {
-        console.error("Login error:", err);
+        // console.error("Login error:", err);
         if (err === "Unauthorized") {
           toast("Invalid email or password.", { type: "error" });
         }

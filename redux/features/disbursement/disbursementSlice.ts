@@ -19,10 +19,9 @@ export const initiateDisbursement = createAsyncThunk(
   async (payload: DisbursementRequest, { rejectWithValue }) => {
     try {
       const response = await createDisbursement(payload);
-      // console.log(response);
       return response;
     } catch (error: any) {
-      // console.log("API ERROR:", error);
+      console.log("API ERROR:", error);
       return rejectWithValue(error?.response.data.message);
     }
   }

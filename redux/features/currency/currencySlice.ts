@@ -19,7 +19,6 @@ export const fetchCurrencies = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getCurrencies();
-      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(error?.response.data.message);

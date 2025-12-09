@@ -51,7 +51,7 @@ const Sidebar = () => {
   const handleLogout = useCallback(() => {
     dispatch(logout());
     router.push("/login");
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   const handleSwitchBusiness = useCallback(
     async (value: string) => {
@@ -65,7 +65,7 @@ const Sidebar = () => {
         await dispatch(fetchWallets(res.data.id));
       }
     },
-    [dispatch]
+    [dispatch, router]
   );
 
   const isActive = useCallback(

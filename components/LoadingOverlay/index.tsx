@@ -43,7 +43,7 @@ export default function LoadingOverlay({
   return (
     <div
       style={overlayStyle}
-      className="z-[9999] bg-white/20 backdrop-blur-[5px] flex items-center justify-center"
+      className="z-[99] bg-white/20 backdrop-blur-[5px] flex items-center justify-center"
     >
       <div className="h-8 w-8 animate-spin-fast rounded-full border-[4px] border-[#0046A7] border-t-transparent" />
     </div>

@@ -204,7 +204,7 @@ const VerifyEmailUI = () => {
         } focus:outline-none focus:border-[#0046A7]  focus:border-2 transition-colors`}
       />
     ));
-  }, [codes, handleCodeChange, handleKeyDown, codeError]);
+  }, [codes, handleCodeChange, handleKeyDown, codeError, handlePaste]);
 
   return (
     <div className="min-h-screen flex mx-auto">

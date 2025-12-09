@@ -45,7 +45,6 @@ const SettingsUI = () => {
       const response = await dispatch(
         createKey({ business_id, name })
       ).unwrap();
-      console.log(response);
 
       if (response.id && business?.id) {
         toast(`${response.name} API key created successfully`, {

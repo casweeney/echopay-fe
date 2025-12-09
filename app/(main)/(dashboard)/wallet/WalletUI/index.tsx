@@ -20,7 +20,6 @@ import { fetchWallets } from "@/redux/features/wallet/walletSlice";
 import { WalletFundModal } from "../components/WalletFundModal";
 import { fetchBvnStatus } from "@/redux/features/bvn/bvnSlice";
 import { fetchTransactions } from "@/redux/features/transaction/transactionSlice";
-import { format } from "date-fns";
 import { Pagination } from "@/types/transaction";
 import PaginationWrapper from "@/components/Pagination";
 import { fetchVirtualAccount } from "@/redux/features/account/accountSlice";
@@ -102,7 +101,7 @@ const WalletUI = () => {
       );
     };
     handleTnx();
-  }, [dispatch, activeWalletId]);
+  }, [dispatch, activeWalletId, pagination.current_page]);
 
   useEffect(() => {
     if (!wallets || wallets.length === 0) return;

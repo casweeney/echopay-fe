@@ -70,7 +70,6 @@ export const fetchBusinesses = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBusinesses();
-      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(error?.response.data.message);
@@ -83,7 +82,6 @@ export const fetchCurrentBusiness = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getCurrentBusiness();
-      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(error?.response.data.message);
@@ -96,7 +94,6 @@ export const switchBusiness = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await switchCurrentBusiness(id);
-      // console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(error?.response.data.message);
