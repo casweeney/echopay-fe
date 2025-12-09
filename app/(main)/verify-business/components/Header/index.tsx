@@ -14,7 +14,7 @@ import {
   fetchBusinesses,
   fetchCurrentBusiness,
 } from "@/redux/features/business/businessSlice";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import SessionExpiredModal from "@/components/SessionExpiredModal";
 
 const Header = () => {
@@ -26,6 +26,7 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const pathname = usePathname() || "/";
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -78,7 +79,7 @@ const Header = () => {
     } else {
       return () => clearTimeout(myTimeout);
     }
-  }, [user?.data?.token_expires_at, dispatch]);
+  }, [user?.data?.token_expires_at, dispatch, pathname]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

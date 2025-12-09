@@ -30,7 +30,6 @@ export const fetchTransactions = createAsyncThunk<
   async ({ id, page }: { id: string; page: number }, { rejectWithValue }) => {
     try {
       const response = await getTransactions(id, page);
-      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -57,7 +56,6 @@ export const fetchBusinessTransactions = createAsyncThunk<
   ) => {
     try {
       const response = await getBusinessTransactions(id, page, status, type);
-      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(

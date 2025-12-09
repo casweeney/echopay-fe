@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useEffect } from "react";
 import { fetchAnalytics } from "@/redux/features/analytics/analyticsSlice";
-import { formatDate } from "date-fns";
 import { useRouter } from "next/navigation";
 import { timeAgo } from "@/utils/timeAgo";
 
@@ -29,8 +28,6 @@ const AnalyticsUI = () => {
 
     handleAnalytics();
   }, [dispatch, business?.id]);
-
-  console.log(analytics);
 
   const capitalizeFirst = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();

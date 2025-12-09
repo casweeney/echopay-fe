@@ -28,7 +28,6 @@ export const fetchBvnStatus = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getBvnStatus();
-      console.log(response);
       return response;
     } catch (error: any) {
       return rejectWithValue(

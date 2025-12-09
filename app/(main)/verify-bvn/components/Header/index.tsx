@@ -9,7 +9,7 @@ import { logout } from "@/redux/features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getInitials } from "@/utils/nameInitial";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import SessionExpiredModal from "@/components/SessionExpiredModal";
 import { fetchUser } from "@/redux/features/user/userSlice";
 import {
@@ -26,6 +26,7 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const pathname = usePathname() || "/";
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -65,7 +66,6 @@ const Header = () => {
     const nowInSeconds = Math.floor(Date.now() / 1000);
 
     const secondsLeft = expiryTimestamp - nowInSeconds;
-    // console.log("Token expires in:", secondsLeft, "seconds");
 
     const myTimeout = setTimeout(() => {
       isExpiredToken();
@@ -78,7 +78,7 @@ const Header = () => {
     } else {
       return () => clearTimeout(myTimeout);
     }
-  }, [user?.data?.token_expires_at, dispatch]);
+  }, [user?.data?.token_expires_at, dispatch, pathname]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
