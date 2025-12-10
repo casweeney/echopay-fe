@@ -64,7 +64,6 @@ const TransactionsUI = () => {
     statusFilter,
     typeFilter,
     pagination.current_page,
-    businessTransactions?.pagination,
   ]);
 
   const handlePageChange = (page: number) => {
