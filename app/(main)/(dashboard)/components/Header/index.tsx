@@ -25,6 +25,7 @@ const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const { toggleSidebar } = useSidebar();
   const pathname = usePathname() || "/";
+  console.log(pathname);
 
   useEffect(() => {
     function isExpiredToken() {
