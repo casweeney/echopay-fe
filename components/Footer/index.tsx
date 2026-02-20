@@ -1,5 +1,5 @@
 import { ECHOPAY_SVG } from "@/assets/svgs";
-import { Twitter, Linkedin, Github } from "lucide-react";
+import { Twitter, Linkedin, Github, MapPin } from "lucide-react";
 import Link from "next/link";
 
 const Footer = () => {
@@ -113,25 +113,11 @@ const Footer = () => {
           <p className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF] text-center sm:text-left">
             © {new Date().getFullYear()} Resolva. All rights reserved.
           </p>
-          <div className="flex gap-4 md:gap-6 text-center sm:text-left">
-            <a
-              href="#"
-              className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF] hover:text-white transition-colors"
-            >
-              Privacy
-            </a>
-            <a
-              href="#"
-              className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF] hover:text-white transition-colors"
-            >
-              Terms
-            </a>
-            <a
-              href="#"
-              className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF] hover:text-white transition-colors"
-            >
-              Cookies
-            </a>
+          <div className="flex items-center gap-1">
+            <MapPin className="w-[17px] h-[17px]" />
+            <p className="text-xs md:text-sm tracking-[-0.15px] font-normal text-[#99A1AF]">
+              6 Talabi Ademola St, Ikorodu, 104102, Lagos
+            </p>
           </div>
         </div>
       </div>
